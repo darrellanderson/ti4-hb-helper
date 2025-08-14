@@ -1,4 +1,8 @@
-import { FactionSchemaType, HomebrewModuleType } from "ti4-ttpg-ts-types";
+import {
+  FactionSchemaType,
+  HomebrewModuleType,
+  TechSchemaType,
+} from "ti4-ttpg-ts-types";
 import { AbstractGen } from "./abstract-gen";
 
 import {
@@ -10,9 +14,17 @@ import { nsidNameToName } from "./nsid-name-to-name";
 
 import fs from "fs";
 
-export class GenFactionLeaders extends AbstractGen {
+export class GenFactionTech extends AbstractGen {
+  private readonly _techNsidNameToColor: Map<string, string> = new Map();
+
   constructor(homebrew: HomebrewModuleType) {
     super(homebrew);
+  }
+
+  loadTechColors(techs: Array<TechSchemaType>): void {
+    techs.forEach((tech: TechSchemaType): void => {
+      this._techNsidNameToColor.set(tech.nsidName, tech.color);
+    });
   }
 
   async generate(errors: Array<string>): Promise<void> {
@@ -20,26 +32,17 @@ export class GenFactionLeaders extends AbstractGen {
     const source: string = this.getSource();
 
     this.getFactions().forEach((faction: FactionSchemaType): void => {
-      const addCard = (leaderType: string, cardNsidName: string): void => {
+      faction.factionTechs.forEach((cardNsidName: string): void => {
+        const techColor: string | undefined =
+          this._techNsidNameToColor.get(cardNsidName);
+        if (techColor === undefined) {
+          errors.push(`Technology color not found for: ${cardNsidName}`);
+        }
         cards.push({
           name: nsidNameToName(cardNsidName),
-          face: `prebuild/card/leader/${cardNsidName}.face.jpg`,
-          back: `prebuild/card/leader/${cardNsidName}.back.jpg`,
-          metadata: `card.leader.${leaderType}:${source}/${cardNsidName}`,
+          face: `prebuild/card/tech/${cardNsidName}.jpg`,
+          metadata: `card.technology.${techColor}:${source}/${cardNsidName}`,
         });
-      };
-
-      faction.leaders.agents.forEach((agent: string): void => {
-        addCard("agent", agent);
-      });
-      faction.leaders.commanders.forEach((commander: string): void => {
-        addCard("commander", commander);
-      });
-      faction.leaders.heroes.forEach((hero: string): void => {
-        addCard("hero", hero);
-      });
-      faction.leaders.mechs.forEach((mech: string): void => {
-        addCard("mech", mech);
       });
     });
 
@@ -53,12 +56,13 @@ export class GenFactionLeaders extends AbstractGen {
     });
 
     const createCardsheetParams: CreateCardsheetParams = {
-      assetFilename: `Textures/card/leader/${source}.jpg`,
-      templateName: `Templates/card/leader/${source}.json`,
+      assetFilename: `Textures/card/technology/${source}.jpg`,
+      templateName: `Templates/card/technology/${source}.json`,
       cardSizePixel: { width: 750, height: 500 },
       cardSizeWorld: { width: 6.3, height: 4.2 },
       cards,
     };
+
     const filenameToData: {
       [key: string]: Buffer<ArrayBufferLike>;
     } = await new CreateCardsheet(createCardsheetParams).toFileData();

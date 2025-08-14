@@ -1,11 +1,14 @@
-import { FactionSchemaType } from "ti4-ttpg-ts-types";
+import {
+  FactionSchemaType,
+  HomebrewModuleType,
+  SystemSchemaType,
+} from "ti4-ttpg-ts-types";
 
 import fs from "fs";
 import path from "path";
 
 export abstract class AbstractGen {
-  private readonly _source: string;
-  private readonly _faction: FactionSchemaType;
+  private readonly _homebrew: HomebrewModuleType;
   private readonly _filenameToData: Map<string, Buffer> = new Map();
 
   /**
@@ -15,9 +18,8 @@ export abstract class AbstractGen {
    */
   async generate(errors: Array<string>): Promise<void> {}
 
-  constructor(source: string, faction: FactionSchemaType) {
-    this._source = source;
-    this._faction = faction;
+  constructor(homebrew: HomebrewModuleType) {
+    this._homebrew = homebrew;
   }
 
   addOutputFile(filename: string, data: Buffer): void {
@@ -25,11 +27,15 @@ export abstract class AbstractGen {
   }
 
   getSource(): string {
-    return this._source;
+    return this._homebrew.sourceAndPackageId.source;
   }
 
-  getFaction(): FactionSchemaType {
-    return this._faction;
+  getFactions(): Array<FactionSchemaType> {
+    return this._homebrew.factions ?? [];
+  }
+
+  getSystems(): Array<SystemSchemaType> {
+    return this._homebrew.systems ?? [];
   }
 
   async output(modDir: string): Promise<void> {

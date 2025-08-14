@@ -10,7 +10,7 @@ import { nsidNameToName } from "./nsid-name-to-name";
 
 import fs from "fs";
 
-export class GenFactionLeaders extends AbstractGen {
+export class GenFactionPromissory extends AbstractGen {
   constructor(homebrew: HomebrewModuleType) {
     super(homebrew);
   }
@@ -20,26 +20,12 @@ export class GenFactionLeaders extends AbstractGen {
     const source: string = this.getSource();
 
     this.getFactions().forEach((faction: FactionSchemaType): void => {
-      const addCard = (leaderType: string, cardNsidName: string): void => {
+      faction.promissories.forEach((cardNsidName: string): void => {
         cards.push({
           name: nsidNameToName(cardNsidName),
-          face: `prebuild/card/leader/${cardNsidName}.face.jpg`,
-          back: `prebuild/card/leader/${cardNsidName}.back.jpg`,
-          metadata: `card.leader.${leaderType}:${source}/${cardNsidName}`,
+          face: `prebuild/card/promissory/${cardNsidName}.jpg`,
+          metadata: `card.promissory:${source}/${cardNsidName}`,
         });
-      };
-
-      faction.leaders.agents.forEach((agent: string): void => {
-        addCard("agent", agent);
-      });
-      faction.leaders.commanders.forEach((commander: string): void => {
-        addCard("commander", commander);
-      });
-      faction.leaders.heroes.forEach((hero: string): void => {
-        addCard("hero", hero);
-      });
-      faction.leaders.mechs.forEach((mech: string): void => {
-        addCard("mech", mech);
       });
     });
 
@@ -53,12 +39,13 @@ export class GenFactionLeaders extends AbstractGen {
     });
 
     const createCardsheetParams: CreateCardsheetParams = {
-      assetFilename: `Textures/card/leader/${source}.jpg`,
-      templateName: `Templates/card/leader/${source}.json`,
-      cardSizePixel: { width: 750, height: 500 },
-      cardSizeWorld: { width: 6.3, height: 4.2 },
+      assetFilename: `Textures/card/promissory/${source}.jpg`,
+      templateName: `Templates/card/promissory/${source}.json`,
+      cardSizePixel: { width: 500, height: 750 },
+      cardSizeWorld: { width: 4.2, height: 6.3 },
       cards,
     };
+
     const filenameToData: {
       [key: string]: Buffer<ArrayBufferLike>;
     } = await new CreateCardsheet(createCardsheetParams).toFileData();
