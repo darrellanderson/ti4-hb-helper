@@ -19,6 +19,13 @@ export class GenFactionPromissory extends AbstractGen {
     const cards: Array<CardsheetCardType> = [];
     const source: string = this.getSource();
 
+    const backSrc: string = `${__dirname}/../data/promissory.back.jpg`;
+    const backDst: string = `Textures/card/promissory/${source}.back.jpg`;
+    if (!fs.existsSync(backSrc)) {
+      throw new Error(`Promissory back image not found: ${backSrc}`);
+    }
+    fs.cpSync(backSrc, backDst);
+
     this.getFactions().forEach((faction: FactionSchemaType): void => {
       faction.promissories.forEach((cardNsidName: string): void => {
         cards.push({

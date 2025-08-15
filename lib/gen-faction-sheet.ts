@@ -12,18 +12,11 @@ export class GenFactionSheet extends AbstractGen {
   }
 
   async generate(errors: Array<string>): Promise<void> {
-    const promises: Array<Promise<void>> = [];
-    this.getFactions().forEach((faction: FactionSchemaType): void => {
-      promises.push(this._generateOne(faction, errors));
-    });
-
-    return new Promise<void>((resolve, reject) => {
-      Promise.all(promises)
-        .then(() => {
-          resolve();
-        })
-        .catch(reject);
-    });
+    this.getFactions().forEach(
+      async (faction: FactionSchemaType): Promise<void> => {
+        await this._generateOne(faction, errors);
+      }
+    );
   }
 
   async _generateOne(
