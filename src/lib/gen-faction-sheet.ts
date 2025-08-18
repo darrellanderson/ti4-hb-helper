@@ -2,7 +2,6 @@ import { FactionSchemaType, HomebrewModuleType } from "ti4-ttpg-ts-types";
 import { AbstractGen } from "./abstract-gen";
 import { getGuid } from "./guid";
 import { FACTION_SHEET_TEMPLATE } from "../data/faction-sheet.template";
-
 import fs from "fs";
 import sharp from "sharp";
 

@@ -5,7 +5,7 @@ import {
   CardsheetCardType,
   CreateCardsheet,
   CreateCardsheetParams,
-} from "../node_modules/ttpg-darrell/build/cjs/index-ext";
+} from "../../node_modules/ttpg-darrell/build/cjs/index-ext";
 import { nsidNameToName } from "./nsid-name-to-name";
 
 import fs from "fs";

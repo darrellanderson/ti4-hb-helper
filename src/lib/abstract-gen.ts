@@ -62,7 +62,8 @@ export abstract class AbstractGen {
 
     this._filenameToData.forEach((data: Buffer, filename: string) => {
       const parts: Array<string> = filename.split("/");
-      if (parts.length < 2 || !mustStartWith.has(parts[0])) {
+      const firstPart: string | undefined = parts[0];
+      if (!firstPart || parts.length < 2 || !mustStartWith.has(firstPart)) {
         throw new Error(`Invalid output filename: ${filename}`);
       }
       filename = path.join(modDir, filename);
