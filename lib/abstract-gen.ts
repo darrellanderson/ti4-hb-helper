@@ -1,6 +1,8 @@
 import {
   FactionSchemaType,
   HomebrewModuleType,
+  PlanetAttachmentSchemaType,
+  SystemAttachmentSchemaType,
   SystemSchemaType,
 } from "ti4-ttpg-ts-types";
 
@@ -32,6 +34,14 @@ export abstract class AbstractGen {
 
   getFactions(): Array<FactionSchemaType> {
     return this._homebrew.factions ?? [];
+  }
+
+  getPlanetAttachments(): Array<PlanetAttachmentSchemaType> {
+    return this._homebrew.planetAttachments ?? [];
+  }
+
+  getSystemAttachments(): Array<SystemAttachmentSchemaType> {
+    return this._homebrew.systemAttachments ?? [];
   }
 
   getSystems(): Array<SystemSchemaType> {
