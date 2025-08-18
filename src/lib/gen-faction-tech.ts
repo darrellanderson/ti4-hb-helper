@@ -61,6 +61,7 @@ export class GenFactionTech extends AbstractGen {
       cardSizePixel: { width: 750, height: 500 },
       cardSizeWorld: { width: 6.3, height: 4.2 },
       cards,
+      back: `${__dirname}/../data/technology-none.back.jpg`,
     };
 
     const filenameToData: {

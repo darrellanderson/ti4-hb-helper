@@ -5,12 +5,12 @@ import {
   CardsheetCardType,
   CreateCardsheet,
   CreateCardsheetParams,
-} from "../../node_modules/ttpg-darrell/build/cjs/index-ext";
+} from "ttpg-darrell/build/cjs/index-ext";
 import { nsidNameToName } from "./nsid-name-to-name";
 
 import fs from "fs";
 
-export class GenFactionPromissory extends AbstractGen {
+export class GenFactionReference extends AbstractGen {
   constructor(homebrew: HomebrewModuleType) {
     super(homebrew);
   }
@@ -20,12 +20,9 @@ export class GenFactionPromissory extends AbstractGen {
     const source: string = this.getSource();
 
     this.getFactions().forEach((faction: FactionSchemaType): void => {
-      faction.promissories.forEach((cardNsidName: string): void => {
-        cards.push({
-          name: nsidNameToName(cardNsidName),
-          face: `prebuild/card/promissory/${cardNsidName}.jpg`,
-          metadata: `card.promissory:${source}/${cardNsidName}`,
-        });
+      cards.push({
+        name: faction.name,
+        face: `prebuild/card/faction-reference/${faction.nsidName}.jpg`,
       });
     });
 
@@ -33,20 +30,16 @@ export class GenFactionPromissory extends AbstractGen {
       if (typeof card.face === "string" && !fs.existsSync(card.face)) {
         errors.push(`Face image not found: ${card.face}`);
       }
-      if (typeof card.back === "string" && !fs.existsSync(card.back)) {
-        errors.push(`Back image not found: ${card.back}`);
-      }
     });
 
     const createCardsheetParams: CreateCardsheetParams = {
-      assetFilename: `Textures/card/promissory/${source}.jpg`,
-      templateName: `Templates/card/promissory/${source}.json`,
-      cardSizePixel: { width: 500, height: 750 },
-      cardSizeWorld: { width: 4.2, height: 6.3 },
+      assetFilename: `Textures/card/leader/${source}.jpg`,
+      templateName: `Templates/card/leader/${source}.json`,
+      cardSizePixel: { width: 750, height: 500 },
+      cardSizeWorld: { width: 6.3, height: 4.2 },
       cards,
-      back: `${__dirname}/../data/promissory.back.jpg`,
+      back: `${__dirname}/../data/faction-reference.back.jpg`,
     };
-
     const filenameToData: {
       [key: string]: Buffer<ArrayBufferLike>;
     } = await new CreateCardsheet(createCardsheetParams).toFileData();
