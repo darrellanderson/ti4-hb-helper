@@ -3,7 +3,18 @@ import { AbstractGen } from "./abstract-gen";
 
 const CARD_TYPES_LANDSCAPE: Array<string> = ["technology"];
 
-const CARD_TYPES_PORTRAIT: Array<string> = ["action", "relic"];
+const CARD_TYPES_PORTRAIT: Array<string> = [
+  "action",
+  "agenda",
+  "exploration-cultural",
+  "exploration-hazardous",
+  "exploration-frontier",
+  "exploration-industrial",
+  "objective-public-1",
+  "objective-public-2",
+  "objective-secret",
+  "relic",
+];
 
 /**
  * Cards directly linked to factions (e.g. leader suite)
@@ -16,5 +27,9 @@ const CARD_TYPES_PORTRAIT: Array<string> = ["action", "relic"];
 export class GenCards extends AbstractGen {
   constructor(homebrew: HomebrewModuleType) {
     super(homebrew);
+  }
+
+  async generate(errors: Array<string>): Promise<void> {
+    // TODO
   }
 }
