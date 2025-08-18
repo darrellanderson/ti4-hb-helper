@@ -1,7 +1,6 @@
 import {
   HomebrewModuleType,
   PlanetSchemaType,
-  System,
   SystemSchemaType,
 } from "ti4-ttpg-ts-types";
 import { AbstractGen } from "./abstract-gen";

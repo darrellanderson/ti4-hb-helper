@@ -33,7 +33,14 @@ export class GenSystemAttachment extends AbstractGen {
   }
 
   _generateModels() {
-    const models: Array<string> = ["round.obj", "round.col.obj"];
+    const models: Array<string> = [
+      "round.obj",
+      "round.col.obj",
+      "token/mirage.obj",
+      "token/mirage.col.obj",
+      "wormhole-creuss.obj",
+      "wormhole-creuss.col.obj",
+    ];
     const srcDir: string = `${__dirname}/../data/models`;
     const dstDir: string = "Models";
 
@@ -66,6 +73,24 @@ export class GenSystemAttachment extends AbstractGen {
 
     let modelCollider: string = "token/round.col.obj";
     const modelScale = 1;
+
+    // Rewrite some outliers.
+    if (nsidName.startsWith("dimensional-tear")) {
+      imgFileFace = `token/attachment/system/dimensional-tear.jpg`;
+    } else if (
+      nsidName.startsWith("wormhole-") &&
+      nsidName.endsWith(".creuss")
+    ) {
+      imgFileBack = "";
+      modelFileFace = "token/wormhole-creuss.obj";
+      modelFileBack = ""; // wormhole.obj has face and back in same image
+      modelCollider = "token/wormhole-creuss.col.obj";
+    } else if (systemAttachmentSchema.planets?.length === 1) {
+      imgFileBack = "";
+      modelFileFace = "token/mirage.obj";
+      modelFileBack = "";
+      modelCollider = "token/mirage.col.obj";
+    }
 
     const templateFilename: string = `Templates/token/attachment/system/${nsidName}.json`;
     const GUID: string = getGuid(templateFilename);
