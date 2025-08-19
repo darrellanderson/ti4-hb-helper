@@ -33,10 +33,10 @@ export class GenFactionReference extends AbstractGen {
     });
 
     const createCardsheetParams: CreateCardsheetParams = {
-      assetFilename: `Textures/card/leader/${source}.jpg`,
-      templateName: `Templates/card/leader/${source}.json`,
-      cardSizePixel: { width: 750, height: 500 },
-      cardSizeWorld: { width: 6.3, height: 4.2 },
+      assetFilename: `Textures/card/faction-reference/${source}.jpg`,
+      templateName: `Templates/card/faction-reference/${source}.json`,
+      cardSizePixel: { width: 969, height: 682 },
+      cardSizeWorld: { width: 8.8, height: 6.3 },
       cards,
       back: `${__dirname}/../data/faction-reference.back.jpg`,
     };
