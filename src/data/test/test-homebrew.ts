@@ -34,6 +34,18 @@ const systems: Array<SystemSchemaType> = [
     tile: 998,
     class: "off-map",
     isHome: true,
+    planets: [
+      {
+        name: "My Planet",
+        nsidName: "my-planet",
+      },
+      {
+        name: "My Legendary Planet",
+        nsidName: "my-legendary-planet",
+        isLegendary: true,
+        legendaryNsidName: "my-legendary-planet",
+      },
+    ],
   },
 
   {

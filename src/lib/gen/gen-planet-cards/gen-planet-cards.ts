@@ -14,7 +14,7 @@ import { nsidNameToName } from "../../../lib/nsid-name-to-name/nsid-name-to-name
 
 import fs from "fs";
 
-export class GenFactionPromissory extends AbstractGen {
+export class GenPlanetCards extends AbstractGen {
   constructor(homebrew: HomebrewModuleType) {
     super(homebrew);
   }
@@ -24,12 +24,14 @@ export class GenFactionPromissory extends AbstractGen {
     const legendaryCards: Array<CardsheetCardType> = [];
     const source: string = this.getSource();
 
+    const prebuildDir: string = this.getPrebuildDir();
+
     this.getSystems().forEach((system: SystemSchemaType): void => {
       system.planets?.forEach((planet: PlanetSchemaType): void => {
         planetCards.push({
           name: nsidNameToName(planet.nsidName),
-          face: `prebuild/card/planet/${planet.nsidName}.face.jpg`,
-          back: `prebuild/card/planet/${planet.nsidName}.back.jpg`,
+          face: `${prebuildDir}/card/planet/${planet.nsidName}.face.jpg`,
+          back: `${prebuildDir}/card/planet/${planet.nsidName}.back.jpg`,
           metadata: `card.planet:${source}/${planet.nsidName}`,
         });
 
@@ -37,8 +39,8 @@ export class GenFactionPromissory extends AbstractGen {
         if (legendaryNsidName) {
           legendaryCards.push({
             name: nsidNameToName(legendaryNsidName),
-            face: `prebuild/card/legendary-planet/${legendaryNsidName}.face.jpg`,
-            back: `prebuild/card/legendary-planet/${legendaryNsidName}.back.jpg`,
+            face: `${prebuildDir}/card/legendary-planet/${legendaryNsidName}.face.jpg`,
+            back: `${prebuildDir}/card/legendary-planet/${legendaryNsidName}.back.jpg`,
             metadata: `card.legendary-planet:${source}/${legendaryNsidName}`,
           });
         }
@@ -82,7 +84,7 @@ export class GenFactionPromissory extends AbstractGen {
     }
 
     createCardsheetParams = {
-      assetFilename: `Textures/card/legendary-planet/${source}.jpg`,
+      assetFilename: `Textures/card/legendary-planet/${source}`,
       templateName: `Templates/card/legendary-planet/${source}.json`,
       cardSizePixel: { width: 750, height: 500 },
       cardSizeWorld: { width: 6.3, height: 4.2 },
