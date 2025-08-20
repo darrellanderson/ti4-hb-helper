@@ -18,10 +18,17 @@ export class GenFactionReference extends AbstractGen {
     const cards: Array<CardsheetCardType> = [];
     const source: string = this.getSource();
 
+    const prebuildDir: string = this.getPrebuildDir();
+    const back: string = `${prebuildDir}/card/faction-reference/faction-reference.back.jpg`;
+    fs.cpSync(
+      `${__dirname}/../../../data/jpg/faction-reference.back.jpg`,
+      back
+    );
+
     this.getFactions().forEach((faction: FactionSchemaType): void => {
       cards.push({
         name: faction.name,
-        face: `prebuild/card/faction-reference/${faction.nsidName}.jpg`,
+        face: `${prebuildDir}/card/faction-reference/${faction.nsidName}.jpg`,
       });
     });
 
@@ -32,12 +39,12 @@ export class GenFactionReference extends AbstractGen {
     });
 
     const createCardsheetParams: CreateCardsheetParams = {
-      assetFilename: `Textures/card/faction-reference/${source}.jpg`,
+      assetFilename: `Textures/card/faction-reference/${source}`,
       templateName: `Templates/card/faction-reference/${source}.json`,
       cardSizePixel: { width: 969, height: 682 },
       cardSizeWorld: { width: 8.8, height: 6.3 },
       cards,
-      back: `${__dirname}/../data/jpg/faction-reference.back.jpg`,
+      back,
     };
     const filenameToData: {
       [key: string]: Buffer;

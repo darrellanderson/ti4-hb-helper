@@ -19,11 +19,15 @@ export class GenFactionPromissory extends AbstractGen {
     const cards: Array<CardsheetCardType> = [];
     const source: string = this.getSource();
 
+    const prebuildDir: string = this.getPrebuildDir();
+    const back: string = `${prebuildDir}/card/promissory/promissory.back.jpg`;
+    fs.cpSync(`${__dirname}/../../../data/jpg/promissory.back.jpg`, back);
+
     this.getFactions().forEach((faction: FactionSchemaType): void => {
       faction.promissories.forEach((cardNsidName: string): void => {
         cards.push({
           name: nsidNameToName(cardNsidName),
-          face: `prebuild/card/promissory/${cardNsidName}.jpg`,
+          face: `${prebuildDir}/card/promissory/${cardNsidName}.jpg`,
           metadata: `card.promissory:${source}/${cardNsidName}`,
         });
       });
@@ -39,12 +43,12 @@ export class GenFactionPromissory extends AbstractGen {
     });
 
     const createCardsheetParams: CreateCardsheetParams = {
-      assetFilename: `Textures/card/promissory/${source}.jpg`,
+      assetFilename: `Textures/card/promissory/${source}`,
       templateName: `Templates/card/promissory/${source}.json`,
       cardSizePixel: { width: 500, height: 750 },
       cardSizeWorld: { width: 4.2, height: 6.3 },
       cards,
-      back: `${__dirname}/../data/jpg/promissory.back.jpg`,
+      back,
     };
 
     const filenameToData: {

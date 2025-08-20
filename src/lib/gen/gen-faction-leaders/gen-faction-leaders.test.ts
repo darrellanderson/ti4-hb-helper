@@ -1,6 +1,6 @@
 import { AbstractGen } from "../abstract-gen/abstract-gen";
-import { GenFactionLeaders } from "./gen-faction-leaders";
 import { TestHomebrew } from "../../../data/test/test-homebrew";
+import { GenFactionLeaders } from "./gen-faction-leaders";
 
 it("output files", async () => {
   const gen: AbstractGen = new GenFactionLeaders(TestHomebrew).setPrebuildDir(

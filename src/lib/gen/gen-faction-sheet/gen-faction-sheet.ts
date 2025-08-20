@@ -11,11 +11,9 @@ export class GenFactionSheet extends AbstractGen {
   }
 
   async generate(errors: Array<string>): Promise<void> {
-    this.getFactions().forEach(
-      async (faction: FactionSchemaType): Promise<void> => {
-        await this._generateOne(faction, errors);
-      }
-    );
+    for (const faction of this.getFactions()) {
+      await this._generateOne(faction, errors);
+    }
   }
 
   async _generateOne(
@@ -39,8 +37,9 @@ export class GenFactionSheet extends AbstractGen {
     const buffer: Buffer = Buffer.from(JSON.stringify(template), "utf-8");
     this.addOutputFile(templateFilename, buffer);
 
-    const srcFace = `prebuild/faction-sheet/${nsidName}.face.jpg`;
-    const srcBack = `prebuild/faction-sheet/${nsidName}.back.jpg`;
+    const prebuildDir: string = this.getPrebuildDir();
+    const srcFace = `${prebuildDir}/faction-sheet/${nsidName}.face.jpg`;
+    const srcBack = `${prebuildDir}/faction-sheet/${nsidName}.back.jpg`;
     const dstFace = `Textures/faction-sheet/${nsidName}.face.jpg`;
     const dstBack = `Textures/faction-sheet/${nsidName}.back.jpg`;
 
