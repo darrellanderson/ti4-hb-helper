@@ -1,6 +1,6 @@
 import { HomebrewModuleType, SystemSchemaType } from "ti4-ttpg-ts-types";
 import { AbstractGen } from "../abstract-gen/abstract-gen";
-import { SYSTEM_TILE_TEMPLATE } from "../../../data/system-tile.template";
+import { SYSTEM_TILE_TEMPLATE } from "../../../data/template/system-tile.template";
 import { getGuid } from "../../../lib/guid/guid";
 
 import fs from "fs";
@@ -46,7 +46,7 @@ export class GenSystems extends AbstractGen {
       "system-tile.col.obj",
       "system-tile.obj",
     ];
-    const srcDir: string = `${__dirname}/../data/models`;
+    const srcDir: string = `${__dirname}/../data/model`;
     const dstDir: string = "Models";
 
     models.forEach((model) => {

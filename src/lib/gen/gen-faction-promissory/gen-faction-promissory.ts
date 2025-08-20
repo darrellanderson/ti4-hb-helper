@@ -44,7 +44,7 @@ export class GenFactionPromissory extends AbstractGen {
       cardSizePixel: { width: 500, height: 750 },
       cardSizeWorld: { width: 4.2, height: 6.3 },
       cards,
-      back: `${__dirname}/../data/promissory.back.jpg`,
+      back: `${__dirname}/../data/jpg/promissory.back.jpg`,
     };
 
     const filenameToData: {

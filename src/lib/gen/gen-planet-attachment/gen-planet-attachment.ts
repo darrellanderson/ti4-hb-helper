@@ -6,7 +6,7 @@ import { AbstractGen } from "../abstract-gen/abstract-gen";
 import { getGuid } from "../../../lib/guid/guid";
 
 import fs from "fs";
-import { TOKEN_TEMPLATE } from "../../../data/token.template";
+import { TOKEN_TEMPLATE } from "../../../data/template/token.template";
 
 /**
  * Create system attachment tokens.
@@ -34,7 +34,7 @@ export class GenPlanetAttachment extends AbstractGen {
 
   _generateModels() {
     const models: Array<string> = ["round.obj", "round.col.obj"];
-    const srcDir: string = `${__dirname}/../data/models`;
+    const srcDir: string = `${__dirname}/../data/model`;
     const dstDir: string = "Models";
 
     models.forEach((model) => {

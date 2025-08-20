@@ -37,7 +37,7 @@ export class GenFactionReference extends AbstractGen {
       cardSizePixel: { width: 969, height: 682 },
       cardSizeWorld: { width: 8.8, height: 6.3 },
       cards,
-      back: `${__dirname}/../data/faction-reference.back.jpg`,
+      back: `${__dirname}/../data/jpg/faction-reference.back.jpg`,
     };
     const filenameToData: {
       [key: string]: Buffer;
