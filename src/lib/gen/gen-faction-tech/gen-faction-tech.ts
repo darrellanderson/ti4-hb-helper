@@ -9,7 +9,7 @@ import {
   CardsheetCardType,
   CreateCardsheet,
   CreateCardsheetParams,
-} from "../../../../node_modules/ttpg-darrell/build/cjs/index-ext";
+} from "ttpg-darrell/build/cjs/index-ext";
 import { nsidNameToName } from "../../../lib/nsid-name-to-name/nsid-name-to-name";
 
 import fs from "fs";
