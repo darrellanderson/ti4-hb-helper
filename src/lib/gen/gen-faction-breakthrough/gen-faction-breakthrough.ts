@@ -22,12 +22,12 @@ export class GenFactionBreakthrough extends AbstractGen {
     const prebuildDir: string = this.getPrebuildDir();
 
     this.getFactions().forEach((faction: FactionSchemaType): void => {
-      faction.promissories.forEach((cardNsidName: string): void => {
+      faction.breakthroughs?.forEach((cardNsidName: string): void => {
         cards.push({
           name: nsidNameToName(cardNsidName),
           face: `${prebuildDir}/card/breakthrough/${cardNsidName}.face.jpg`,
           back: `${prebuildDir}/card/breakthrough/${cardNsidName}.back.jpg`,
-          metadata: `card.promissory:${source}/${cardNsidName}`,
+          metadata: `card.breakthrough:${source}/${cardNsidName}`,
         });
       });
     });
