@@ -19,6 +19,8 @@ export class GenFactionTech extends AbstractGen {
 
   constructor(homebrew: HomebrewModuleType) {
     super(homebrew);
+
+    this.loadTechColors(homebrew.technologies || []);
   }
 
   loadTechColors(techs: Array<TechSchemaType>): void {
@@ -31,6 +33,10 @@ export class GenFactionTech extends AbstractGen {
     const cards: Array<CardsheetCardType> = [];
     const source: string = this.getSource();
 
+    const prebuildDir: string = this.getPrebuildDir();
+    const back: string = `${prebuildDir}/card/tech/technology-none.back.jpg`;
+    fs.cpSync(`${__dirname}/../../../data/jpg/technology-none.back.jpg`, back);
+
     this.getFactions().forEach((faction: FactionSchemaType): void => {
       faction.factionTechs.forEach((cardNsidName: string): void => {
         const techColor: string | undefined =
@@ -40,7 +46,7 @@ export class GenFactionTech extends AbstractGen {
         }
         cards.push({
           name: nsidNameToName(cardNsidName),
-          face: `prebuild/card/tech/${cardNsidName}.jpg`,
+          face: `${prebuildDir}/card/tech/${cardNsidName}.jpg`,
           metadata: `card.technology.${techColor}:${source}/${cardNsidName}`,
         });
       });
@@ -56,12 +62,12 @@ export class GenFactionTech extends AbstractGen {
     });
 
     const createCardsheetParams: CreateCardsheetParams = {
-      assetFilename: `Textures/card/technology/${source}.jpg`,
+      assetFilename: `Textures/card/technology/${source}`,
       templateName: `Templates/card/technology/${source}.json`,
       cardSizePixel: { width: 750, height: 500 },
       cardSizeWorld: { width: 6.3, height: 4.2 },
       cards,
-      back: `${__dirname}/../data/jpg/technology-none.back.jpg`,
+      back,
     };
 
     const filenameToData: {

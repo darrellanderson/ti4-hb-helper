@@ -2,6 +2,7 @@ import {
   FactionSchemaType,
   HomebrewModuleType,
   SystemSchemaType,
+  TechSchemaType,
 } from "ti4-ttpg-ts-types";
 
 const factions: Array<FactionSchemaType> = [
@@ -41,8 +42,26 @@ const systems: Array<SystemSchemaType> = [
   },
 ];
 
+const technologies: Array<TechSchemaType> = [
+  {
+    name: "My Technology 1",
+    nsidName: "my-faction-tech-1",
+    color: "blue",
+    prerequisites: {},
+    isFactionTech: true,
+  },
+  {
+    name: "My Technology 2",
+    nsidName: "my-faction-tech-2",
+    color: "blue",
+    prerequisites: {},
+    isFactionTech: true,
+  },
+];
+
 export const TestHomebrew: HomebrewModuleType = {
   sourceAndPackageId: { source: "my-source", packageId: "my-package-id" },
   factions,
   systems,
+  technologies,
 };
