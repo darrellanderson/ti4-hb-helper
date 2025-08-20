@@ -70,16 +70,18 @@ export class GenPlanetAttachment extends AbstractGen {
     const templateFilename: string = `Templates/token/attachment/planet/${nsidName}.json`;
     const GUID: string = getGuid(templateFilename);
 
+    const prebuildDir: string = this.getPrebuildDir();
+
     // Swap to PNG if no JPG.
-    if (!fs.existsSync("./prebuild/" + imgFileFace)) {
+    if (!fs.existsSync(`${prebuildDir}/${imgFileFace}`)) {
       const png: string = imgFileFace.replace(/\.jpg$/, ".png");
-      if (fs.existsSync("./prebuild/" + png)) {
+      if (fs.existsSync(`${prebuildDir}/${png}`)) {
         imgFileFace = png;
       }
     }
-    if (!fs.existsSync("./prebuild/" + imgFileBack)) {
+    if (!fs.existsSync(`${prebuildDir}/${imgFileBack}`)) {
       const png: string = imgFileBack.replace(/\.jpg$/, ".png");
-      if (fs.existsSync("./prebuild/" + png)) {
+      if (fs.existsSync(`${prebuildDir}/${png}`)) {
         imgFileBack = png;
       }
     }
@@ -113,7 +115,7 @@ export class GenPlanetAttachment extends AbstractGen {
 
     const copyFiles: Array<string> = [imgFileFace, imgFileBack];
     for (const file of copyFiles) {
-      const srcFilename: string = `prebuild/${file}`;
+      const srcFilename: string = `${prebuildDir}/${file}`;
       if (!fs.existsSync(srcFilename)) {
         errors.push(`Planet attachment image not found: ${file}`);
         continue;

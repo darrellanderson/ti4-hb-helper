@@ -24,12 +24,13 @@ export class GenFactionPromissory extends AbstractGen {
     const legendaryCards: Array<CardsheetCardType> = [];
     const source: string = this.getSource();
 
+    const prebuildDir: string = this.getPrebuildDir();
     this.getSystems().forEach((system: SystemSchemaType): void => {
       system.planets?.forEach((planet: PlanetSchemaType): void => {
         planetCards.push({
           name: nsidNameToName(planet.nsidName),
-          face: `prebuild/card/planet/${planet.nsidName}.face.jpg`,
-          back: `prebuild/card/planet/${planet.nsidName}.back.jpg`,
+          face: `${prebuildDir}/card/planet/${planet.nsidName}.face.jpg`,
+          back: `${prebuildDir}/card/planet/${planet.nsidName}.back.jpg`,
           metadata: `card.planet:${source}/${planet.nsidName}`,
         });
 
@@ -37,8 +38,8 @@ export class GenFactionPromissory extends AbstractGen {
         if (legendaryNsidName) {
           legendaryCards.push({
             name: nsidNameToName(legendaryNsidName),
-            face: `prebuild/card/legendary-planet/${legendaryNsidName}.face.jpg`,
-            back: `prebuild/card/legendary-planet/${legendaryNsidName}.back.jpg`,
+            face: `${prebuildDir}/card/legendary-planet/${legendaryNsidName}.face.jpg`,
+            back: `${prebuildDir}/card/legendary-planet/${legendaryNsidName}.back.jpg`,
             metadata: `card.legendary-planet:${source}/${legendaryNsidName}`,
           });
         }
@@ -68,7 +69,7 @@ export class GenFactionPromissory extends AbstractGen {
     let createCardsheetParams: CreateCardsheetParams;
 
     createCardsheetParams = {
-      assetFilename: `Textures/card/planet/${source}.jpg`,
+      assetFilename: `Textures/card/planet/${source}`,
       templateName: `Templates/card/planet/${source}.json`,
       cardSizePixel: { width: 500, height: 750 },
       cardSizeWorld: { width: 4.2, height: 6.3 },
