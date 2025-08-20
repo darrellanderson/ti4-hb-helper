@@ -9,17 +9,11 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "jsx": "react",
-    "jsxFactory": "jsxInTTPG",
-    "jsxFragmentFactory": "jsxFrag",
     "rootDir": "./src",
     "baseUrl": "./src",
     "outDir": "./build",
     "moduleResolution": "Node",
-    "target": "ES6",
-    "sourceMap": true,
-    "declaration": true,
-    "declarationDir": "./src"
+    "target": "ES6"
   },
   "include": ["./src/**/*.ts", "./src/**/*.tsx"],
   "exclude": ["./src/**/*.test.ts", "./src/**/*.d.ts"]

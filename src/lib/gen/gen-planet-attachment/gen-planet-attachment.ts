@@ -1,23 +1,23 @@
 import {
   HomebrewModuleType,
-  SystemAttachmentSchemaType,
+  PlanetAttachmentSchemaType,
 } from "ti4-ttpg-ts-types";
-import { AbstractGen } from "./abstract-gen";
-import { getGuid } from "./guid";
+import { AbstractGen } from "../abstract-gen/abstract-gen";
+import { getGuid } from "../../../lib/guid/guid";
 
 import fs from "fs";
-import { TOKEN_TEMPLATE } from "../data/token.template";
+import { TOKEN_TEMPLATE } from "../../../data/token.template";
 
 /**
  * Create system attachment tokens.
  *
- * Input: prebuild/token/attachment/system/*.jpg
+ * Input: prebuild/token/attachment/planet/*.jpg
  *
  * Output:
- * - assets/Templates/token/attachment/system/*.json
- * - assets/Textures/token/attachment/system/*.jpg
+ * - assets/Templates/token/attachment/planet/*.json
+ * - assets/Textures/token/attachment/planet/*.jpg
  */
-export class GenSystemAttachment extends AbstractGen {
+export class GenPlanetAttachment extends AbstractGen {
   constructor(homebrew: HomebrewModuleType) {
     super(homebrew);
   }
@@ -25,22 +25,15 @@ export class GenSystemAttachment extends AbstractGen {
   async generate(errors: Array<string>): Promise<void> {
     this._generateModels();
 
-    this.getSystemAttachments().forEach(
-      (attachment: SystemAttachmentSchemaType): void => {
+    this.getPlanetAttachments().forEach(
+      (attachment: PlanetAttachmentSchemaType): void => {
         this._generateToken(attachment, errors);
       }
     );
   }
 
   _generateModels() {
-    const models: Array<string> = [
-      "round.obj",
-      "round.col.obj",
-      "token/mirage.obj",
-      "token/mirage.col.obj",
-      "wormhole-creuss.obj",
-      "wormhole-creuss.col.obj",
-    ];
+    const models: Array<string> = ["round.obj", "round.col.obj"];
     const srcDir: string = `${__dirname}/../data/models`;
     const dstDir: string = "Models";
 
@@ -55,17 +48,17 @@ export class GenSystemAttachment extends AbstractGen {
   }
 
   _generateToken(
-    systemAttachmentSchema: SystemAttachmentSchemaType,
+    planetAttachmentSchema: PlanetAttachmentSchemaType,
     errors: Array<string>
   ) {
     const source: string = this.getSource();
-    const name: string = systemAttachmentSchema.name;
-    const nsidName: string = systemAttachmentSchema.nsidName;
-    const nsid: string = `token.attachment.system:${source}/${nsidName}`;
+    const name: string = planetAttachmentSchema.name;
+    const nsidName: string = planetAttachmentSchema.nsidName;
+    const nsid: string = `token.attachment.planet:${source}/${nsidName}`;
 
-    let imgFileFace: string = `token/attachment/system/${nsidName}.jpg`;
+    let imgFileFace: string = `token/attachment/planet/${nsidName}.jpg`;
     let imgFileBack: string = imgFileFace;
-    if (systemAttachmentSchema.imgFaceDown) {
+    if (planetAttachmentSchema.imgFaceDown) {
       imgFileBack = `token/attachment/system/${nsidName}.back.jpg`;
     }
     let modelFileFace: string = "token/round.obj";
@@ -74,26 +67,22 @@ export class GenSystemAttachment extends AbstractGen {
     let modelCollider: string = "token/round.col.obj";
     const modelScale = 1;
 
-    // Rewrite some outliers.
-    if (nsidName.startsWith("dimensional-tear")) {
-      imgFileFace = `token/attachment/system/dimensional-tear.jpg`;
-    } else if (
-      nsidName.startsWith("wormhole-") &&
-      nsidName.endsWith(".creuss")
-    ) {
-      imgFileBack = "";
-      modelFileFace = "token/wormhole-creuss.obj";
-      modelFileBack = ""; // wormhole.obj has face and back in same image
-      modelCollider = "token/wormhole-creuss.col.obj";
-    } else if (systemAttachmentSchema.planets?.length === 1) {
-      imgFileBack = "";
-      modelFileFace = "token/mirage.obj";
-      modelFileBack = "";
-      modelCollider = "token/mirage.col.obj";
-    }
-
-    const templateFilename: string = `Templates/token/attachment/system/${nsidName}.json`;
+    const templateFilename: string = `Templates/token/attachment/planet/${nsidName}.json`;
     const GUID: string = getGuid(templateFilename);
+
+    // Swap to PNG if no JPG.
+    if (!fs.existsSync("./prebuild/" + imgFileFace)) {
+      const png: string = imgFileFace.replace(/\.jpg$/, ".png");
+      if (fs.existsSync("./prebuild/" + png)) {
+        imgFileFace = png;
+      }
+    }
+    if (!fs.existsSync("./prebuild/" + imgFileBack)) {
+      const png: string = imgFileBack.replace(/\.jpg$/, ".png");
+      if (fs.existsSync("./prebuild/" + png)) {
+        imgFileBack = png;
+      }
+    }
 
     const template = JSON.parse(JSON.stringify(TOKEN_TEMPLATE));
     template.GUID = GUID;

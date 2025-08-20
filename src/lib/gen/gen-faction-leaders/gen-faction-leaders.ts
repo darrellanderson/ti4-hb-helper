@@ -1,12 +1,12 @@
 import { FactionSchemaType, HomebrewModuleType } from "ti4-ttpg-ts-types";
-import { AbstractGen } from "./abstract-gen";
+import { AbstractGen } from "../abstract-gen/abstract-gen";
 
 import {
   CardsheetCardType,
   CreateCardsheet,
   CreateCardsheetParams,
-} from "../../node_modules/ttpg-darrell/build/cjs/index-ext";
-import { nsidNameToName } from "./nsid-name-to-name";
+} from "../../../../node_modules/ttpg-darrell/build/cjs/index-ext";
+import { nsidNameToName } from "../../../lib/nsid-name-to-name/nsid-name-to-name";
 
 import fs from "fs";
 
@@ -60,7 +60,7 @@ export class GenFactionLeaders extends AbstractGen {
       cards,
     };
     const filenameToData: {
-      [key: string]: Buffer<ArrayBufferLike>;
+      [key: string]: Buffer;
     } = await new CreateCardsheet(createCardsheetParams).toFileData();
     for (const [filename, data] of Object.entries(filenameToData)) {
       this.addOutputFile(filename, data);

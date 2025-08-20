@@ -3,14 +3,14 @@ import {
   PlanetSchemaType,
   SystemSchemaType,
 } from "ti4-ttpg-ts-types";
-import { AbstractGen } from "./abstract-gen";
+import { AbstractGen } from "../abstract-gen/abstract-gen";
 
 import {
   CardsheetCardType,
   CreateCardsheet,
   CreateCardsheetParams,
 } from "ttpg-darrell/build/cjs/index-ext";
-import { nsidNameToName } from "./nsid-name-to-name";
+import { nsidNameToName } from "../../../lib/nsid-name-to-name/nsid-name-to-name";
 
 import fs from "fs";
 
@@ -63,7 +63,7 @@ export class GenFactionPromissory extends AbstractGen {
     });
 
     let filenameToData: {
-      [key: string]: Buffer<ArrayBufferLike>;
+      [key: string]: Buffer;
     };
     let createCardsheetParams: CreateCardsheetParams;
 

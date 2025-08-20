@@ -1,5 +1,5 @@
 import { HomebrewModuleType } from "ti4-ttpg-ts-types";
-import { AbstractGen } from "./abstract-gen";
+import { AbstractGen } from "../abstract-gen/abstract-gen";
 
 const CARD_TYPES_LANDSCAPE: Array<string> = ["technology"];
 

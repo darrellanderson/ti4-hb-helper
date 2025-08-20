@@ -4,6 +4,7 @@ const doNotCapitalize: Array<string> = [
   "the",
   "and",
   "but",
+  "of",
   "or",
   "for",
   "nor",

@@ -1,10 +1,10 @@
 import { HomebrewModuleType, SystemSchemaType } from "ti4-ttpg-ts-types";
-import { AbstractGen } from "./abstract-gen";
-import { SYSTEM_TILE_TEMPLATE } from "../data/system-tile.template";
+import { AbstractGen } from "../abstract-gen/abstract-gen";
+import { SYSTEM_TILE_TEMPLATE } from "../../../data/system-tile.template";
+import { getGuid } from "../../../lib/guid/guid";
 
 import fs from "fs";
 import sharp from "sharp";
-import { getGuid } from "./guid";
 
 export class GenSystems extends AbstractGen {
   constructor(homebrew: HomebrewModuleType) {
