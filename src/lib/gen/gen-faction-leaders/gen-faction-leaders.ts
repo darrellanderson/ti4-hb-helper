@@ -20,11 +20,12 @@ export class GenFactionLeaders extends AbstractGen {
     const source: string = this.getSource();
 
     this.getFactions().forEach((faction: FactionSchemaType): void => {
+      const prebuildDir: string = this.getPrebuildDir();
       const addCard = (leaderType: string, cardNsidName: string): void => {
         cards.push({
           name: nsidNameToName(cardNsidName),
-          face: `prebuild/card/leader/${cardNsidName}.face.jpg`,
-          back: `prebuild/card/leader/${cardNsidName}.back.jpg`,
+          face: `${prebuildDir}/card/leader/${cardNsidName}.face.jpg`,
+          back: `${prebuildDir}/card/leader/${cardNsidName}.back.jpg`,
           metadata: `card.leader.${leaderType}:${source}/${cardNsidName}`,
         });
       };
@@ -53,7 +54,7 @@ export class GenFactionLeaders extends AbstractGen {
     });
 
     const createCardsheetParams: CreateCardsheetParams = {
-      assetFilename: `Textures/card/leader/${source}.jpg`,
+      assetFilename: `Textures/card/leader/${source}`,
       templateName: `Templates/card/leader/${source}.json`,
       cardSizePixel: { width: 750, height: 500 },
       cardSizeWorld: { width: 6.3, height: 4.2 },

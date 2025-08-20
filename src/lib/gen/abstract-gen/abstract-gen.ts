@@ -12,6 +12,7 @@ import path from "path";
 export abstract class AbstractGen {
   private readonly _homebrew: HomebrewModuleType;
   private readonly _filenameToData: Map<string, Buffer> = new Map();
+  private _prebuildDir: string = "prebuild";
 
   /**
    * Generate output files, use addOutputFile for each file.
@@ -22,6 +23,15 @@ export abstract class AbstractGen {
 
   constructor(homebrew: HomebrewModuleType) {
     this._homebrew = homebrew;
+  }
+
+  setPrebuildDir(prebuildDir: string): this {
+    this._prebuildDir = prebuildDir;
+    return this;
+  }
+
+  getPrebuildDir(): string {
+    return this._prebuildDir;
   }
 
   addOutputFile(filename: string, data: Buffer): void {
