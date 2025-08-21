@@ -12,11 +12,10 @@ export class GenSystems extends AbstractGen {
   }
 
   async generate(errors: Array<string>): Promise<void> {
-    this.getSystems().forEach(
-      async (system: SystemSchemaType): Promise<void> => {
-        await this._generateOne(system, errors);
-      }
-    );
+    for (const system of this.getSystems()) {
+      await this._generateOne(system, errors);
+    }
+    this._generateModels();
   }
 
   async _generateOne(
@@ -24,7 +23,7 @@ export class GenSystems extends AbstractGen {
     errors: Array<string>
   ): Promise<void> {
     const prebuildDir: string = this.getPrebuildDir();
-    const srcFilename: string = `${prebuildDir}/system/tile-${system.tile}.jpg`;
+    const srcFilename: string = `${prebuildDir}/tile/system/tile-${system.tile}.jpg`;
     if (!fs.existsSync(srcFilename)) {
       errors.push(`System tile image not found: ${srcFilename}`);
       return;
@@ -34,7 +33,6 @@ export class GenSystems extends AbstractGen {
     const dst1024filename: string = `Textures/tile/system/tile-${tileStr}.jpg`;
     const dst512filename: string = `Textures/tile/system/tile-${tileStr}.png`;
 
-    this._generateModels();
     this._generateTemplate(system);
     await this._generate1024(srcFilename, dst1024filename);
     await this._generate512(srcFilename, dst512filename);
@@ -47,7 +45,7 @@ export class GenSystems extends AbstractGen {
       "system-tile.col.obj",
       "system-tile.obj",
     ];
-    const srcDir: string = `${__dirname}/../data/model`;
+    const srcDir: string = `${__dirname}/../../../data/model`;
     const dstDir: string = "Models";
 
     models.forEach((model) => {
@@ -129,7 +127,7 @@ export class GenSystems extends AbstractGen {
     srcFilename: string,
     dst512filename: string
   ): Promise<void> {
-    const mask = await sharp("prebuild/tile/system/blank.png")
+    const mask = await sharp(`${__dirname}/../../../data/png/blank.png`)
       .resize(512, 512, { fit: "fill" })
       .extractChannel("alpha")
       .toBuffer();
