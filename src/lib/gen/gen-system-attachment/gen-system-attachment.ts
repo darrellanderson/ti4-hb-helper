@@ -122,9 +122,10 @@ export class GenSystemAttachment extends AbstractGen {
       Buffer.from(JSON.stringify(template, null, 2), "utf-8")
     );
 
+    const prebuildDir: string = this.getPrebuildDir();
     const copyFiles: Array<string> = [imgFileFace, imgFileBack];
     for (const file of copyFiles) {
-      const srcFilename: string = `prebuild/${file}`;
+      const srcFilename: string = `${prebuildDir}/${file}`;
       if (!fs.existsSync(srcFilename)) {
         errors.push(`Planet attachment image not found: ${file}`);
         continue;

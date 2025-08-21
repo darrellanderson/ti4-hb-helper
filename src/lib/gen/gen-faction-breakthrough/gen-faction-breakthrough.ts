@@ -10,7 +10,7 @@ import { nsidNameToName } from "../../../lib/nsid-name-to-name/nsid-name-to-name
 
 import fs from "fs";
 
-export class GenFactionPromissory extends AbstractGen {
+export class GenFactionBreakthrough extends AbstractGen {
   constructor(homebrew: HomebrewModuleType) {
     super(homebrew);
   }
@@ -20,15 +20,14 @@ export class GenFactionPromissory extends AbstractGen {
     const source: string = this.getSource();
 
     const prebuildDir: string = this.getPrebuildDir();
-    const back: string = `${prebuildDir}/card/promissory/promissory.back.jpg`;
-    fs.cpSync(`${__dirname}/../../../data/jpg/promissory.back.jpg`, back);
 
     this.getFactions().forEach((faction: FactionSchemaType): void => {
-      faction.promissories.forEach((cardNsidName: string): void => {
+      faction.breakthroughs?.forEach((cardNsidName: string): void => {
         cards.push({
           name: nsidNameToName(cardNsidName),
-          face: `${prebuildDir}/card/promissory/${cardNsidName}.jpg`,
-          metadata: `card.promissory:${source}/${cardNsidName}`,
+          face: `${prebuildDir}/card/breakthrough/${cardNsidName}.face.jpg`,
+          back: `${prebuildDir}/card/breakthrough/${cardNsidName}.back.jpg`,
+          metadata: `card.breakthrough:${source}/${cardNsidName}`,
         });
       });
     });
@@ -43,16 +42,15 @@ export class GenFactionPromissory extends AbstractGen {
     });
 
     const createCardsheetParams: CreateCardsheetParams = {
-      assetFilename: `Textures/card/promissory/${source}`,
-      templateName: `Templates/card/promissory/${source}.json`,
+      assetFilename: `Textures/card/breakthrough/${source}`,
+      templateName: `Templates/card/breakthrough/${source}.json`,
       cardSizePixel: { width: 500, height: 750 },
       cardSizeWorld: { width: 4.2, height: 6.3 },
       cards,
-      back,
     };
 
     const filenameToData: {
-      [key: string]: Buffer;
+      [key: string]: Buffer<ArrayBufferLike>;
     } = await new CreateCardsheet(createCardsheetParams).toFileData();
     for (const [filename, data] of Object.entries(filenameToData)) {
       this.addOutputFile(filename, data);

@@ -25,7 +25,6 @@ export class GenPlanetCards extends AbstractGen {
     const source: string = this.getSource();
 
     const prebuildDir: string = this.getPrebuildDir();
-
     this.getSystems().forEach((system: SystemSchemaType): void => {
       system.planets?.forEach((planet: PlanetSchemaType): void => {
         planetCards.push({
@@ -70,7 +69,7 @@ export class GenPlanetCards extends AbstractGen {
     let createCardsheetParams: CreateCardsheetParams;
 
     createCardsheetParams = {
-      assetFilename: `Textures/card/planet/${source}.jpg`,
+      assetFilename: `Textures/card/planet/${source}`,
       templateName: `Templates/card/planet/${source}.json`,
       cardSizePixel: { width: 500, height: 750 },
       cardSizeWorld: { width: 4.2, height: 6.3 },

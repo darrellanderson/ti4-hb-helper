@@ -23,7 +23,8 @@ export class GenSystems extends AbstractGen {
     system: SystemSchemaType,
     errors: Array<string>
   ): Promise<void> {
-    const srcFilename: string = `prebuild/system/tile-${system.tile}.jpg`;
+    const prebuildDir: string = this.getPrebuildDir();
+    const srcFilename: string = `${prebuildDir}/system/tile-${system.tile}.jpg`;
     if (!fs.existsSync(srcFilename)) {
       errors.push(`System tile image not found: ${srcFilename}`);
       return;

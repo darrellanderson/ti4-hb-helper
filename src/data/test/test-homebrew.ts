@@ -11,6 +11,7 @@ const factions: Array<FactionSchemaType> = [
     nsidName: "my-faction",
     abbr: "my-faction-abbr",
     abilities: ["my-ability"],
+    breakthroughs: ["my-breakthrough"],
     commodities: 2,
     factionTechs: ["my-faction-tech-1", "my-faction-tech-2"],
     home: 998,
