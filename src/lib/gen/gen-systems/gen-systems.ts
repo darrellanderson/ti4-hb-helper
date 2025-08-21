@@ -29,8 +29,9 @@ export class GenSystems extends AbstractGen {
       return;
     }
 
+    // Make a square, with the hex filling the width (space at top/bottom).
     const srcBuffer: Buffer = await sharp(srcFilename)
-      .resize(1024, 1024)
+      .resize(1024, 1024, { fit: "inside" })
       .png()
       .toBuffer();
 
@@ -134,12 +135,6 @@ export class GenSystems extends AbstractGen {
       .extractChannel("alpha")
       .toBuffer();
     const png512: Buffer = await sharp(srcBuffer)
-      .extract({
-        left: 70,
-        top: 70,
-        width: 884,
-        height: 884,
-      })
       .resize(512, 512, { fit: "fill" })
       .joinChannel(mask)
       .png()
