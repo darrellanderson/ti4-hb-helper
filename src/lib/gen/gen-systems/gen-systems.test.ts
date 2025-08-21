@@ -17,5 +17,9 @@ it("output files", async () => {
     "Models/system-tile.obj",
     "Templates/tile/system/system-998.json",
     "Templates/tile/system/system-999.json",
+    "Textures/tile/system/tile-998.jpg",
+    "Textures/tile/system/tile-998.png",
+    "Textures/tile/system/tile-999.jpg",
+    "Textures/tile/system/tile-999.png",
   ]);
 });

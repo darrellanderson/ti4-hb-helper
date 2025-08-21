@@ -29,13 +29,18 @@ export class GenSystems extends AbstractGen {
       return;
     }
 
+    const srcBuffer: Buffer = await sharp(srcFilename)
+      .resize(1024, 1024)
+      .png()
+      .toBuffer();
+
     const tileStr: string = system.tile.toString().padStart(3, "0");
     const dst1024filename: string = `Textures/tile/system/tile-${tileStr}.jpg`;
     const dst512filename: string = `Textures/tile/system/tile-${tileStr}.png`;
 
     this._generateTemplate(system);
-    await this._generate1024(srcFilename, dst1024filename);
-    await this._generate512(srcFilename, dst512filename);
+    await this._generate1024(srcBuffer, dst1024filename);
+    await this._generate512(srcBuffer, dst512filename);
   }
 
   _generateModels() {
@@ -102,10 +107,10 @@ export class GenSystems extends AbstractGen {
   }
 
   async _generate1024(
-    srcFilename: string,
+    srcBuffer: Buffer,
     dst1024filename: string
   ): Promise<void> {
-    const jpg884: Buffer = await sharp(srcFilename)
+    const jpg884: Buffer = await sharp(srcBuffer)
       .resize(884, 884)
       .jpeg({ quality: 90 })
       .toBuffer();
@@ -123,15 +128,12 @@ export class GenSystems extends AbstractGen {
     this.addOutputFile(dst1024filename, jpg1024);
   }
 
-  async _generate512(
-    srcFilename: string,
-    dst512filename: string
-  ): Promise<void> {
+  async _generate512(srcBuffer: Buffer, dst512filename: string): Promise<void> {
     const mask = await sharp(`${__dirname}/../../../data/png/blank.png`)
       .resize(512, 512, { fit: "fill" })
       .extractChannel("alpha")
       .toBuffer();
-    const png512: Buffer = await sharp(srcFilename)
+    const png512: Buffer = await sharp(srcBuffer)
       .extract({
         left: 70,
         top: 70,
