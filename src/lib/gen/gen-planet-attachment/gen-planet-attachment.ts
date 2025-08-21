@@ -9,7 +9,7 @@ import fs from "fs";
 import { TOKEN_TEMPLATE } from "../../../data/template/token.template";
 
 /**
- * Create system attachment tokens.
+ * Create planet attachment tokens.
  *
  * Input: prebuild/token/attachment/planet/*.jpg
  *
@@ -35,7 +35,7 @@ export class GenPlanetAttachment extends AbstractGen {
   _generateModels() {
     const models: Array<string> = ["round.obj", "round.col.obj"];
     const srcDir: string = `${__dirname}/../../../data/model`;
-    const dstDir: string = "Models";
+    const dstDir: string = "Models/token";
 
     models.forEach((model) => {
       const srcFile = `${srcDir}/${model}`;
@@ -59,7 +59,7 @@ export class GenPlanetAttachment extends AbstractGen {
     let imgFileFace: string = `token/attachment/planet/${nsidName}.jpg`;
     let imgFileBack: string = imgFileFace;
     if (planetAttachmentSchema.imgFaceDown) {
-      imgFileBack = `token/attachment/system/${nsidName}.back.jpg`;
+      imgFileBack = `token/attachment/planet/${nsidName}.back.jpg`;
     }
     let modelFileFace: string = "token/round.obj";
     let modelFileBack: string = "token/round.obj";

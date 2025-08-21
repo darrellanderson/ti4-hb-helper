@@ -4,14 +4,19 @@ import { GenPlanetAttachment } from "./gen-planet-attachment";
 
 it("output files", async () => {
   const gen: AbstractGen = new GenPlanetAttachment(TestHomebrew).setPrebuildDir(
-    `src/lib/gen/gen-faction-tech/prebuild`
+    `src/lib/gen/gen-planet-attachment/prebuild`
   );
 
   const errors: Array<string> = [];
   await gen.generate(errors);
   expect(errors).toHaveLength(0);
   expect(gen._getOutputFiles()).toEqual([
-    "Models/round.col.obj",
-    "Models/round.obj",
+    "Models/token/round.col.obj",
+    "Models/token/round.obj",
+    "Templates/token/attachment/planet/my-planet-attachment-face-down.json",
+    "Templates/token/attachment/planet/my-planet-attachment.json",
+    "Textures/token/attachment/planet/my-planet-attachment-face-down.back.jpg",
+    "Textures/token/attachment/planet/my-planet-attachment-face-down.jpg",
+    "Textures/token/attachment/planet/my-planet-attachment.jpg",
   ]);
 });

@@ -1,6 +1,8 @@
 import {
   FactionSchemaType,
   HomebrewModuleType,
+  PlanetAttachmentSchemaType,
+  SystemAttachmentSchemaType,
   SystemSchemaType,
   TechSchemaType,
 } from "ti4-ttpg-ts-types";
@@ -27,6 +29,30 @@ const factions: Array<FactionSchemaType> = [
     unitOverrides: [],
     homeSurrogate: 999,
     extras: [{ nsid: "my-type:my-source/my-extra" }],
+  },
+];
+
+const planetAttachments: Array<PlanetAttachmentSchemaType> = [
+  {
+    name: "My Planet Attachment",
+    nsidName: "my-planet-attachment",
+  },
+  {
+    name: "My Planet Attachment Face Down",
+    nsidName: "my-planet-attachment-face-down",
+    imgFaceDown: true,
+  },
+];
+
+const systemAttachments: Array<SystemAttachmentSchemaType> = [
+  {
+    name: "My System Attachment",
+    nsidName: "my-system-attachment",
+  },
+  {
+    name: "My System Attachment Face Down",
+    nsidName: "my-system-attachment-face-down",
+    imgFaceDown: true,
   },
 ];
 
@@ -75,6 +101,8 @@ const technologies: Array<TechSchemaType> = [
 export const TestHomebrew: HomebrewModuleType = {
   sourceAndPackageId: { source: "my-source", packageId: "my-package-id" },
   factions,
+  planetAttachments,
   systems,
+  systemAttachments,
   technologies,
 };

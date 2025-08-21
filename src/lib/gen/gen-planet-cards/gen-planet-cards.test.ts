@@ -12,10 +12,10 @@ it("output files", async () => {
   expect(errors).toHaveLength(0);
   expect(gen._getOutputFiles()).toEqual([
     "assets/Templates/Textures/card/legendary-planet/my-source/my-source.json",
-    "assets/Templates/Textures/card/planet/my-source.jpg/my-source.jpg.json",
+    "assets/Templates/Textures/card/planet/my-source/my-source.json",
     "assets/Textures/Textures/card/legendary-planet/my-source/my-source.back.jpg",
     "assets/Textures/Textures/card/legendary-planet/my-source/my-source.face.jpg",
-    "assets/Textures/Textures/card/planet/my-source.jpg/my-source.jpg.back.jpg",
-    "assets/Textures/Textures/card/planet/my-source.jpg/my-source.jpg.face.jpg",
+    "assets/Textures/Textures/card/planet/my-source/my-source.back.jpg",
+    "assets/Textures/Textures/card/planet/my-source/my-source.face.jpg",
   ]);
 });

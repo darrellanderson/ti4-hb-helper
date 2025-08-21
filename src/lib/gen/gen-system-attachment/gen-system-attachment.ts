@@ -36,13 +36,13 @@ export class GenSystemAttachment extends AbstractGen {
     const models: Array<string> = [
       "round.obj",
       "round.col.obj",
-      "token/mirage.obj",
-      "token/mirage.col.obj",
+      "mirage.obj",
+      "mirage.col.obj",
       "wormhole-creuss.obj",
       "wormhole-creuss.col.obj",
     ];
-    const srcDir: string = `${__dirname}/../data/model`;
-    const dstDir: string = "Models";
+    const srcDir: string = `${__dirname}/../../../data/model`;
+    const dstDir: string = "Models/token";
 
     models.forEach((model) => {
       const srcFile = `${srcDir}/${model}`;
@@ -127,7 +127,7 @@ export class GenSystemAttachment extends AbstractGen {
     for (const file of copyFiles) {
       const srcFilename: string = `${prebuildDir}/${file}`;
       if (!fs.existsSync(srcFilename)) {
-        errors.push(`Planet attachment image not found: ${file}`);
+        errors.push(`System attachment image not found: ${file}`);
         continue;
       }
       const dstFilename: string = `Textures/${file}`;
