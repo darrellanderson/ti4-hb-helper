@@ -112,7 +112,7 @@ export class GenSystems extends AbstractGen {
     dst1024filename: string
   ): Promise<void> {
     const jpg884: Buffer = await sharp(srcBuffer)
-      .resize(884, 884)
+      .resize(884, 884, { fit: "inside" })
       .jpeg({ quality: 90 })
       .toBuffer();
     const jpg1024: Buffer = await sharp({
