@@ -1,6 +1,6 @@
 {
   "name": "ti4-hb-helper",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Create TI4 homebrew templates and such",
   "license": "Unlicense",
   "main": "build/index.js",
@@ -24,6 +24,7 @@
     "@tabletop-playground/api": "^0.41.0",
     "monotone-chain-convex-hull": "^1.1.0",
     "sharp": "^0.34.3",
-    "ti4-ttpg-ts-types": "^1.0.9"
+    "ti4-ttpg-ts-types": "^1.0.9",
+    "ttpg-darrell": "^1.1.46"
   }
 }
