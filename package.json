@@ -6,7 +6,7 @@
   "main": "build/index.js",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "index": "yarn cti ./src -e prebuild -e png -e jpg -e model",
+    "index": "yarn cti ./src -e prebuild -e png -e jpg -e model && find . -name 'index.ts.bak' -exec rm {} \\;",
     "prepublish": "yarn index && yarn run build",
     "test": "jest"
   },
