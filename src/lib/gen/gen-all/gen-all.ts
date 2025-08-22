@@ -12,6 +12,8 @@ import { GenPlanetCards } from "../gen-planet-cards";
 import { GenSystemAttachment } from "../gen-system-attachment";
 import { GenSystems } from "../gen-systems";
 
+import fs from "fs";
+
 export class GenAll extends AbstractGen {
   private readonly _gens: Array<AbstractGen>;
 
@@ -36,6 +38,11 @@ export class GenAll extends AbstractGen {
     for (const gen of this._gens) {
       gen.setPrebuildDir(this.getPrebuildDir());
       await gen.generate(errors);
+    }
+
+    const modDir: string = this.getModDir();
+    if (!fs.existsSync(modDir) || !fs.statSync(modDir).isDirectory()) {
+      errors.push(`modDir is not a directory: ${modDir}`);
     }
   }
 
