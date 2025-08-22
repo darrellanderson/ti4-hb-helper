@@ -46,22 +46,30 @@ export class GenPlanetCards extends AbstractGen {
       });
     });
 
+    let missingCard: boolean = false;
     planetCards.forEach((card: CardsheetCardType): void => {
       if (typeof card.face === "string" && !fs.existsSync(card.face)) {
         errors.push(`Face image not found: ${card.face}`);
+        missingCard = true;
       }
       if (typeof card.back === "string" && !fs.existsSync(card.back)) {
         errors.push(`Back image not found: ${card.back}`);
+        missingCard = true;
       }
     });
     legendaryCards.forEach((card: CardsheetCardType): void => {
       if (typeof card.face === "string" && !fs.existsSync(card.face)) {
         errors.push(`Face image not found: ${card.face}`);
+        missingCard = true;
       }
       if (typeof card.back === "string" && !fs.existsSync(card.back)) {
         errors.push(`Back image not found: ${card.back}`);
+        missingCard = true;
       }
     });
+    if (missingCard) {
+      return;
+    }
 
     let filenameToData: {
       [key: string]: Buffer;
