@@ -38,4 +38,12 @@ export class GenAll extends AbstractGen {
       await gen.generate(errors);
     }
   }
+
+  writeOutputFiles(): void {
+    super.writeOutputFiles();
+    for (const gen of this._gens) {
+      gen.setModDir(this.getModDir());
+      gen.writeOutputFiles();
+    }
+  }
 }

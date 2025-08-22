@@ -13,6 +13,7 @@ export abstract class AbstractGen {
   private readonly _homebrew: HomebrewModuleType;
   private readonly _filenameToData: Map<string, Buffer> = new Map();
   private _prebuildDir: string = "prebuild";
+  private _modDir: string = "assets";
 
   /**
    * Generate output files, use addOutputFile for each file.
@@ -32,6 +33,15 @@ export abstract class AbstractGen {
 
   getPrebuildDir(): string {
     return this._prebuildDir;
+  }
+
+  setModDir(modDir: string): this {
+    this._modDir = modDir;
+    return this;
+  }
+
+  getModDir(): string {
+    return this._modDir;
   }
 
   addOutputFile(filename: string, data: Buffer): void {
@@ -67,7 +77,8 @@ export abstract class AbstractGen {
     return this._homebrew.systems ?? [];
   }
 
-  async writeOutputFiles(modDir: string): Promise<void> {
+  writeOutputFiles(): void {
+    const modDir: string = this.getModDir();
     if (!fs.statSync(modDir).isDirectory()) {
       throw new Error(`modDir is not a directory: ${modDir}`);
     }
