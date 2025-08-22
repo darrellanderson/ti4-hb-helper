@@ -50,7 +50,7 @@ export class GenFactionBreakthrough extends AbstractGen {
     };
 
     const filenameToData: {
-      [key: string]: Buffer<ArrayBufferLike>;
+      [key: string]: Buffer;
     } = await new CreateCardsheet(createCardsheetParams).toFileData();
     for (const [filename, data] of Object.entries(filenameToData)) {
       this.addOutputFile(filename, data);
