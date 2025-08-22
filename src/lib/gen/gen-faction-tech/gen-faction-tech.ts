@@ -3,13 +3,12 @@ import {
   HomebrewModuleType,
   TechSchemaType,
 } from "ti4-ttpg-ts-types";
-import { AbstractGen } from "../abstract-gen/abstract-gen";
-
 import {
   CardsheetCardType,
   CreateCardsheet,
   CreateCardsheetParams,
 } from "ttpg-darrell/build/cjs/index-ext";
+import { AbstractGen } from "../abstract-gen/abstract-gen";
 import { nsidNameToName } from "../../../lib/nsid-name-to-name/nsid-name-to-name";
 
 import fs from "fs";
