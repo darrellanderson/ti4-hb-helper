@@ -5,6 +5,7 @@ import { getGuid } from "../../../lib/guid/guid";
 
 import fs from "fs";
 import sharp from "sharp";
+import { sys } from "typescript";
 
 export class GenSystems extends AbstractGen {
   constructor(homebrew: HomebrewModuleType) {
@@ -23,7 +24,8 @@ export class GenSystems extends AbstractGen {
     errors: Array<string>
   ): Promise<void> {
     const prebuildDir: string = this.getPrebuildDir();
-    const srcFilename: string = `${prebuildDir}/tile/system/tile-${system.tile}.jpg`;
+    const tile: string = system.tile.toString().padStart(3, "0");
+    const srcFilename: string = `${prebuildDir}/tile/system/tile-${tile}.jpg`;
     if (!fs.existsSync(srcFilename)) {
       errors.push(`System tile image not found: ${srcFilename}`);
       return;
