@@ -76,8 +76,8 @@ export class GenPlanetCards extends AbstractGen {
     let createCardsheetParams: CreateCardsheetParams;
 
     createCardsheetParams = {
-      assetFilename: `Textures/card/planet/${source}`,
-      templateName: `Templates/card/planet/${source}.json`,
+      assetFilename: `card/planet/${source}`,
+      templateName: `card/planet/${source}.json`,
       cardSizePixel: { width: 500, height: 750 },
       cardSizeWorld: { width: 4.2, height: 6.3 },
       cards: planetCards,
@@ -90,8 +90,8 @@ export class GenPlanetCards extends AbstractGen {
     }
 
     createCardsheetParams = {
-      assetFilename: `Textures/card/legendary-planet/${source}`,
-      templateName: `Templates/card/legendary-planet/${source}.json`,
+      assetFilename: `card/legendary-planet/${source}`,
+      templateName: `card/legendary-planet/${source}.json`,
       cardSizePixel: { width: 750, height: 500 },
       cardSizeWorld: { width: 6.3, height: 4.2 },
       cards: legendaryCards,

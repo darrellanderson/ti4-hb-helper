@@ -58,8 +58,8 @@ export class GenFactionLeaders extends AbstractGen {
     }
 
     const createCardsheetParams: CreateCardsheetParams = {
-      assetFilename: `Textures/card/leader/${source}`,
-      templateName: `Templates/card/leader/${source}.json`,
+      assetFilename: `card/leader/${source}`,
+      templateName: `card/leader/${source}.json`,
       cardSizePixel: { width: 750, height: 500 },
       cardSizeWorld: { width: 6.3, height: 4.2 },
       cards,

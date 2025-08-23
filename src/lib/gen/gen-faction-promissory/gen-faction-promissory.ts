@@ -51,8 +51,8 @@ export class GenFactionPromissory extends AbstractGen {
     }
 
     const createCardsheetParams: CreateCardsheetParams = {
-      assetFilename: `Textures/card/promissory/${source}`,
-      templateName: `Templates/card/promissory/${source}.json`,
+      assetFilename: `card/promissory/${source}`,
+      templateName: `card/promissory/${source}.json`,
       cardSizePixel: { width: 500, height: 750 },
       cardSizeWorld: { width: 4.2, height: 6.3 },
       cards,

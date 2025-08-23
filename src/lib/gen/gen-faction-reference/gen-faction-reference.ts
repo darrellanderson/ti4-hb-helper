@@ -38,8 +38,8 @@ export class GenFactionReference extends AbstractGen {
     });
 
     const createCardsheetParams: CreateCardsheetParams = {
-      assetFilename: `Textures/card/faction-reference/${source}`,
-      templateName: `Templates/card/faction-reference/${source}.json`,
+      assetFilename: `card/faction-reference/${source}`,
+      templateName: `card/faction-reference/${source}.json`,
       cardSizePixel: { width: 969, height: 682 },
       cardSizeWorld: { width: 8.8, height: 6.3 },
       cards,

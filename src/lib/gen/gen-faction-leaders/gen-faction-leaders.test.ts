@@ -12,8 +12,8 @@ it("output files", async () => {
   await gen.generate(errors);
   expect(errors).toHaveLength(0);
   expect(gen._getOutputFiles()).toEqual([
-    "assets/Templates/Textures/card/leader/my-source/my-source.json",
-    "assets/Textures/Textures/card/leader/my-source/my-source.back.jpg",
-    "assets/Textures/Textures/card/leader/my-source/my-source.face.jpg",
+    "assets/Templates/card/leader/my-source/my-source.json",
+    "assets/Textures/card/leader/my-source/my-source.back.jpg",
+    "assets/Textures/card/leader/my-source/my-source.face.jpg",
   ]);
 });
