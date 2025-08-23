@@ -19,7 +19,7 @@
     "target": "ES6",
     "sourceMap": true,
     "declaration": true,
-    "declarationDir": "./src"
+    "declarationDir": "./build"
   },
   "include": ["./src/**/*.ts", "./src/**/*.tsx"],
   "exclude": ["./src/**/*.test.ts", "./src/**/*.d.ts"]
