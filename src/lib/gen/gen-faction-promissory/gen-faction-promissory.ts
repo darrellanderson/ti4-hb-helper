@@ -20,7 +20,10 @@ export class GenFactionPromissory extends AbstractGen {
 
     const prebuildDir: string = this.getPrebuildDir();
     const back: string = `${prebuildDir}/card/promissory/promissory.back.jpg`;
-    fs.cpSync(`${__dirname}/../../../data/jpg/promissory.back.jpg`, back);
+    fs.cpSync(
+      `${__dirname}/../../../../src/data/jpg/promissory.back.jpg`,
+      back
+    );
 
     this.getFactions().forEach((faction: FactionSchemaType): void => {
       faction.promissories.forEach((cardNsidName: string): void => {

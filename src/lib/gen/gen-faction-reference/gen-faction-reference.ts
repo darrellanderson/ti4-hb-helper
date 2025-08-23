@@ -20,7 +20,7 @@ export class GenFactionReference extends AbstractGen {
     const prebuildDir: string = this.getPrebuildDir();
     const back: string = `${prebuildDir}/card/faction-reference/faction-reference.back.jpg`;
     fs.cpSync(
-      `${__dirname}/../../../data/jpg/faction-reference.back.jpg`,
+      `${__dirname}/../../../../src/data/jpg/faction-reference.back.jpg`,
       back
     );
 

@@ -34,7 +34,10 @@ export class GenFactionTech extends AbstractGen {
 
     const prebuildDir: string = this.getPrebuildDir();
     const back: string = `${prebuildDir}/card/tech/technology-none.back.jpg`;
-    fs.cpSync(`${__dirname}/../../../data/jpg/technology-none.back.jpg`, back);
+    fs.cpSync(
+      `${__dirname}/../../../../src/data/jpg/technology-none.back.jpg`,
+      back
+    );
 
     this.getFactions().forEach((faction: FactionSchemaType): void => {
       faction.factionTechs.forEach((cardNsidName: string): void => {

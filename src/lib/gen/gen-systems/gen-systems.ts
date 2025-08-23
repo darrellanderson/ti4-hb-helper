@@ -51,7 +51,7 @@ export class GenSystems extends AbstractGen {
       "system-tile.col.obj",
       "system-tile.obj",
     ];
-    const srcDir: string = `${__dirname}/../../../data/model`;
+    const srcDir: string = `${__dirname}/../../../../src/data/model`;
     const dstDir: string = "Models";
 
     models.forEach((model) => {
@@ -130,7 +130,7 @@ export class GenSystems extends AbstractGen {
   }
 
   async _generate512(srcBuffer: Buffer, dst512filename: string): Promise<void> {
-    const mask = await sharp(`${__dirname}/../../../data/png/blank.png`)
+    const mask = await sharp(`${__dirname}/../../../../src/data/png/blank.png`)
       .resize(512, 512, { fit: "fill" })
       .extractChannel("alpha")
       .toBuffer();

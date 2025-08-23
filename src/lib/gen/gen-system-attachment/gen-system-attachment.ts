@@ -41,7 +41,7 @@ export class GenSystemAttachment extends AbstractGen {
       "wormhole-creuss.obj",
       "wormhole-creuss.col.obj",
     ];
-    const srcDir: string = `${__dirname}/../../../data/model`;
+    const srcDir: string = `${__dirname}/../../../../src/data/model`;
     const dstDir: string = "Models/token";
 
     models.forEach((model) => {

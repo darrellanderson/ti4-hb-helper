@@ -34,7 +34,7 @@ export class GenPlanetAttachment extends AbstractGen {
 
   _generateModels() {
     const models: Array<string> = ["round.obj", "round.col.obj"];
-    const srcDir: string = `${__dirname}/../../../data/model`;
+    const srcDir: string = `${__dirname}/../../../../src/data/model`;
     const dstDir: string = "Models/token";
 
     models.forEach((model) => {
