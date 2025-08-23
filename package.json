@@ -1,6 +1,6 @@
 {
   "name": "ti4-hb-helper",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Create TI4 homebrew templates and such",
   "license": "Unlicense",
   "main": "build/index.js",
@@ -12,19 +12,19 @@
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",
-    "@types/node": "^24.3.0",
     "create-ts-index": "^1.14.0",
     "jest": "^30.0.5",
-    "node": "^22.18.0",
-    "ts-jest": "^29.4.1",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.9.2"
+    "ts-jest": "^29.4.1"
   },
   "dependencies": {
     "@tabletop-playground/api": "^0.41.0",
+    "@types/node": "^24.3.0",
     "monotone-chain-convex-hull": "^1.1.0",
+    "node": "^24.6.0",
     "sharp": "^0.34.3",
     "ti4-ttpg-ts-types": "^1.0.9",
-    "ttpg-darrell": "^1.1.46"
+    "ts-node": "^10.9.2",
+    "ttpg-darrell": "^1.1.46",
+    "typescript": "^5.9.2"
   }
 }
