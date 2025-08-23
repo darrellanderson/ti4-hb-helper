@@ -91,6 +91,8 @@ export abstract class AbstractGen {
     ]);
 
     this._filenameToData.forEach((data: Buffer, filename: string) => {
+      console.log(`Writing file: ${filename}`);
+
       const parts: Array<string> = filename.split("/");
       const firstPart: string | undefined = parts[0];
       if (!firstPart || parts.length < 2 || !mustStartWith.has(firstPart)) {
