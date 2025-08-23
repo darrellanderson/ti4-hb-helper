@@ -95,8 +95,12 @@ export abstract class AbstractGen {
 
       const parts: Array<string> = filename.split("/");
       const firstPart: string | undefined = parts[0];
-      if (!firstPart || parts.length < 2 || !mustStartWith.has(firstPart)) {
-        throw new Error(`Invalid output filename: ${filename}`);
+      const secondPart: string | undefined = parts[1];
+      if (!firstPart || firstPart !== "assets") {
+        throw new Error(`Output must start with "assets": ${filename}`);
+      }
+      if (!secondPart || !mustStartWith.has(secondPart)) {
+        throw new Error(`Invalid asset directory: ${filename}`);
       }
       filename = path.join(modDir, filename);
       const dir: string = path.dirname(filename);
