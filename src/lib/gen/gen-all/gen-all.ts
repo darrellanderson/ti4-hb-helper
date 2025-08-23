@@ -37,17 +37,11 @@ export class GenAll extends AbstractGen {
       gen.setPrebuildDir(this.getPrebuildDir());
       await gen.generate(errors);
     }
-
-    const modDir: string = this.getModDir();
-    if (!fs.existsSync(modDir) || !fs.statSync(modDir).isDirectory()) {
-      errors.push(`modDir is not a directory: ${modDir}`);
-    }
   }
 
   writeOutputFiles(): void {
     super.writeOutputFiles();
     for (const gen of this._gens) {
-      gen.setModDir(this.getModDir());
       gen.writeOutputFiles();
     }
   }
