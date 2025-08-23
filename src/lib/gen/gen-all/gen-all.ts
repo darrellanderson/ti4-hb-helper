@@ -6,7 +6,6 @@ import { GenFactionLeaders } from "../gen-faction-leaders";
 import { GenFactionPromissory } from "../gen-faction-promissory";
 import { GenFactionSheet } from "../gen-faction-sheet";
 import { GenFactionTech } from "../gen-faction-tech";
-import { GenInject } from "../gen-inject/gen-inject";
 import { GenPlanetAttachment } from "../gen-planet-attachment";
 import { GenPlanetCards } from "../gen-planet-cards";
 import { GenSystemAttachment } from "../gen-system-attachment";
@@ -26,7 +25,6 @@ export class GenAll extends AbstractGen {
       new GenFactionPromissory(homebrew),
       new GenFactionSheet(homebrew),
       new GenFactionTech(homebrew),
-      new GenInject(homebrew),
       new GenPlanetAttachment(homebrew),
       new GenPlanetCards(homebrew),
       new GenSystemAttachment(homebrew),
