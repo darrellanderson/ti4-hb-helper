@@ -16,6 +16,7 @@ export class GenSystems extends AbstractGen {
       await this._generateOne(system, errors);
     }
     this._generateModels();
+    this._generateDefaultBacks();
   }
 
   async _generateOne(
@@ -59,6 +60,21 @@ export class GenSystems extends AbstractGen {
       const dstFile = `${dstDir}/${model}`;
       if (!fs.existsSync(srcFile)) {
         throw new Error(`Model file not found: ${srcFile}`);
+      }
+      this.addOutputFile(dstFile, fs.readFileSync(srcFile));
+    });
+  }
+
+  _generateDefaultBacks() {
+    const backs: Array<string> = ["blue", "green", "red"];
+    const srcDir: string = `${__dirname}/../../../../src/data/jpg`;
+    const dstDir: string = "Textures/tile/system";
+
+    backs.forEach((back) => {
+      const srcFile = `${srcDir}/${back}.back.jpg`;
+      const dstFile = `${dstDir}/${back}.back.jpg`;
+      if (!fs.existsSync(srcFile)) {
+        throw new Error(`Back image not found: ${srcFile}`);
       }
       this.addOutputFile(dstFile, fs.readFileSync(srcFile));
     });

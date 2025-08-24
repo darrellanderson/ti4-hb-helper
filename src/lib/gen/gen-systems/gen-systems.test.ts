@@ -11,12 +11,15 @@ it("output files", async () => {
   await gen.generate(errors);
   expect(errors).toHaveLength(0);
   expect(gen._getOutputFiles()).toEqual([
-    "Models/system-tile-off-map.back.obj",
-    "Models/system-tile-off-map.face.obj",
-    "Models/system-tile.col.obj",
-    "Models/system-tile.obj",
+    "Models/tile/system/system-tile-off-map.back.obj",
+    "Models/tile/system/system-tile-off-map.face.obj",
+    "Models/tile/system/system-tile.col.obj",
+    "Models/tile/system/system-tile.obj",
     "Templates/tile/system/system-998.json",
     "Templates/tile/system/system-999.json",
+    "Textures/tile/system/blue.back.jpg",
+    "Textures/tile/system/green.back.jpg",
+    "Textures/tile/system/red.back.jpg",
     "Textures/tile/system/tile-998.jpg",
     "Textures/tile/system/tile-998.png",
     "Textures/tile/system/tile-999.jpg",
