@@ -5,7 +5,6 @@ import { getGuid } from "../../../lib/guid/guid";
 
 import fs from "fs";
 import sharp from "sharp";
-import { sys } from "typescript";
 
 export class GenSystems extends AbstractGen {
   constructor(homebrew: HomebrewModuleType) {
@@ -53,7 +52,7 @@ export class GenSystems extends AbstractGen {
       "system-tile.obj",
     ];
     const srcDir: string = `${__dirname}/../../../../src/data/model`;
-    const dstDir: string = "Models";
+    const dstDir: string = "Models/tile/system";
 
     models.forEach((model) => {
       const srcFile = `${srcDir}/${model}`;
