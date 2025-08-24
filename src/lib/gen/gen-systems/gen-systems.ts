@@ -24,8 +24,8 @@ export class GenSystems extends AbstractGen {
     errors: Array<string>
   ): Promise<void> {
     const prebuildDir: string = this.getPrebuildDir();
-    const tile: string = system.tile.toString().padStart(3, "0");
-    const srcFilename: string = `${prebuildDir}/tile/system/tile-${tile}.jpg`;
+    const tileStr: string = system.tile.toString().padStart(3, "0");
+    const srcFilename: string = `${prebuildDir}/tile/system/tile-${tileStr}.jpg`;
     if (!fs.existsSync(srcFilename)) {
       errors.push(`System tile image not found: ${srcFilename}`);
       return;
@@ -37,7 +37,6 @@ export class GenSystems extends AbstractGen {
       .png()
       .toBuffer();
 
-    const tileStr: string = system.tile.toString().padStart(3, "0");
     const dst1024filename: string = `Textures/tile/system/tile-${tileStr}.jpg`;
     const dst512filename: string = `Textures/tile/system/tile-${tileStr}.png`;
 

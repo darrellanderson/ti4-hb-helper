@@ -25,10 +25,12 @@ export class GenFactionReference extends AbstractGen {
     );
 
     this.getFactions().forEach((faction: FactionSchemaType): void => {
-      cards.push({
-        name: faction.name,
-        face: `${prebuildDir}/card/faction-reference/${faction.nsidName}.jpg`,
-      });
+      if (!faction.skipFactionReferenceCard) {
+        cards.push({
+          name: faction.name,
+          face: `${prebuildDir}/card/faction-reference/${faction.nsidName}.jpg`,
+        });
+      }
     });
 
     cards.forEach((card: CardsheetCardType): void => {
