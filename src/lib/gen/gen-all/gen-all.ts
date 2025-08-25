@@ -5,13 +5,11 @@ import { GenFactionBreakthrough } from "../gen-faction-breakthrough";
 import { GenFactionLeaders } from "../gen-faction-leaders";
 import { GenFactionPromissory } from "../gen-faction-promissory";
 import { GenFactionSheet } from "../gen-faction-sheet";
-import { GenFactionTech } from "../gen-faction-tech";
 import { GenPlanetAttachment } from "../gen-planet-attachment";
 import { GenPlanetCards } from "../gen-planet-cards";
 import { GenSystemAttachment } from "../gen-system-attachment";
 import { GenSystems } from "../gen-systems";
-
-import fs from "fs";
+import { GenTech } from "../gen-tech/gen-tech";
 
 export class GenAll extends AbstractGen {
   private readonly _gens: Array<AbstractGen>;
@@ -24,11 +22,11 @@ export class GenAll extends AbstractGen {
       new GenFactionLeaders(homebrew),
       new GenFactionPromissory(homebrew),
       new GenFactionSheet(homebrew),
-      new GenFactionTech(homebrew),
       new GenPlanetAttachment(homebrew),
       new GenPlanetCards(homebrew),
       new GenSystemAttachment(homebrew),
       new GenSystems(homebrew),
+      new GenTech(homebrew),
     ];
   }
 

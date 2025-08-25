@@ -1,31 +1,16 @@
-import {
-  FactionSchemaType,
-  HomebrewModuleType,
-  TechSchemaType,
-} from "ti4-ttpg-ts-types";
+import { HomebrewModuleType, TechSchemaType } from "ti4-ttpg-ts-types";
 import {
   CardsheetCardType,
   CreateCardsheet,
   CreateCardsheetParams,
 } from "ttpg-darrell/build/cjs/index-ext";
-import { AbstractGen } from "../abstract-gen/abstract-gen";
-import { nsidNameToName } from "../../../lib/nsid-name-to-name/nsid-name-to-name";
+import { AbstractGen } from "../abstract-gen";
 
 import fs from "fs";
 
-export class GenFactionTech extends AbstractGen {
-  private readonly _techNsidNameToColor: Map<string, string> = new Map();
-
+export class GenTech extends AbstractGen {
   constructor(homebrew: HomebrewModuleType) {
     super(homebrew);
-
-    this.loadTechColors(homebrew.technologies || []);
-  }
-
-  loadTechColors(techs: Array<TechSchemaType>): void {
-    techs.forEach((tech: TechSchemaType): void => {
-      this._techNsidNameToColor.set(tech.nsidName, tech.color);
-    });
   }
 
   async generate(errors: Array<string>): Promise<void> {
@@ -39,18 +24,11 @@ export class GenFactionTech extends AbstractGen {
       back
     );
 
-    this.getFactions().forEach((faction: FactionSchemaType): void => {
-      faction.factionTechs.forEach((cardNsidName: string): void => {
-        const techColor: string | undefined =
-          this._techNsidNameToColor.get(cardNsidName);
-        if (techColor === undefined) {
-          errors.push(`Technology color not found for: ${cardNsidName}`);
-        }
-        cards.push({
-          name: nsidNameToName(cardNsidName),
-          face: `${prebuildDir}/card/tech/${cardNsidName}.jpg`,
-          metadata: `card.technology.${techColor}:${source}/${cardNsidName}`,
-        });
+    this.getTechnologies().forEach((technology: TechSchemaType) => {
+      cards.push({
+        name: technology.name,
+        face: `${prebuildDir}/card/tech/${technology.nsidName}.jpg`,
+        metadata: `card.technology.${technology.color}:${source}/${technology.nsidName}`,
       });
     });
 

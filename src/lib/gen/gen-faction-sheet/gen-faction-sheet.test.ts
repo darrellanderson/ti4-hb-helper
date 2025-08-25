@@ -10,7 +10,7 @@ it("output files", async () => {
   const errors: Array<string> = [];
   await gen.generate(errors);
   expect(errors).toHaveLength(0);
-  expect(gen._getOutputFiles()).toEqual([
+  expect(gen._getOutputFilenames()).toEqual([
     "Templates/faction-sheet/my-faction.json",
     "Textures/faction-sheet/my-faction.back.jpg",
     "Textures/faction-sheet/my-faction.face.jpg",

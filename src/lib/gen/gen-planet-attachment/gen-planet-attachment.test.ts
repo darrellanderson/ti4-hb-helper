@@ -10,7 +10,7 @@ it("output files", async () => {
   const errors: Array<string> = [];
   await gen.generate(errors);
   expect(errors).toHaveLength(0);
-  expect(gen._getOutputFiles()).toEqual([
+  expect(gen._getOutputFilenames()).toEqual([
     "Models/token/round.col.obj",
     "Models/token/round.obj",
     "Templates/token/attachment/planet/my-planet-attachment-face-down.json",

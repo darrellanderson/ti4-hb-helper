@@ -10,7 +10,7 @@ it("output files", async () => {
   const errors: Array<string> = [];
   await gen.generate(errors);
   expect(errors).toHaveLength(0);
-  expect(gen._getOutputFiles()).toEqual([
+  expect(gen._getOutputFilenames()).toEqual([
     "assets/Templates/card/legendary-planet/my-source/my-source.json",
     "assets/Templates/card/planet/my-source/my-source.json",
     "assets/Textures/card/legendary-planet/my-source/my-source.back.jpg",

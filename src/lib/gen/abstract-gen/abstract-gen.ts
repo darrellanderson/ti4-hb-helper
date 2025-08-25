@@ -4,6 +4,7 @@ import {
   PlanetAttachmentSchemaType,
   SystemAttachmentSchemaType,
   SystemSchemaType,
+  TechSchemaType,
 } from "ti4-ttpg-ts-types";
 
 import fs from "fs";
@@ -43,8 +44,12 @@ export abstract class AbstractGen {
    *
    * @returns An array of output file paths.
    */
-  _getOutputFiles(): Array<string> {
+  _getOutputFilenames(): ReadonlyArray<string> {
     return Array.from(this._filenameToData.keys()).sort();
+  }
+
+  _getOutputFileData(filename: string): Buffer | undefined {
+    return this._filenameToData.get(filename);
   }
 
   getSource(): string {
@@ -65,6 +70,10 @@ export abstract class AbstractGen {
 
   getSystems(): Array<SystemSchemaType> {
     return this._homebrew.systems ?? [];
+  }
+
+  getTechnologies(): Array<TechSchemaType> {
+    return this._homebrew.technologies ?? [];
   }
 
   writeOutputFiles(): void {

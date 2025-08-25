@@ -10,7 +10,7 @@ it("output files", async () => {
   const errors: Array<string> = [];
   await gen.generate(errors);
   expect(errors).toHaveLength(0);
-  expect(gen._getOutputFiles()).toEqual([
+  expect(gen._getOutputFilenames()).toEqual([
     "Models/tile/system/system-tile-off-map.back.obj",
     "Models/tile/system/system-tile-off-map.face.obj",
     "Models/tile/system/system-tile.col.obj",
