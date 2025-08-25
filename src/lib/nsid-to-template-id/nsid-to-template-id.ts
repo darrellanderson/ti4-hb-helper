@@ -64,8 +64,7 @@ export function nsidToTemplateId(root: string): string {
   }
 
   const json: string =
-    JSON.stringify(nsidToTemplateId, Object.keys(nsidToTemplateId).sort(), 4) +
-    "\n";
+    JSON.stringify(result, Object.keys(result).sort(), 4) + "\n";
   const ts: string = `export const NSID_TO_TEMPLATE_ID: { [key: string]: string } = ${json};\n`;
   return ts;
 }
