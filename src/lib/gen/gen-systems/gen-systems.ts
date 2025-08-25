@@ -13,7 +13,9 @@ export class GenSystems extends AbstractGen {
 
   async generate(errors: Array<string>): Promise<void> {
     for (const system of this.getSystems()) {
-      await this._generateOne(system, errors);
+      if (system.tile > 0) {
+        await this._generateOne(system, errors);
+      }
     }
     this._generateModels();
     this._generateDefaultBacks();
