@@ -1,5 +1,8 @@
 import { HomebrewModuleType } from "ti4-ttpg-ts-types";
 import { GenAll } from "./lib/gen/gen-all/gen-all";
+import { nsidToTemplateId } from "./lib/nsid-to-template-id/nsid-to-template-id";
+
+import fs from "fs";
 
 export async function generate(homebrew: HomebrewModuleType): Promise<void> {
   console.log(`Generating homebrew: ${homebrew.sourceAndPackageId.source}`);
@@ -14,4 +17,7 @@ export async function generate(homebrew: HomebrewModuleType): Promise<void> {
   }
 
   genAll.writeOutputFiles();
+
+  const nsidToTemplateIdData: string = nsidToTemplateId("assets");
+  fs.writeFileSync("src/nsid-to-template-id.ts", nsidToTemplateIdData);
 }
