@@ -3,3 +3,4 @@
 export * from './gen';
 export * from './guid';
 export * from './nsid-name-to-name';
+export * from './nsid-to-template-id';
