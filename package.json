@@ -1,12 +1,12 @@
 {
   "name": "ti4-hb-helper",
-  "version": "1.0.28",
+  "version": "1.0.29",
   "description": "Create TI4 homebrew templates and such",
   "license": "Unlicense",
   "main": "build/index.js",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "index": "yarn cti ./src -e prebuild -e png -e jpg -e model -i '*.test.ts' && find . -name 'index.ts.bak' -exec rm {} \\;",
+    "index": "yarn cti ./src -e prebuild -e png -e jpg -e model -e test-assets -i '*.test.ts' && find . -name 'index.ts.bak' -exec rm {} \\;",
     "prepublish": "yarn index && yarn build",
     "test": "jest"
   },

@@ -34,8 +34,9 @@ export function nsidToTemplateId(root: string): string {
 
     // Include decks as a "*" named NSID.
     if (json.Type === "Card" && typeof json.CardMetadata === "object") {
-      const firstNsid: string | undefined = json.CardMetadata[0].Metadata;
-      if (firstNsid && json.CardMetadata.length > 1) {
+      const firstNsid: string | undefined = json.CardMetadata["0"];
+      const secondNsid: string | undefined = json.CardMetadata["1"];
+      if (firstNsid && secondNsid) {
         const slashIndex: number = firstNsid.indexOf("/");
         const typeAndSource: string = firstNsid.substring(0, slashIndex);
         let i = 0;
@@ -63,8 +64,7 @@ export function nsidToTemplateId(root: string): string {
     result[nsid] = templateId;
   }
 
-  const json: string =
-    JSON.stringify(result, Object.keys(result).sort(), 4) + "\n";
-  const ts: string = `export const NSID_TO_TEMPLATE_ID: { [key: string]: string } = ${json};\n`;
+  const json: string = JSON.stringify(result, Object.keys(result).sort(), 2);
+  const ts: string = `export const NSID_TO_TEMPLATE_ID: { [key: string]: string } = ${json};`;
   return ts;
 }
