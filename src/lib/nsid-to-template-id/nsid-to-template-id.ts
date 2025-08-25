@@ -34,14 +34,16 @@ export function nsidToTemplateId(root: string): string {
 
     // Include decks as a "*" named NSID.
     if (json.Type === "Card" && typeof json.CardMetadata === "object") {
-      const firstNsid: string = json.CardMetadata[0].Metadata;
-      const slashIndex: number = firstNsid.indexOf("/");
-      const typeAndSource: string = firstNsid.substring(0, slashIndex);
-      let i = 0;
-      while (result[`${typeAndSource}/${i}`]) {
-        i++;
+      const firstNsid: string | undefined = json.CardMetadata[0].Metadata;
+      if (firstNsid && json.CardMetadata.length > 1) {
+        const slashIndex: number = firstNsid.indexOf("/");
+        const typeAndSource: string = firstNsid.substring(0, slashIndex);
+        let i = 0;
+        while (result[`${typeAndSource}/${i}`]) {
+          i++;
+        }
+        nsid = `${typeAndSource}/${i}`;
       }
-      nsid = `${typeAndSource}/${i}`;
     }
 
     if (!nsid.match("[^:]+:[^/]+/.+")) {

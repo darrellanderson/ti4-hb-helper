@@ -18,6 +18,6 @@ export async function generate(homebrew: HomebrewModuleType): Promise<void> {
 
   genAll.writeOutputFiles();
 
-  const nsidToTemplateIdData: string = nsidToTemplateId("assets");
+  const nsidToTemplateIdData: string = nsidToTemplateId("assets/Templates");
   fs.writeFileSync("src/nsid-to-template-id.ts", nsidToTemplateIdData);
 }
