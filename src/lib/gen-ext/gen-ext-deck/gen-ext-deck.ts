@@ -13,7 +13,7 @@ import path from "path";
 
 export class GenExtDeck extends AbstractGen {
   private _deckType: string = "";
-  private _sharedBack: string | undefined = undefined;
+  private _sharedBack: boolean = false;
 
   constructor(homebrew: HomebrewModuleType) {
     super(homebrew);
@@ -24,7 +24,7 @@ export class GenExtDeck extends AbstractGen {
     return this;
   }
 
-  setSharedBack(sharedBack: string): this {
+  setSharedBack(sharedBack: boolean): this {
     this._sharedBack = sharedBack;
     return this;
   }
@@ -101,7 +101,9 @@ export class GenExtDeck extends AbstractGen {
       cardSizePixel: { width: 750, height: 500 },
       cardSizeWorld: { width: 6.3, height: 4.2 },
       cards,
-      back: this._sharedBack,
+      back: this._sharedBack
+        ? path.join(prebuildDir, "card", `${this._deckType}.back.jpg`)
+        : undefined,
     };
 
     const filenameToData: {
