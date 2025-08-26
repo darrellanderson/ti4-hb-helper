@@ -75,6 +75,14 @@ export class GenCards extends AbstractGen {
     super(homebrew);
   }
 
+  replaceCardTypes(newTypes: Array<string>): this {
+    while (CARD_TYPES_PORTRAIT.length > 0) {
+      CARD_TYPES_PORTRAIT.pop();
+    }
+    CARD_TYPES_PORTRAIT.push(...newTypes);
+    return this;
+  }
+
   async generate(errors: Array<string>): Promise<void> {
     const source: string = this.getSource();
     for (const type of CARD_TYPES_PORTRAIT) {
