@@ -6,6 +6,7 @@ const CARD_TYPES_LANDSCAPE: Array<string> = ["technology"];
 const CARD_TYPES_PORTRAIT: Array<string> = [
   "action",
   "agenda",
+  "alliance",
   "exploration-cultural",
   "exploration-hazardous",
   "exploration-frontier",
