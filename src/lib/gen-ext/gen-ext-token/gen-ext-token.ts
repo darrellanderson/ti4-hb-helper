@@ -27,7 +27,7 @@ export class GenExtToken extends AbstractGen {
 
     const source: string = this.getSource();
 
-    const model: string = `${__dirname}/../../../data/model/round.obj`;
+    const model: string = `${__dirname}/../../../../src/data/model/round.obj`;
     const modelData: Buffer = fs.readFileSync(model);
     this.addOutputFile("Models/token/round.obj", modelData);
 
