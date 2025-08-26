@@ -23,8 +23,8 @@ export class GenFactionLeaders extends AbstractGen {
       const addCard = (leaderType: string, cardNsidName: string): void => {
         cards.push({
           name: nsidNameToName(cardNsidName),
-          face: `${prebuildDir}/card/leader/${cardNsidName}.face.jpg`,
-          back: `${prebuildDir}/card/leader/${cardNsidName}.back.jpg`,
+          face: `${prebuildDir}/card/leader/${leaderType}/${cardNsidName}.face.jpg`,
+          back: `${prebuildDir}/card/leader/${leaderType}/${cardNsidName}.back.jpg`,
           metadata: `card.leader.${leaderType}:${source}/${cardNsidName}`,
         });
       };
