@@ -3,6 +3,7 @@
 export * from './abstract-gen';
 export * from './gen-all';
 export * from './gen-cards';
+export * from './gen-faction-alliance';
 export * from './gen-faction-breakthrough';
 export * from './gen-faction-leaders';
 export * from './gen-faction-promissory';
