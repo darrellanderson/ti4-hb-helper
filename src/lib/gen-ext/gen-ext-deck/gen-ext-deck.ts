@@ -13,7 +13,8 @@ import path from "path";
 
 export class GenExtDeck extends AbstractGen {
   private _deckType: string = "";
-  private _sharedBack: boolean = false;
+  private _isLandscape: boolean = false;
+  private _isSharedBack: boolean = false;
 
   constructor(homebrew: HomebrewModuleType) {
     super(homebrew);
@@ -24,8 +25,13 @@ export class GenExtDeck extends AbstractGen {
     return this;
   }
 
-  setSharedBack(sharedBack: boolean): this {
-    this._sharedBack = sharedBack;
+  setIsLandscape(landscape: boolean): this {
+    this._isLandscape = landscape;
+    return this;
+  }
+
+  setIsSharedBack(sharedBack: boolean): this {
+    this._isSharedBack = sharedBack;
     return this;
   }
 
@@ -67,7 +73,7 @@ export class GenExtDeck extends AbstractGen {
         `${nsidName}.jpg`
       );
       let back: string | undefined = undefined;
-      if (!this._sharedBack) {
+      if (!this._isSharedBack) {
         face = face.replace(/.jpg$/, ".face.jpg");
         back = face.replace(/.face.jpg$/, ".back.jpg");
       }
@@ -98,13 +104,23 @@ export class GenExtDeck extends AbstractGen {
     const createCardsheetParams: CreateCardsheetParams = {
       assetFilename: `card/${this._deckType}/${source}`,
       templateName: nsidNameToName(this._deckType),
-      cardSizePixel: { width: 750, height: 500 },
-      cardSizeWorld: { width: 6.3, height: 4.2 },
+      cardSizePixel: { width: 500, height: 750 },
+      cardSizeWorld: { width: 4.2, height: 6.3 },
       cards,
-      back: this._sharedBack
-        ? path.join(prebuildDir, "card", `${this._deckType}.back.jpg`)
-        : undefined,
     };
+
+    if (this._isLandscape) {
+      createCardsheetParams.cardSizePixel = { width: 750, height: 500 };
+      createCardsheetParams.cardSizeWorld = { width: 6.3, height: 4.2 };
+    }
+
+    if (this._isSharedBack) {
+      createCardsheetParams.back = path.join(
+        prebuildDir,
+        "card",
+        `${this._deckType}.back.jpg`
+      );
+    }
 
     const filenameToData: {
       [key: string]: Buffer;
