@@ -60,7 +60,7 @@ export function nsidToTemplateId(root: string): string {
       nsid = nsidBase;
     }
 
-    console.log(`accepting "${jsonFilename}: ${nsid}"`);
+    //console.log(`accepting "${jsonFilename}: ${nsid}"`);
     result[nsid] = templateId;
   }
 

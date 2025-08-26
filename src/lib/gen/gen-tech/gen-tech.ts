@@ -49,7 +49,7 @@ export class GenTech extends AbstractGen {
 
     const createCardsheetParams: CreateCardsheetParams = {
       assetFilename: `card/technology/${source}`,
-      templateName: `card/technology/${source}.json`,
+      templateName: "Technologies",
       cardSizePixel: { width: 750, height: 500 },
       cardSizeWorld: { width: 6.3, height: 4.2 },
       cards,

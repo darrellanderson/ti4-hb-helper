@@ -1,7 +1,15 @@
 import { HomebrewModuleType } from "ti4-ttpg-ts-types";
+import {
+  CardsheetCardType,
+  CreateCardsheet,
+  CreateCardsheetParams,
+} from "ttpg-darrell/build/cjs/index-ext";
 import { AbstractGen } from "../abstract-gen/abstract-gen";
+import { nsidNameToName } from "../../../lib/nsid-name-to-name";
 
-const CARD_TYPES_LANDSCAPE: Array<string> = ["technology"];
+import fs from "fs";
+import klawSync from "klaw-sync";
+import path from "path";
 
 const CARD_TYPES_PORTRAIT: Array<string> = [
   "action",
@@ -26,11 +34,75 @@ const CARD_TYPES_PORTRAIT: Array<string> = [
  * inferred otherwise (e.g. action cards).
  */
 export class GenCards extends AbstractGen {
+  /**
+   * Get cards by wlking the directory, uses a shared back image.
+   *
+   * @param type
+   * @returns
+   */
+  _getCards(type: string): Array<CardsheetCardType> | undefined {
+    const prebuild: string = this.getPrebuildDir();
+    const root: string = `${prebuild}/card/${type}`;
+
+    if (!fs.existsSync(root) || !fs.statSync(root).isDirectory()) {
+      return undefined;
+    }
+
+    const jpgFilenames = klawSync(root, {
+      filter: (item) => path.extname(item.path) === ".jpg",
+      nodir: true,
+      traverseAll: true,
+    }).map((item) => item.path);
+
+    const source: string = this.getSource();
+    return jpgFilenames.map((filename: string): CardsheetCardType => {
+      const nsidName = path.basename(filename).replace(".jpg", "");
+
+      // filename path is absolute, we want relative.
+      const face: string = `${prebuild}/card/${type}/${nsidName}.jpg`;
+      if (!fs.existsSync(face)) {
+        throw new Error(`Face image not found: ${face}`);
+      }
+
+      return {
+        name: nsidNameToName(nsidName),
+        face,
+        metadata: `card.${type}:${source}/${nsidName}`,
+      };
+    });
+  }
+
   constructor(homebrew: HomebrewModuleType) {
     super(homebrew);
   }
 
   async generate(errors: Array<string>): Promise<void> {
-    // TODO
+    const source: string = this.getSource();
+    for (const type of CARD_TYPES_PORTRAIT) {
+      const cards = this._getCards(type);
+      if (!cards) {
+        continue;
+      }
+
+      const prebuild: string = this.getPrebuildDir();
+      const back: string = `${prebuild}/card/${type}.back.jpg`;
+      fs.cpSync(`${__dirname}/../../../../src/data/jpg/${type}.back.jpg`, back);
+
+      const createCardsheetParams: CreateCardsheetParams = {
+        assetFilename: `card/${type}/${source}`,
+        templateName: nsidNameToName(type),
+        cardSizePixel: { width: 500, height: 750 },
+        cardSizeWorld: { width: 4.2, height: 6.3 },
+        cards,
+        back,
+      };
+
+      const filenameToData: {
+        [key: string]: Buffer;
+      } = await new CreateCardsheet(createCardsheetParams).toFileData();
+      for (const [filename, data] of Object.entries(filenameToData)) {
+        this.addOutputFile(filename, data);
+      }
+    }
   }
 }

@@ -48,7 +48,7 @@ export class GenFactionBreakthrough extends AbstractGen {
 
     const createCardsheetParams: CreateCardsheetParams = {
       assetFilename: `card/breakthrough/${source}`,
-      templateName: `card/breakthrough/${source}.json`,
+      templateName: "Breakthrough",
       cardSizePixel: { width: 500, height: 750 },
       cardSizeWorld: { width: 4.2, height: 6.3 },
       cards,
