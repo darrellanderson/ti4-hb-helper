@@ -19,7 +19,7 @@ export class GenFactionAlliance extends AbstractGen {
     const source: string = this.getSource();
 
     const prebuildDir: string = this.getPrebuildDir();
-    const back: string = `${prebuildDir}/card/promissory/alliance.back.jpg`;
+    const back: string = `${prebuildDir}/card/alliance/alliance.back.jpg`;
     fs.cpSync(`${__dirname}/../../../../src/data/jpg/alliance.back.jpg`, back);
     this.getFactions().forEach((faction: FactionSchemaType): void => {
       const cardNsidName: string = faction.nsidName;
