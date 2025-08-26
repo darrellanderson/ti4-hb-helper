@@ -1,0 +1,114 @@
+import { HomebrewModuleType } from "ti4-ttpg-ts-types";
+import {
+  CardsheetCardType,
+  CreateCardsheet,
+  CreateCardsheetParams,
+} from "ttpg-darrell/build/cjs/index-ext";
+import { AbstractGen } from "../../gen/abstract-gen/abstract-gen";
+import { nsidNameToName } from "../../nsid-name-to-name/nsid-name-to-name";
+
+import fs from "fs";
+import klawSync from "klaw-sync";
+import path from "path";
+
+export class GenExtDeck extends AbstractGen {
+  private _deckType: string = "";
+  private _sharedBack: string | undefined = undefined;
+
+  constructor(homebrew: HomebrewModuleType) {
+    super(homebrew);
+  }
+
+  setDeckType(deckType: string): this {
+    this._deckType = deckType;
+    return this;
+  }
+
+  setSharedBack(sharedBack: string): this {
+    this._sharedBack = sharedBack;
+    return this;
+  }
+
+  async generate(errors: Array<string>): Promise<void> {
+    if (this._deckType === "") {
+      errors.push("Deck type is not set");
+      return;
+    }
+
+    const cards: Array<CardsheetCardType> = [];
+    const source: string = this.getSource();
+
+    const prebuildDir: string = this.getPrebuildDir();
+    const deckRoot: string = path.join(prebuildDir, "card", this._deckType);
+    if (!fs.existsSync(deckRoot) || !fs.lstatSync(deckRoot).isDirectory()) {
+      errors.push(`Deck directory not found: ${deckRoot}`);
+      return;
+    }
+
+    const jpgFilenames = klawSync(deckRoot, {
+      filter: (item) => path.extname(item.path) === ".jpg",
+      nodir: true,
+      traverseAll: true,
+    }).map((item) => item.path);
+
+    jpgFilenames.forEach((filename: string): void => {
+      const nsidName = path
+        .basename(filename)
+        .replace(/\.jpg$/, "")
+        .replace(/\.face$/, "");
+      if (nsidName.endsWith(".back")) {
+        return; // only process face
+      }
+
+      let face: string = path.join(
+        prebuildDir,
+        "card",
+        this._deckType,
+        `${nsidName}.jpg`
+      );
+      let back: string | undefined = undefined;
+      if (!this._sharedBack) {
+        face = face.replace(/.jpg$/, ".face.jpg");
+        back = face.replace(/.face.jpg$/, ".back.jpg");
+      }
+
+      cards.push({
+        name: nsidNameToName(nsidName),
+        face,
+        back,
+        metadata: `card.${this._deckType}:${source}/${nsidName}`,
+      });
+    });
+
+    let missingCard: boolean = false;
+    cards.forEach((card: CardsheetCardType): void => {
+      if (typeof card.face === "string" && !fs.existsSync(card.face)) {
+        errors.push(`Face image not found: ${card.face}`);
+        missingCard = true;
+      }
+      if (typeof card.back === "string" && !fs.existsSync(card.back)) {
+        errors.push(`Back image not found: ${card.back}`);
+        missingCard = true;
+      }
+    });
+    if (missingCard) {
+      return;
+    }
+
+    const createCardsheetParams: CreateCardsheetParams = {
+      assetFilename: `card/${this._deckType}/${source}`,
+      templateName: nsidNameToName(this._deckType),
+      cardSizePixel: { width: 750, height: 500 },
+      cardSizeWorld: { width: 6.3, height: 4.2 },
+      cards,
+      back: this._sharedBack,
+    };
+
+    const filenameToData: {
+      [key: string]: Buffer;
+    } = await new CreateCardsheet(createCardsheetParams).toFileData();
+    for (const [filename, data] of Object.entries(filenameToData)) {
+      this.addOutputFile(filename, data);
+    }
+  }
+}

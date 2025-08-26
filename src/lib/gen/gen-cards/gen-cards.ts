@@ -55,7 +55,7 @@ export class GenCards extends AbstractGen {
 
     const source: string = this.getSource();
     return jpgFilenames.map((filename: string): CardsheetCardType => {
-      const nsidName = path.basename(filename).replace(".jpg", "");
+      const nsidName = path.basename(filename).replace(/\.jpg$/, "");
 
       // filename path is absolute, we want relative.
       const face: string = `${prebuild}/card/${type}/${nsidName}.jpg`;
