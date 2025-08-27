@@ -12,6 +12,7 @@ it("output files", async () => {
   expect(errors).toHaveLength(0);
   expect(gen._getOutputFilenames()).toEqual([
     "Models/token/round.obj",
+    "Templates/token/my-token.json",
     "Textures/token/my-token.back.jpg",
     "Textures/token/my-token.face.jpg",
   ]);

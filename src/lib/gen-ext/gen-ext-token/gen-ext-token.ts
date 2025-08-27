@@ -72,5 +72,10 @@ export class GenExtToken extends AbstractGen {
     if (template.Models[1]) {
       template.Models[1].Texture = `Textures/token/${this._token}.back.jpg`;
     }
+    const templateData: Buffer = Buffer.from(
+      JSON.stringify(template, null, 2),
+      "utf-8"
+    );
+    this.addOutputFile(templateFilename, templateData);
   }
 }
