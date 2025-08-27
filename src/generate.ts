@@ -7,9 +7,9 @@ import fs from "fs";
 export async function generate(homebrew: HomebrewModuleType): Promise<void> {
   console.log(`Generating homebrew: ${homebrew.sourceAndPackageId.source}`);
 
-  // Adding this breaks things?
-  // "Cannot find module 'ti4-ttpg-ts-types' from 'src/generate.ts'""
-  //validateHomebrewModule(homebrew);
+  // Validate homebrew module.  In this context we're using ttpg-mock, but
+  // it still does the zod parsing and other sanity checking.
+  TI4.homebrewRegistry.load(homebrew);
 
   const genAll = new GenAll(homebrew);
   const errors: Array<string> = [];
