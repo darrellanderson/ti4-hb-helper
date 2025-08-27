@@ -11,6 +11,7 @@ import { GenPlanetCards } from "../gen-planet-cards";
 import { GenSystemAttachment } from "../gen-system-attachment";
 import { GenSystems } from "../gen-systems";
 import { GenTech } from "../gen-tech/gen-tech";
+import { GenFactionReference } from "../gen-faction-reference";
 
 export class GenAll extends AbstractGen {
   private readonly _gens: Array<AbstractGen>;
@@ -23,6 +24,7 @@ export class GenAll extends AbstractGen {
       new GenFactionBreakthrough(homebrew),
       new GenFactionLeaders(homebrew),
       new GenFactionPromissory(homebrew),
+      new GenFactionReference(homebrew),
       new GenFactionSheet(homebrew),
       new GenPlanetAttachment(homebrew),
       new GenPlanetCards(homebrew),

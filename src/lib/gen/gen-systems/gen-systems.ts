@@ -25,26 +25,43 @@ export class GenSystems extends AbstractGen {
     system: SystemSchemaType,
     errors: Array<string>
   ): Promise<void> {
+    this._generateTemplate(system);
+
     const prebuildDir: string = this.getPrebuildDir();
     const tileStr: string = system.tile.toString().padStart(3, "0");
-    const srcFilename: string = `${prebuildDir}/tile/system/tile-${tileStr}.jpg`;
+    let srcFilename: string = `${prebuildDir}/tile/system/tile-${tileStr}.jpg`;
     if (!fs.existsSync(srcFilename)) {
       errors.push(`System tile image not found: ${srcFilename}`);
       return;
     }
 
     // Make a square, with the hex filling the width (space at top/bottom).
-    const srcBuffer: Buffer = await sharp(srcFilename)
+    let srcBuffer: Buffer = await sharp(srcFilename)
       .resize(1024, 1024, { fit: "inside" })
       .png()
       .toBuffer();
 
-    const dst1024filename: string = `Textures/tile/system/tile-${tileStr}.jpg`;
-    const dst512filename: string = `Textures/tile/system/tile-${tileStr}.png`;
+    let dst1024filename: string = `Textures/tile/system/tile-${tileStr}.jpg`;
+    let dst512filename: string = `Textures/tile/system/tile-${tileStr}.png`;
 
-    this._generateTemplate(system);
     await this._generate1024(srcBuffer, dst1024filename);
     await this._generate512(srcBuffer, dst512filename);
+
+    if (system.imgFaceDown) {
+      srcFilename = srcFilename.replace(/.jpg$/, ".back.jpg");
+      if (!fs.existsSync(srcFilename)) {
+        errors.push(`System tile image not found: ${srcFilename}`);
+        return;
+      }
+      srcBuffer = await sharp(srcFilename)
+        .resize(1024, 1024, { fit: "inside" })
+        .png()
+        .toBuffer();
+      dst1024filename = dst1024filename.replace(/.jpg$/, ".back.jpg");
+      dst512filename = dst512filename.replace(/.jpg$/, ".back.jpg");
+      await this._generate1024(srcBuffer, dst1024filename);
+      await this._generate512(srcBuffer, dst512filename);
+    }
   }
 
   _generateModels() {
