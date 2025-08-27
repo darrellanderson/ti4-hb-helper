@@ -67,10 +67,10 @@ export class GenExtToken extends AbstractGen {
     template.Name = nsidNameToName(this._token);
     template.Metadata = `token:${source}/${this._token}`;
     if (template.Models[0]) {
-      template.Models[0].Texture = `Textures/token/${this._token}.face.jpg`;
+      template.Models[0].Texture = `token/${this._token}.face.jpg`;
     }
     if (template.Models[1]) {
-      template.Models[1].Texture = `Textures/token/${this._token}.back.jpg`;
+      template.Models[1].Texture = `token/${this._token}.back.jpg`;
     }
     const templateData: Buffer = Buffer.from(
       JSON.stringify(template, null, 2),
