@@ -1,4 +1,7 @@
 {
   "preset": "ts-jest",
-  "testEnvironment": "node"
+  "testEnvironment": "node",
+  "moduleNameMapper": {
+    "^@tabletop-playground/api$": "ttpg-mock"
+  }
 }
