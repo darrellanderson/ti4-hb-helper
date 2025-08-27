@@ -1,4 +1,4 @@
-import { HomebrewModuleType } from "ti4-ttpg-ts-types";
+import { HomebrewModuleType, TI4Class } from "ti4-ttpg-ts-types";
 import { GenAll } from "./lib/gen/gen-all/gen-all";
 import { nsidToTemplateId } from "./lib/nsid-to-template-id/nsid-to-template-id";
 
@@ -9,6 +9,7 @@ export async function generate(homebrew: HomebrewModuleType): Promise<void> {
 
   // Validate homebrew module.  In this context we're using ttpg-mock, but
   // it still does the zod parsing and other sanity checking.
+  TI4 = new TI4Class();
   TI4.homebrewRegistry.load(homebrew);
 
   const genAll = new GenAll(homebrew);
