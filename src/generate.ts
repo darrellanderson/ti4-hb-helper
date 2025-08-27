@@ -1,4 +1,4 @@
-import { HomebrewModuleType, TI4Class } from "ti4-ttpg-ts-types";
+import { HomebrewModuleType } from "ti4-ttpg-ts-types";
 import { GenAll } from "./lib/gen/gen-all/gen-all";
 import { nsidToTemplateId } from "./lib/nsid-to-template-id/nsid-to-template-id";
 
@@ -7,10 +7,9 @@ import fs from "fs";
 export async function generate(homebrew: HomebrewModuleType): Promise<void> {
   console.log(`Generating homebrew: ${homebrew.sourceAndPackageId.source}`);
 
-  // Validate homebrew module.  In this context we're using ttpg-mock, but
-  // it still does the zod parsing and other sanity checking.
-  TI4 = new TI4Class();
-  TI4.homebrewRegistry.load(homebrew);
+  // It would be nice to validate / parse the homebrew definition, but in
+  // this context we only have a typescript .d.ts type and not the zod
+  // schema.  We could export that upstream, but currently do not.
 
   const genAll = new GenAll(homebrew);
   const errors: Array<string> = [];
