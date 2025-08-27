@@ -33,11 +33,16 @@ export class GenFactionReference extends AbstractGen {
       }
     });
 
+    let missingCard: boolean = false;
     cards.forEach((card: CardsheetCardType): void => {
       if (typeof card.face === "string" && !fs.existsSync(card.face)) {
         errors.push(`Face image not found: ${card.face}`);
+        missingCard = true;
       }
     });
+    if (missingCard) {
+      return;
+    }
 
     const createCardsheetParams: CreateCardsheetParams = {
       assetFilename: `card/faction-reference/${source}`,

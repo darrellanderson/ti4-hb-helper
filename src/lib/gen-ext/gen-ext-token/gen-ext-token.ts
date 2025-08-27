@@ -7,6 +7,9 @@ import { nsidNameToName } from "../../nsid-name-to-name";
 import fs from "fs";
 import path from "path";
 
+/**
+ * Generate a round token with a face and back image.
+ */
 export class GenExtToken extends AbstractGen {
   private _token: string = "";
 

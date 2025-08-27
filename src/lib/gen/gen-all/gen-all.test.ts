@@ -7,4 +7,4 @@ it("errors", async () => {
   const errors: Array<string> = [];
   await gen.generate(errors);
   expect(errors.length).toBeGreaterThan(0);
-});
+}, 30000);

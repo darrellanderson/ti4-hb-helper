@@ -4,9 +4,10 @@ import {
 } from "ti4-ttpg-ts-types";
 import { AbstractGen } from "../abstract-gen/abstract-gen";
 import { getGuid } from "../../../lib/guid/guid";
+import { TOKEN_TEMPLATE } from "../../../data/template/token.template";
 
 import fs from "fs";
-import { TOKEN_TEMPLATE } from "../../../data/template/token.template";
+import path from "path";
 
 /**
  * Create system attachment tokens.
@@ -27,7 +28,9 @@ export class GenSystemAttachment extends AbstractGen {
 
     this.getSystemAttachments().forEach(
       (attachment: SystemAttachmentSchemaType): void => {
-        this._generateToken(attachment, errors);
+        if (!attachment.customModel) {
+          this._generateToken(attachment, errors);
+        }
       }
     );
   }
@@ -92,7 +95,13 @@ export class GenSystemAttachment extends AbstractGen {
       modelCollider = "token/mirage.col.obj";
     }
 
-    const templateFilename: string = `Templates/token/attachment/system/${nsidName}.json`;
+    const templateFilename: string = path.join(
+      "Templates",
+      "token",
+      "attachment",
+      "system",
+      `${nsidName}.json`
+    );
     const GUID: string = getGuid(templateFilename);
 
     const template = JSON.parse(JSON.stringify(TOKEN_TEMPLATE));
