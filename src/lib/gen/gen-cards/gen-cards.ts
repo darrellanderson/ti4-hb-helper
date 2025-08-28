@@ -14,6 +14,7 @@ import path from "path";
 const CARD_TYPES_PORTRAIT: Array<string> = [
   "action",
   "agenda",
+  "event",
   "exploration-cultural",
   "exploration-hazardous",
   "exploration-frontier",
