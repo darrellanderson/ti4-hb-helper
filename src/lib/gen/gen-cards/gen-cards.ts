@@ -105,6 +105,11 @@ export class GenCards extends AbstractGen {
         back,
       };
 
+      if (type === "event") {
+        createCardsheetParams.cardSizePixel = { width: 1024, height: 597 };
+        createCardsheetParams.cardSizeWorld = { width: 12.9, height: 7.5 };
+      }
+
       const filenameToData: {
         [key: string]: Buffer;
       } = await new CreateCardsheet(createCardsheetParams).toFileData();
