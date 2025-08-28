@@ -29,6 +29,7 @@ export class GenFactionReference extends AbstractGen {
         cards.push({
           name: faction.name,
           face: `${prebuildDir}/card/faction-reference/${faction.nsidName}.jpg`,
+          metadata: `card.faction-reference:${source}/${faction.nsidName}`,
         });
       }
     });
