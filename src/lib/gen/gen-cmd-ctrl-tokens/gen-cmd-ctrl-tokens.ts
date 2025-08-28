@@ -67,7 +67,9 @@ export class GenCmdCtrlTokens extends AbstractGen {
     template.GUID = getGuid(outputFile);
     template.Name = `Command (${faction.abbr})`;
     template.Metadata = `token.command:${source}/${nsidName}`;
-    template.Texture = `token/command-control/${nsidName}.jpg`;
+    if (template.Models[0]) {
+      template.Models[0].Texture = `token/command-control/${nsidName}.jpg`;
+    }
 
     const templateData: Buffer = Buffer.from(
       JSON.stringify(template, null, 2),
@@ -89,7 +91,9 @@ export class GenCmdCtrlTokens extends AbstractGen {
     template.GUID = getGuid(outputFile);
     template.Name = `Control (${faction.abbr})`;
     template.Metadata = `token.control:${source}/${nsidName}`;
-    template.Texture = `token/command-control/${nsidName}.jpg`;
+    if (template.Models[0]) {
+      template.Models[0].Texture = `token/command-control/${nsidName}.jpg`;
+    }
 
     const templateData: Buffer = Buffer.from(
       JSON.stringify(template, null, 2),
