@@ -1,6 +1,7 @@
 import { HomebrewModuleType } from "ti4-ttpg-ts-types";
 import { AbstractGen } from "../abstract-gen";
 import { GenCards } from "../gen-cards";
+import { GenCmdCtrlTokens } from "../gen-cmd-ctrl-tokens";
 import { GenFactionAlliance } from "../gen-faction-alliance";
 import { GenFactionBreakthrough } from "../gen-faction-breakthrough";
 import { GenFactionLeaders } from "../gen-faction-leaders";
@@ -20,6 +21,7 @@ export class GenAll extends AbstractGen {
     super(homebrew);
     this._gens = [
       new GenCards(homebrew),
+      new GenCmdCtrlTokens(homebrew),
       new GenFactionAlliance(homebrew),
       new GenFactionBreakthrough(homebrew),
       new GenFactionLeaders(homebrew),
