@@ -16,6 +16,8 @@ export class GenExtDeck extends AbstractGen {
   private _isLandscape: boolean = false;
   private _isSharedBack: boolean = false;
 
+  private _overrideOutputDeckType: string | undefined = undefined;
+
   constructor(homebrew: HomebrewModuleType) {
     super(homebrew);
   }
@@ -32,6 +34,11 @@ export class GenExtDeck extends AbstractGen {
 
   setIsSharedBack(sharedBack: boolean): this {
     this._isSharedBack = sharedBack;
+    return this;
+  }
+
+  setOverrideOutputDeckType(deckType: string): this {
+    this._overrideOutputDeckType = deckType;
     return this;
   }
 
@@ -78,12 +85,18 @@ export class GenExtDeck extends AbstractGen {
         back = face.replace(/.face.jpg$/, ".back.jpg");
       }
 
-      cards.push({
+      const card: CardsheetCardType = {
         name: nsidNameToName(nsidName),
         face,
         back,
         metadata: `card.${this._deckType}:${source}/${nsidName}`,
-      });
+      };
+
+      if (this._overrideOutputDeckType) {
+        card.metadata = `card.${this._overrideOutputDeckType}:${source}/${nsidName}`;
+      }
+
+      cards.push(card);
     });
 
     let missingCard: boolean = false;
