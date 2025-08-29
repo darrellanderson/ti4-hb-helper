@@ -135,7 +135,7 @@ export class GenSystemAttachment extends AbstractGen {
     const copyFiles: Array<string> = [imgFileFace, imgFileBack];
     for (const file of copyFiles) {
       const srcFilename: string = `${prebuildDir}/${file}`;
-      if (!fs.existsSync(srcFilename)) {
+      if (!fs.existsSync(srcFilename) || !fs.statSync(srcFilename).isFile()) {
         errors.push(`System attachment image not found: ${file}`);
         continue;
       }
