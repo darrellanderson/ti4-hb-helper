@@ -25,6 +25,10 @@ export class GenTech extends AbstractGen {
     );
 
     this.getTechnologies().forEach((technology: TechSchemaType) => {
+      if (technology.customModel) {
+        return;
+      }
+
       cards.push({
         name: technology.name,
         face: `${prebuildDir}/card/tech/${technology.nsidName}.jpg`,
