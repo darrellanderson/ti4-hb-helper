@@ -4,6 +4,7 @@ import { GenCards } from "../gen-cards";
 import { GenCmdCtrlTokens } from "../gen-cmd-ctrl-tokens";
 import { GenFactionAlliance } from "../gen-faction-alliance";
 import { GenFactionBreakthrough } from "../gen-faction-breakthrough";
+import { GenFactionIcon } from "../gen-faction-icon";
 import { GenFactionLeaders } from "../gen-faction-leaders";
 import { GenFactionPromissory } from "../gen-faction-promissory";
 import { GenFactionSheet } from "../gen-faction-sheet";
@@ -24,6 +25,7 @@ export class GenAll extends AbstractGen {
       new GenCmdCtrlTokens(homebrew),
       new GenFactionAlliance(homebrew),
       new GenFactionBreakthrough(homebrew),
+      new GenFactionIcon(homebrew),
       new GenFactionLeaders(homebrew),
       new GenFactionPromissory(homebrew),
       new GenFactionReference(homebrew),
