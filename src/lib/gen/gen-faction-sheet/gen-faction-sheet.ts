@@ -31,8 +31,10 @@ export class GenFactionSheet extends AbstractGen {
     template.CardNames["0"] = template.Name;
     template.Metadata = `sheet.faction:${source}/${nsidName}`;
     template.CardMetadata["0"] = template.Metadata;
-    template.FrontTexture = `faction-sheet/${nsidName}.face.jpg`;
-    template.BackTexture = `faction-sheet/${nsidName}.back.jpg`;
+
+    // For dumb historical reasons, the face/back images are swapped.
+    template.FrontTexture = `faction-sheet/${nsidName}.back.jpg`;
+    template.BackTexture = `faction-sheet/${nsidName}.face.jpg`;
 
     const buffer: Buffer = Buffer.from(JSON.stringify(template), "utf-8");
     this.addOutputFile(templateFilename, buffer);
