@@ -7,6 +7,10 @@ import sharp from "sharp";
 
 const OUTLINE_WIDTH: number = 5;
 
+/**
+ * Given a faction icon PNG (without padding), generate a 128x128 PNG
+ * with transparent padding and an outline-only version of the icon.
+ */
 export class GenFactionIcon extends AbstractGen {
   constructor(homebrew: HomebrewModuleType) {
     super(homebrew);
@@ -27,20 +31,36 @@ export class GenFactionIcon extends AbstractGen {
         errors.push(`GenFactionIcon: faction icon image not found: ${image}`);
         continue;
       }
-      const imageData: Buffer = fs.readFileSync(image);
+      const image108: Buffer = await sharp(image)
+        .resize(108, 108, {
+          fit: "inside",
+        })
+        .png()
+        .toBuffer();
+      const image128: Buffer = await sharp({
+        create: {
+          width: 128,
+          height: 128,
+          channels: 4,
+          background: { r: 0, g: 0, b: 0, alpha: 0 },
+        },
+      })
+        .composite([{ input: image108, blend: "over", left: 10, top: 10 }])
+        .png()
+        .toBuffer();
       const iconFilename: string = path.join(
         "Textures",
         "icon",
         "faction",
         `${nsidName}.png`
       );
-      this.addOutputFile(iconFilename, imageData);
+      this.addOutputFile(iconFilename, image128);
 
       const outlineFilename: string = iconFilename.replace(
         /\.png$/,
         "-outline-only.png"
       );
-      await this._outlineOnly(imageData, outlineFilename);
+      await this._outlineOnly(image128, outlineFilename);
     }
   }
 
