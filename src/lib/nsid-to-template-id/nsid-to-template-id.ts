@@ -36,8 +36,45 @@ export function nsidToTemplateId(root: string): string {
     if (json.Type === "Card" && typeof json.CardMetadata === "object") {
       const firstNsid: string | undefined = json.CardMetadata["0"];
       if (firstNsid && firstNsid.startsWith("card.")) {
-        const slashIndex: number = firstNsid.indexOf("/");
-        const typeAndSource: string = firstNsid.substring(0, slashIndex);
+        const getPrefix = (items: Array<string>): string => {
+          const first: string = items[0] ?? "";
+          const firstParts: Array<string> = first.split(".");
+
+          // Get longest dot-delimited matching type.
+          let matchingPartsCount = firstParts.length;
+          for (const item of items) {
+            const parts: Array<string> = item.split(".");
+            for (let i = 0; i < parts.length; i++) {
+              if (parts[i] !== firstParts[i]) {
+                matchingPartsCount = Math.min(matchingPartsCount, i);
+                break;
+              }
+            }
+          }
+          const result: string = firstParts
+            .slice(0, matchingPartsCount)
+            .join(".");
+          if (result.startsWith("card.leader")) {
+            return "card.leader";
+          }
+          return result;
+        };
+
+        // Use a common prefix (matching to a dot-delimited string).
+        const cardNsids: Array<string> = Object.values(json.CardMetadata);
+        const types: Array<string> = cardNsids.map((cardNsid) => {
+          const m = cardNsid.match("([^:]+):([^/]+)/.+");
+          return m?.[1] ?? "";
+        });
+        const type = getPrefix(types);
+
+        const sources: Array<string> = cardNsids.map((cardNsid): string => {
+          const m = cardNsid.match("([^:]+):([^/]+)/.+");
+          return m?.[2] ?? "";
+        });
+        const source = getPrefix(sources);
+
+        const typeAndSource: string = `${type}:${source}`;
         let i = 0;
         while (result[`${typeAndSource}/${i}`]) {
           i++;
