@@ -32,14 +32,14 @@ export class GenExtStrategyCard extends AbstractGen {
     this.addOutputFile("Models/tile/strategy-card.obj", modelData);
 
     const prebuildDir: string = this.getPrebuildDir();
-    const img: string = `${prebuildDir}/strategy-card/${this._strategyCardName}.jpg`;
+    const img: string = `${prebuildDir}/strategy-card/${this._strategyCardName}.png`;
     if (!fs.existsSync(img) || !fs.lstatSync(img).isFile()) {
       errors.push(`strategy card image missing "${img}"`);
       return;
     }
     const imgData: Buffer = fs.readFileSync(img);
     this.addOutputFile(
-      `Textures/tile/strategy-card/${this._strategyCardName}.jpg`,
+      `Textures/tile/strategy-card/${this._strategyCardName}.png`,
       imgData
     );
 
@@ -52,7 +52,7 @@ export class GenExtStrategyCard extends AbstractGen {
       this._strategyCardName
     }`;
     if (template.Models[0]) {
-      template.Models[0].Texture = `tile/strategy-card/${this._strategyCardName}.jpg`;
+      template.Models[0].Texture = `tile/strategy-card/${this._strategyCardName}.png`;
     }
 
     const templateData: Buffer = Buffer.from(JSON.stringify(template, null, 2));

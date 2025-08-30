@@ -13,6 +13,6 @@ it("output files", async () => {
   expect(gen._getOutputFilenames()).toEqual([
     "Models/tile/strategy-card.obj",
     "Templates/tile/strategy-card/my-strategy-card.json",
-    "Textures/tile/strategy-card/my-strategy-card.jpg",
+    "Textures/tile/strategy-card/my-strategy-card.png",
   ]);
 });
