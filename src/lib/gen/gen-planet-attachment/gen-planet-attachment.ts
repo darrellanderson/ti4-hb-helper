@@ -1,7 +1,4 @@
-import {
-  HomebrewModuleType,
-  PlanetAttachmentSchemaType,
-} from "ti4-ttpg-ts-types";
+import { HomebrewModuleType, PlanetAttachmentSchemaType } from "ti4-ttpg-ts";
 import { AbstractGen } from "../abstract-gen/abstract-gen";
 import { getGuid } from "../../../lib/guid/guid";
 

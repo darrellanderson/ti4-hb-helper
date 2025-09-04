@@ -5,7 +5,7 @@ import {
   SystemAttachmentSchemaType,
   SystemSchemaType,
   TechSchemaType,
-} from "ti4-ttpg-ts-types";
+} from "ti4-ttpg-ts";
 
 import fs from "fs";
 import path from "path";

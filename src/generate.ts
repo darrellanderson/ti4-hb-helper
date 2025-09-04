@@ -1,4 +1,4 @@
-import { HomebrewModuleType } from "ti4-ttpg-ts-types";
+import { HomebrewModuleType } from "ti4-ttpg-ts";
 import { GenAll } from "./lib/gen/gen-all/gen-all";
 import { nsidToTemplateId } from "./lib/nsid-to-template-id/nsid-to-template-id";
 

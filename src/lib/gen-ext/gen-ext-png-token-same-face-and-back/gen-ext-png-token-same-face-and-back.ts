@@ -1,4 +1,4 @@
-import { HomebrewModuleType } from "ti4-ttpg-ts-types";
+import { HomebrewModuleType } from "ti4-ttpg-ts";
 import { AbstractGen } from "../../gen/abstract-gen/abstract-gen";
 import { getGuid } from "../../guid/guid";
 import { PNG_TOKEN_TEMPLATE } from "../../../data/template/png-token.template";

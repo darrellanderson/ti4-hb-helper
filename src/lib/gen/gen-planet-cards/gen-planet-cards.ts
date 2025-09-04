@@ -2,7 +2,7 @@ import {
   HomebrewModuleType,
   PlanetSchemaType,
   SystemSchemaType,
-} from "ti4-ttpg-ts-types";
+} from "ti4-ttpg-ts";
 import {
   CardsheetCardType,
   CreateCardsheet,

@@ -1,4 +1,4 @@
-import { FactionSchemaType, HomebrewModuleType } from "ti4-ttpg-ts-types";
+import { FactionSchemaType, HomebrewModuleType } from "ti4-ttpg-ts";
 import {
   CardsheetCardType,
   CreateCardsheet,

@@ -1,4 +1,4 @@
-import { FactionSchemaType, HomebrewModuleType } from "ti4-ttpg-ts-types";
+import { FactionSchemaType, HomebrewModuleType } from "ti4-ttpg-ts";
 import { AbstractGen } from "../abstract-gen/abstract-gen";
 import { getGuid } from "../../guid";
 import { COMMAND_TOKEN_TEMPLATE } from "../../../data/template/command-token.template";

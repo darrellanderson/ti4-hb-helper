@@ -1,4 +1,4 @@
-import { HomebrewModuleType, SystemSchemaType } from "ti4-ttpg-ts-types";
+import { HomebrewModuleType, SystemSchemaType } from "ti4-ttpg-ts";
 import { AbstractGen } from "../abstract-gen/abstract-gen";
 import { SYSTEM_TILE_TEMPLATE } from "../../../data/template/system-tile.template";
 import { getGuid } from "../../../lib/guid/guid";

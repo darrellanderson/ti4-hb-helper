@@ -1,4 +1,4 @@
-import { HomebrewModuleType } from "ti4-ttpg-ts-types";
+import { HomebrewModuleType } from "ti4-ttpg-ts";
 import { AbstractGen } from "../../gen/abstract-gen/abstract-gen";
 import { STRATEGY_CARD_TEMPLATE } from "../../../data/template/strategy-card.template";
 import { nsidNameToName } from "../../nsid-name-to-name";

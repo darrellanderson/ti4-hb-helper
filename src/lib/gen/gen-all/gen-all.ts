@@ -1,4 +1,4 @@
-import { HomebrewModuleType } from "ti4-ttpg-ts-types";
+import { HomebrewModuleType } from "ti4-ttpg-ts";
 import { AbstractGen } from "../abstract-gen";
 import { GenCards } from "../gen-cards";
 import { GenCmdCtrlTokens } from "../gen-cmd-ctrl-tokens";

@@ -1,4 +1,4 @@
-import { HomebrewModuleType, TechSchemaType } from "ti4-ttpg-ts-types";
+import { HomebrewModuleType, TechSchemaType } from "ti4-ttpg-ts";
 import {
   CardsheetCardType,
   CreateCardsheet,
