@@ -37,7 +37,7 @@ export class GenSystems extends AbstractGen {
 
     // Make a square, with the hex filling the width (space at top/bottom).
     let srcBuffer: Buffer = await sharp(srcFilename)
-      .resize(1024, 1024, { fit: "inside" })
+      .resize(1024, 1024, { fit: "contain", position: "center" })
       .png()
       .toBuffer();
 
@@ -54,7 +54,7 @@ export class GenSystems extends AbstractGen {
         return;
       }
       srcBuffer = await sharp(srcFilename)
-        .resize(1024, 1024, { fit: "inside" })
+        .resize(1024, 1024, { fit: "contain", position: "center" })
         .png()
         .toBuffer();
       dst1024filename = dst1024filename.replace(/.jpg$/, ".back.jpg");
@@ -147,7 +147,7 @@ export class GenSystems extends AbstractGen {
     dst1024filename: string
   ): Promise<void> {
     const jpg884: Buffer = await sharp(srcBuffer)
-      .resize(884, 884, { fit: "inside" })
+      .resize(884, 884, { fit: "contain", position: "center" })
       .jpeg({ quality: 90 })
       .toBuffer();
     const jpg1024: Buffer = await sharp({
@@ -166,11 +166,11 @@ export class GenSystems extends AbstractGen {
 
   async _generate512(srcBuffer: Buffer, dst512filename: string): Promise<void> {
     const mask = await sharp(`${__dirname}/../../../../src/data/png/blank.png`)
-      .resize(512, 512, { fit: "fill" })
+      .resize(512, 512, { fit: "contain", position: "center" })
       .extractChannel("alpha")
       .toBuffer();
     const png512: Buffer = await sharp(srcBuffer)
-      .resize(512, 512, { fit: "fill" })
+      .resize(512, 512, { fit: "contain", position: "center" })
       .joinChannel(mask)
       .png()
       .toBuffer();

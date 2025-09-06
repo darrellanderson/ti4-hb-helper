@@ -33,7 +33,8 @@ export class GenFactionIcon extends AbstractGen {
       }
       const image108: Buffer = await sharp(image)
         .resize(108, 108, {
-          fit: "inside",
+          fit: "contain",
+          position: "center",
         })
         .png()
         .toBuffer();
