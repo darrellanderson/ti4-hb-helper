@@ -36,7 +36,10 @@ export class GenFactionSheet extends AbstractGen {
     template.FrontTexture = `faction-sheet/${nsidName}.back.jpg`;
     template.BackTexture = `faction-sheet/${nsidName}.face.jpg`;
 
-    const buffer: Buffer = Buffer.from(JSON.stringify(template), "utf-8");
+    const buffer: Buffer = Buffer.from(
+      JSON.stringify(template, null, 2),
+      "utf-8"
+    );
     this.addOutputFile(templateFilename, buffer);
 
     const prebuildDir: string = this.getPrebuildDir();
