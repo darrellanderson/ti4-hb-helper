@@ -12,6 +12,7 @@ import path from "path";
  */
 export class GenExtToken extends AbstractGen {
   private _token: string = "";
+  private _script: string = "";
 
   constructor(homebrew: HomebrewModuleType) {
     super(homebrew);
@@ -19,6 +20,11 @@ export class GenExtToken extends AbstractGen {
 
   setToken(token: string): this {
     this._token = token;
+    return this;
+  }
+
+  setScript(script: string): this {
+    this._script = script;
     return this;
   }
 
@@ -75,6 +81,7 @@ export class GenExtToken extends AbstractGen {
     if (template.Models[1]) {
       template.Models[1].Texture = `token/${this._token}.back.jpg`;
     }
+    template.ScriptName = this._script;
     const templateData: Buffer = Buffer.from(
       JSON.stringify(template, null, 2),
       "utf-8"
