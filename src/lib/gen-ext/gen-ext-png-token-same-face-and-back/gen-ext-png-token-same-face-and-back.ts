@@ -15,6 +15,7 @@ export class GenExtPngTokenSameFaceAndBack extends AbstractGen {
   private _token: string = "";
   private _tokenExtraPath: string = "";
   private _width: number = 5;
+  private _script: string = "";
 
   constructor(homebrew: HomebrewModuleType) {
     super(homebrew);
@@ -32,6 +33,11 @@ export class GenExtPngTokenSameFaceAndBack extends AbstractGen {
 
   setWidth(width: number): this {
     this._width = width;
+    return this;
+  }
+
+  setScript(script: string): this {
+    this._script = script;
     return this;
   }
 
@@ -101,6 +107,7 @@ export class GenExtPngTokenSameFaceAndBack extends AbstractGen {
     template.Model = template.FrontTexture;
     template.Width = this._width;
     template.Height = height;
+    template.ScriptName = this._script;
 
     const templateData: Buffer = Buffer.from(
       JSON.stringify(template, null, 2),
