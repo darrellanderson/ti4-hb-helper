@@ -81,7 +81,7 @@ export const STRATEGY_CARD_TEMPLATE = {
   ZoomViewDirection: {
     X: 0,
     Y: 0,
-    Z: 0,
+    Z: 1,
   },
   GroundAccessibility: "Nothing",
   Tags: [],
