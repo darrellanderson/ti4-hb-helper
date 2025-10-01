@@ -58,7 +58,7 @@ export class GenSystems extends AbstractGen {
         .png()
         .toBuffer();
       dst1024filename = dst1024filename.replace(/.jpg$/, ".back.jpg");
-      dst512filename = dst512filename.replace(/.jpg$/, ".back.jpg");
+      dst512filename = dst512filename.replace(/.jpg$/, ".back.png");
       await this._generate1024(srcBuffer, dst1024filename);
       await this._generate512(srcBuffer, dst512filename);
     }
