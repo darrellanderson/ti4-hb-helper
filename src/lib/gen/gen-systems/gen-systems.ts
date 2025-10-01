@@ -44,7 +44,11 @@ export class GenSystems extends AbstractGen {
     let dst1024filename: string = `Textures/tile/system/tile-${tileStr}.jpg`;
     let dst512filename: string = `Textures/tile/system/tile-${tileStr}.png`;
 
-    await this._generate1024(srcBuffer, dst1024filename);
+    if (system.class === "off-map") {
+      await this._generate1024Shuriken(srcBuffer, dst1024filename);
+    } else {
+      await this._generate1024(srcBuffer, dst1024filename);
+    }
     await this._generate512(srcBuffer, dst512filename);
 
     if (system.imgFaceDown) {
@@ -59,7 +63,11 @@ export class GenSystems extends AbstractGen {
         .toBuffer();
       dst1024filename = dst1024filename.replace(/.jpg$/, ".back.jpg");
       dst512filename = dst512filename.replace(/.png$/, ".back.png");
-      await this._generate1024(srcBuffer, dst1024filename);
+      if (system.class === "off-map") {
+        await this._generate1024Shuriken(srcBuffer, dst1024filename);
+      } else {
+        await this._generate1024(srcBuffer, dst1024filename);
+      }
       await this._generate512(srcBuffer, dst512filename);
     }
   }
@@ -121,11 +129,11 @@ export class GenSystems extends AbstractGen {
 
     const modelFileFace: string =
       system.class === "off-map"
-        ? "tile/system/system-tile-off-map.face.obj"
+        ? "tile/system/system-tile-off-map.back.obj" // shuriken flipped
         : "tile/system/system-tile.obj";
     const modelFileBack: string =
       system.class === "off-map"
-        ? "tile/system/system-tile-off-map.back.obj"
+        ? "tile/system/system-tile-off-map.face.obj"
         : "tile/system/system-tile.obj";
 
     template.GUID = getGuid(templateFilename);
@@ -159,6 +167,28 @@ export class GenSystems extends AbstractGen {
       },
     })
       .composite([{ input: jpg884, blend: "over", left: 70, top: 70 }])
+      .jpeg({ quality: 90 })
+      .toBuffer();
+    this.addOutputFile(dst1024filename, jpg1024);
+  }
+
+  async _generate1024Shuriken(
+    srcBuffer: Buffer,
+    dst1024filename: string
+  ): Promise<void> {
+    const jpg884: Buffer = await sharp(srcBuffer)
+      .resize(1022, 1022, { fit: "contain", position: "center" })
+      .jpeg({ quality: 90 })
+      .toBuffer();
+    const jpg1024: Buffer = await sharp({
+      create: {
+        width: 1024,
+        height: 1024,
+        channels: 4,
+        background: { r: 0, g: 0, b: 0, alpha: 0 },
+      },
+    })
+      .composite([{ input: jpg884, blend: "over", left: 1, top: 1 }])
       .jpeg({ quality: 90 })
       .toBuffer();
     this.addOutputFile(dst1024filename, jpg1024);
