@@ -10,7 +10,6 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "rootDir": "./src",
-    "baseUrl": "./src",
     "outDir": "./build",
     "moduleResolution": "node16",
     "target": "ES6",

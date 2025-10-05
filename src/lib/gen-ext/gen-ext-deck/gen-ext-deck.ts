@@ -15,6 +15,7 @@ export class GenExtDeck extends AbstractGen {
   private _deckType: string = "";
   private _isLandscape: boolean = false;
   private _isSharedBack: boolean = false;
+  private _tag: string | undefined;
 
   private _overrideOutputDeckType: string | undefined = undefined;
 
@@ -39,6 +40,11 @@ export class GenExtDeck extends AbstractGen {
 
   setOverrideOutputDeckType(deckType: string): this {
     this._overrideOutputDeckType = deckType;
+    return this;
+  }
+
+  setTag(tag: string): this {
+    this._tag = tag;
     return this;
   }
 
@@ -133,6 +139,10 @@ export class GenExtDeck extends AbstractGen {
         "card",
         `${this._deckType}.back.jpg`
       );
+    }
+
+    if (this._tag) {
+      createCardsheetParams.applyAllTags = [this._tag];
     }
 
     const filenameToData: {

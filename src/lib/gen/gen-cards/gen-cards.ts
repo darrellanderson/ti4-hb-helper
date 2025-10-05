@@ -96,6 +96,13 @@ export class GenCards extends AbstractGen {
       const back: string = `${prebuild}/card/${type}.back.jpg`;
       fs.cpSync(`${__dirname}/../../../../src/data/jpg/${type}.back.jpg`, back);
 
+      let tag: string = `card-${type}`;
+      if (tag === "card-objective-public-1") {
+        tag = "card-objective-1";
+      } else if (tag === "card-objective-public-2") {
+        tag = "card-objective-2";
+      }
+
       const createCardsheetParams: CreateCardsheetParams = {
         assetFilename: `card/${type}/${source}`,
         templateName: nsidNameToName(type),
@@ -103,6 +110,7 @@ export class GenCards extends AbstractGen {
         cardSizeWorld: { width: 4.2, height: 6.3 },
         cards,
         back,
+        applyAllTags: [tag],
       };
 
       if (type === "event") {
