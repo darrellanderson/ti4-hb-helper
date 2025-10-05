@@ -48,7 +48,7 @@ export class GenFactionReference extends AbstractGen {
     const createCardsheetParams: CreateCardsheetParams = {
       assetFilename: `card/faction-reference/${source}`,
       templateName: "Faction Reference",
-      cardSizePixel: { width: 969, height: 682 },
+      cardSizePixel: { width: 1417, height: 826 },
       cardSizeWorld: { width: 8.8, height: 6.3 },
       cards,
       back,
