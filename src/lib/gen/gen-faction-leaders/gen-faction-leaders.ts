@@ -20,13 +20,19 @@ export class GenFactionLeaders extends AbstractGen {
 
     this.getFactions().forEach((faction: FactionSchemaType): void => {
       const prebuildDir: string = this.getPrebuildDir();
+
+      const cardNsids: Set<string> = new Set<string>(); // skip duplicates
       const addCard = (leaderType: string, cardNsidName: string): void => {
-        cards.push({
-          name: nsidNameToName(cardNsidName),
-          face: `${prebuildDir}/card/leader/${leaderType}/${cardNsidName}.face.jpg`,
-          back: `${prebuildDir}/card/leader/${leaderType}/${cardNsidName}.back.jpg`,
-          metadata: `card.leader.${leaderType}:${source}/${cardNsidName}`,
-        });
+        const cardNsid: string = `card.leader.${leaderType}:${source}/${cardNsidName}`;
+        if (!cardNsids.has(cardNsid)) {
+          cardNsids.add(cardNsid);
+          cards.push({
+            name: nsidNameToName(cardNsidName),
+            face: `${prebuildDir}/card/leader/${leaderType}/${cardNsidName}.face.jpg`,
+            back: `${prebuildDir}/card/leader/${leaderType}/${cardNsidName}.back.jpg`,
+            metadata: cardNsid,
+          });
+        }
       };
 
       faction.leaders.agents.forEach((agent: string): void => {
