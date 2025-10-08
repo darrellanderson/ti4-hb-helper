@@ -1,6 +1,6 @@
 {
   "name": "ti4-hb-helper",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Create TI4 homebrew templates and such",
   "license": "Unlicense",
   "main": "build/index.js",

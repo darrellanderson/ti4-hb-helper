@@ -15,13 +15,13 @@ export class GenFactionLeaders extends AbstractGen {
   }
 
   async generate(errors: Array<string>): Promise<void> {
+    const cardNsids: Set<string> = new Set<string>(); // skip duplicates
     const cards: Array<CardsheetCardType> = [];
     const source: string = this.getSource();
 
     this.getFactions().forEach((faction: FactionSchemaType): void => {
       const prebuildDir: string = this.getPrebuildDir();
 
-      const cardNsids: Set<string> = new Set<string>(); // skip duplicates
       const addCard = (leaderType: string, cardNsidName: string): void => {
         const cardNsid: string = `card.leader.${leaderType}:${source}/${cardNsidName}`;
         if (!cardNsids.has(cardNsid)) {
