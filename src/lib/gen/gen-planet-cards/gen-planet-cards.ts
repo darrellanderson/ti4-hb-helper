@@ -23,9 +23,36 @@ export class GenPlanetCards extends AbstractGen {
     const legendaryCards: Array<CardsheetCardType> = [];
     const source: string = this.getSource();
 
+    const seenNsidNames: Set<string> = new Set<string>();
     const prebuildDir: string = this.getPrebuildDir();
     this.getSystems().forEach((system: SystemSchemaType): void => {
       system.planets?.forEach((planet: PlanetSchemaType): void => {
+        if (seenNsidNames.has(planet.nsidName)) {
+          return;
+        }
+        seenNsidNames.add(planet.nsidName);
+        planetCards.push({
+          name: nsidNameToName(planet.nsidName),
+          face: `${prebuildDir}/card/planet/${planet.nsidName}.face.jpg`,
+          back: `${prebuildDir}/card/planet/${planet.nsidName}.back.jpg`,
+          metadata: `card.planet:${source}/${planet.nsidName}`,
+        });
+
+        const legendaryNsidName: string | undefined = planet.legendaryNsidName;
+        if (legendaryNsidName) {
+          legendaryCards.push({
+            name: nsidNameToName(legendaryNsidName),
+            face: `${prebuildDir}/card/legendary-planet/${legendaryNsidName}.face.jpg`,
+            back: `${prebuildDir}/card/legendary-planet/${legendaryNsidName}.back.jpg`,
+            metadata: `card.legendary-planet:${source}/${legendaryNsidName}`,
+          });
+        }
+      });
+      system.planetsFaceDown?.forEach((planet: PlanetSchemaType): void => {
+        if (seenNsidNames.has(planet.nsidName)) {
+          return;
+        }
+        seenNsidNames.add(planet.nsidName);
         planetCards.push({
           name: nsidNameToName(planet.nsidName),
           face: `${prebuildDir}/card/planet/${planet.nsidName}.face.jpg`,
