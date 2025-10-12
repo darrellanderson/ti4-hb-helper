@@ -1,4 +1,8 @@
-import { FactionSchemaType, HomebrewModuleType } from "ti4-ttpg-ts";
+import {
+  BreakthroughSchemaType,
+  FactionSchemaType,
+  HomebrewModuleType,
+} from "ti4-ttpg-ts";
 import {
   CardsheetCardType,
   CreateCardsheet,
@@ -21,14 +25,17 @@ export class GenFactionBreakthrough extends AbstractGen {
     const prebuildDir: string = this.getPrebuildDir();
 
     this.getFactions().forEach((faction: FactionSchemaType): void => {
-      faction.breakthroughs?.forEach((cardNsidName: string): void => {
-        cards.push({
-          name: nsidNameToName(cardNsidName),
-          face: `${prebuildDir}/card/breakthrough/${cardNsidName}.face.jpg`,
-          back: `${prebuildDir}/card/breakthrough/${cardNsidName}.back.jpg`,
-          metadata: `card.breakthrough:${source}/${cardNsidName}`,
-        });
-      });
+      faction.breakthroughs?.forEach(
+        (breakthrough: BreakthroughSchemaType): void => {
+          const cardNsidName: string = breakthrough.breakthrough;
+          cards.push({
+            name: nsidNameToName(cardNsidName),
+            face: `${prebuildDir}/card/breakthrough/${cardNsidName}.face.jpg`,
+            back: `${prebuildDir}/card/breakthrough/${cardNsidName}.back.jpg`,
+            metadata: `card.breakthrough:${source}/${cardNsidName}`,
+          });
+        }
+      );
     });
 
     let missingCard: boolean = false;
