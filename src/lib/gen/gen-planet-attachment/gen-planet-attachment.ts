@@ -53,10 +53,10 @@ export class GenPlanetAttachment extends AbstractGen {
     const nsidName: string = planetAttachmentSchema.nsidName;
     const nsid: string = `token.attachment.planet:${source}/${nsidName}`;
 
-    let imgFileFace: string = `token/attachment/planet/${nsidName}.jpg`;
+    let imgFileFace: string = `token/attachment/planet/${nsidName}.png`;
     let imgFileBack: string = imgFileFace;
     if (planetAttachmentSchema.imgFaceDown) {
-      imgFileBack = `token/attachment/planet/${nsidName}.back.jpg`;
+      imgFileBack = `token/attachment/planet/${nsidName}.back.png`;
     }
     let modelFileFace: string = "token/round.obj";
     let modelFileBack: string = "token/round.obj";
@@ -68,20 +68,6 @@ export class GenPlanetAttachment extends AbstractGen {
     const GUID: string = getGuid(templateFilename);
 
     const prebuildDir: string = this.getPrebuildDir();
-
-    // Swap to PNG if no JPG.
-    if (!fs.existsSync(`${prebuildDir}/${imgFileFace}`)) {
-      const png: string = imgFileFace.replace(/\.jpg$/, ".png");
-      if (fs.existsSync(`${prebuildDir}/${png}`)) {
-        imgFileFace = png;
-      }
-    }
-    if (!fs.existsSync(`${prebuildDir}/${imgFileBack}`)) {
-      const png: string = imgFileBack.replace(/\.jpg$/, ".png");
-      if (fs.existsSync(`${prebuildDir}/${png}`)) {
-        imgFileBack = png;
-      }
-    }
 
     const template = JSON.parse(JSON.stringify(TOKEN_TEMPLATE));
     template.GUID = GUID;

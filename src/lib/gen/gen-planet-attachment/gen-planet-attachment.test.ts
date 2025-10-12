@@ -15,8 +15,8 @@ it("output files", async () => {
     "Models/token/round.obj",
     "Templates/token/attachment/planet/my-planet-attachment-face-down.json",
     "Templates/token/attachment/planet/my-planet-attachment.json",
-    "Textures/token/attachment/planet/my-planet-attachment-face-down.back.jpg",
-    "Textures/token/attachment/planet/my-planet-attachment-face-down.jpg",
-    "Textures/token/attachment/planet/my-planet-attachment.jpg",
+    "Textures/token/attachment/planet/my-planet-attachment-face-down.back.png",
+    "Textures/token/attachment/planet/my-planet-attachment-face-down.png",
+    "Textures/token/attachment/planet/my-planet-attachment.png",
   ]);
 });
