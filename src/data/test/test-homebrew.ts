@@ -73,6 +73,12 @@ const systems: Array<SystemSchemaType> = [
         legendaryNsidName: "my-legendary-planet",
       },
     ],
+    planetsFaceDown: [
+      {
+        name: "My Planet Face Down",
+        nsidName: "my-planet-face-down",
+      },
+    ],
   },
 
   {
