@@ -9,7 +9,7 @@ import {
 
 import fs from "fs";
 import path from "path";
-import imageminOptipng from "imagemin-optipng";
+import { PNG, PNGWithMetadata } from "pngjs";
 
 export abstract class AbstractGen {
   private readonly _homebrew: HomebrewModuleType;
@@ -82,19 +82,16 @@ export abstract class AbstractGen {
       filename = AbstractGen._validateFilenameOrThrow(filename);
       console.log(`Writing file: ${filename}`);
 
-      const dir: string = path.dirname(filename);
-      fs.mkdirSync(dir, { recursive: true });
-      fs.writeFileSync(filename, data);
-
       // Sharp PNGs appear to have issues with some players' TTPG.
       // Reencode with another tool.
       if (filename.endsWith(".png")) {
-        const imagemin = (await import("imagemin")).default;
-        await imagemin([filename], {
-          destination: filename,
-          plugins: [imageminOptipng({ optimizationLevel: 7 })],
-        });
+        const png: PNGWithMetadata = PNG.sync.read(data);
+        data = PNG.sync.write(png, {});
       }
+
+      const dir: string = path.dirname(filename);
+      fs.mkdirSync(dir, { recursive: true });
+      fs.writeFileSync(filename, data);
     }
   }
 
