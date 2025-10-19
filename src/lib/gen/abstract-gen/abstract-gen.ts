@@ -90,8 +90,7 @@ export abstract class AbstractGen {
       // Reencode with another tool.
       if (filename.endsWith(".png")) {
         const jimpImage = await Jimp.read(filename);
-        await jimpImage.write("_tmp_.png");
-        fs.renameSync("_tmp_.png", filename);
+        await jimpImage.write(filename as `${string}.${string}`);
       }
     }
   }
