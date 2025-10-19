@@ -9,7 +9,7 @@ import {
 
 import fs from "fs";
 import path from "path";
-import { Jimp } from "jimp";
+import imageminOptipng from "imagemin-optipng";
 
 export abstract class AbstractGen {
   private readonly _homebrew: HomebrewModuleType;
@@ -89,8 +89,11 @@ export abstract class AbstractGen {
       // Sharp PNGs appear to have issues with some players' TTPG.
       // Reencode with another tool.
       if (filename.endsWith(".png")) {
-        const jimpImage = await Jimp.read(filename);
-        await jimpImage.write(filename as `${string}.${string}`);
+        const imagemin = (await import("imagemin")).default;
+        await imagemin([filename], {
+          destination: filename,
+          plugins: [imageminOptipng({ optimizationLevel: 7 })],
+        });
       }
     }
   }
