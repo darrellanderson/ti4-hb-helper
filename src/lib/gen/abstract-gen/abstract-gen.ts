@@ -9,6 +9,7 @@ import {
 
 import fs from "fs";
 import path from "path";
+import { Jimp } from "jimp";
 
 export abstract class AbstractGen {
   private readonly _homebrew: HomebrewModuleType;
@@ -76,15 +77,23 @@ export abstract class AbstractGen {
     return this._homebrew.technologies ?? [];
   }
 
-  writeOutputFiles(): void {
-    this._filenameToData.forEach((data: Buffer, filename: string) => {
+  async writeOutputFiles(): Promise<void> {
+    for (let [filename, data] of this._filenameToData.entries()) {
       filename = AbstractGen._validateFilenameOrThrow(filename);
       console.log(`Writing file: ${filename}`);
 
       const dir: string = path.dirname(filename);
       fs.mkdirSync(dir, { recursive: true });
       fs.writeFileSync(filename, data);
-    });
+
+      // Sharp PNGs appear to have issues with some players' TTPG.
+      // Reencode with another tool.
+      if (filename.endsWith(".png")) {
+        const jimpImage = await Jimp.read(filename);
+        jimpImage.write("_tmp_.png");
+        fs.renameSync("_tmp_.png", filename);
+      }
+    }
   }
 
   static _validateFilenameOrThrow(filename: string): string {

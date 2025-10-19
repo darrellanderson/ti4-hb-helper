@@ -45,10 +45,10 @@ export class GenAll extends AbstractGen {
     }
   }
 
-  writeOutputFiles(): void {
+  async writeOutputFiles(): Promise<void> {
     super.writeOutputFiles();
     for (const gen of this._gens) {
-      gen.writeOutputFiles();
+      await gen.writeOutputFiles();
     }
   }
 }

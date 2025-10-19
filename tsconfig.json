@@ -3,6 +3,7 @@
     "checkJs": true,
     "lib": ["ES2023", "DOM"],
     "module": "node16",
+    "isolatedModules": true,
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "useUnknownInCatchVariables": false,
