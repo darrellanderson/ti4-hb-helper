@@ -87,25 +87,38 @@ export abstract class AbstractGen {
       fs.writeFileSync(filename, data);
       if (!fs.existsSync(filename)) {
         console.error(`File not created: ${filename}`);
-      }
-
-      // Sharp PNGs appear to have issues with some players' TTPG.
-      // Reencode with another tool.
-      else if (filename.endsWith(".png")) {
-        const tempFilename = filename + ".tmp.png";
-        const cmd: string = `/usr/local/bin/magick ${filename} ${tempFilename}`;
-        const stdOut = execSync(cmd, { timeout: 5000 });
-        console.log("magick:", `"${cmd}"`, `"${stdOut.toString()}"`);
-        if (!fs.existsSync(tempFilename)) {
-          console.error(`Temporary file not created: ${tempFilename}`);
-        } else {
-          fs.renameSync(tempFilename, filename);
+      } else if (filename.endsWith(".png")) {
+        // Sharp PNGs appear to have issues with some players' TTPG.
+        // Reencode with another tool.
+        let retriesRemaining: number = 10;
+        while (retriesRemaining > 0) {
+          const success: boolean = await AbstractGen._redoPng(filename);
+          if (success) {
+            console.log(`SUCCESS reencoded PNG: ${filename}`);
+            break;
+          }
+          // Generating too many PNGs can cause some failures, give the process a break.
+          retriesRemaining--;
+          await new Promise((resolve) => setTimeout(resolve, 20));
         }
-
-        // Generating too many PNGs can cause some failures, give the process a break.
-        await new Promise((resolve) => setTimeout(resolve, 10));
       }
     }
+  }
+
+  static async _redoPng(filename: string): Promise<boolean> {
+    return new Promise((resolve) => {
+      const tempFilename = filename + ".tmp.png";
+      const cmd: string = `/usr/local/bin/magick ${filename} ${tempFilename}`;
+      const stdOut = execSync(cmd, { timeout: 5000 });
+      console.log("magick:", `"${cmd}"`, `"${stdOut.toString()}"`);
+      if (!fs.existsSync(tempFilename)) {
+        console.error(`Temporary file not created: ${tempFilename}`);
+        resolve(false);
+      } else {
+        fs.renameSync(tempFilename, filename);
+        resolve(true);
+      }
+    });
   }
 
   static _validateFilenameOrThrow(filename: string): string {
