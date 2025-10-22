@@ -9,7 +9,8 @@ import {
 
 import fs from "fs";
 import path from "path";
-import { PNG, PNGWithMetadata } from "pngjs";
+
+import imagemagick from "imagemagick";
 
 export abstract class AbstractGen {
   private readonly _homebrew: HomebrewModuleType;
@@ -85,8 +86,14 @@ export abstract class AbstractGen {
       // Sharp PNGs appear to have issues with some players' TTPG.
       // Reencode with another tool.
       if (filename.endsWith(".png")) {
-        const png: PNGWithMetadata = PNG.sync.read(data);
-        data = PNG.sync.write(png, {});
+        const tempFilename = filename + ".tmp.png";
+        await new Promise<void>((resolve, reject) => {
+          const callback = (err: Error, result: any): void => {
+            resolve();
+          };
+          imagemagick.convert([filename, tempFilename], callback);
+        });
+        fs.renameSync(tempFilename, filename);
       }
 
       const dir: string = path.dirname(filename);
