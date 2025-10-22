@@ -101,6 +101,9 @@ export abstract class AbstractGen {
         } else {
           fs.renameSync(tempFilename, filename);
         }
+
+        // Generating too many PNGs can cause some failures, give the process a break.
+        await new Promise((resolve) => setTimeout(resolve, 10));
       }
     }
   }
