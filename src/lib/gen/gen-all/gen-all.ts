@@ -46,7 +46,7 @@ export class GenAll extends AbstractGen {
   }
 
   async writeOutputFiles(): Promise<void> {
-    super.writeOutputFiles();
+    await super.writeOutputFiles();
     for (const gen of this._gens) {
       await gen.writeOutputFiles();
     }

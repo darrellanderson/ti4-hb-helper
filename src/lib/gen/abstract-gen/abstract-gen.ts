@@ -85,18 +85,22 @@ export abstract class AbstractGen {
       const dir: string = path.dirname(filename);
       fs.mkdirSync(dir, { recursive: true });
       fs.writeFileSync(filename, data);
+      if (!fs.existsSync(filename)) {
+        console.error(`File not created: ${filename}`);
+      }
 
       // Sharp PNGs appear to have issues with some players' TTPG.
       // Reencode with another tool.
-      if (filename.endsWith(".png")) {
+      else if (filename.endsWith(".png")) {
         const tempFilename = filename + ".tmp.png";
         const cmd: string = `/usr/local/bin/magick ${filename} ${tempFilename}`;
         const stdOut = execSync(cmd, { timeout: 5000 });
-        console.log("magick output:", stdOut.toString());
+        console.log("magick:", `"${cmd}"`, `"${stdOut.toString()}"`);
         if (!fs.existsSync(tempFilename)) {
-          throw new Error(`Temporary file not created: ${tempFilename}`);
+          console.error(`Temporary file not created: ${tempFilename}`);
+        } else {
+          fs.renameSync(tempFilename, filename);
         }
-        fs.renameSync(tempFilename, filename);
       }
     }
   }
