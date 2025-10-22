@@ -9,7 +9,7 @@ import {
 
 import fs from "fs";
 import path from "path";
-import { exec, ExecException } from "child_process";
+import { exec, ExecException, execSync } from "child_process";
 
 export abstract class AbstractGen {
   private readonly _homebrew: HomebrewModuleType;
@@ -90,22 +90,13 @@ export abstract class AbstractGen {
       // Reencode with another tool.
       if (filename.endsWith(".png")) {
         const tempFilename = filename + ".tmp.png";
-        await new Promise<void>((resolve, reject) => {
-          const callback = (
-            error: ExecException | null,
-            stdout: string,
-            stderr: string
-          ): void => {
-            if (error) {
-              reject(error);
-            } else {
-              fs.renameSync(tempFilename, filename);
-              resolve();
-            }
-          };
-          const cmd: string = `/usr/local/bin/magick ${filename} ${tempFilename}`;
-          exec(cmd, callback);
-        });
+        const cmd: string = `/usr/local/bin/magick ${filename} ${tempFilename}`;
+        const stdOut = execSync(cmd, { timeout: 5000 });
+        console.log("magick output:", stdOut.toString());
+        if (!fs.existsSync(tempFilename)) {
+          throw new Error(`Temporary file not created: ${tempFilename}`);
+        }
+        fs.renameSync(tempFilename, filename);
       }
     }
   }
