@@ -9,8 +9,7 @@ import {
 
 import fs from "fs";
 import path from "path";
-
-import imagemagick from "imagemagick";
+import { exec, ExecException } from "child_process";
 
 export abstract class AbstractGen {
   private readonly _homebrew: HomebrewModuleType;
@@ -92,12 +91,21 @@ export abstract class AbstractGen {
       if (filename.endsWith(".png")) {
         const tempFilename = filename + ".tmp.png";
         await new Promise<void>((resolve, reject) => {
-          const callback = (err: Error, result: any): void => {
-            resolve();
+          const callback = (
+            error: ExecException | null,
+            stdout: string,
+            stderr: string
+          ): void => {
+            if (error) {
+              reject(error);
+            } else {
+              fs.renameSync(tempFilename, filename);
+              resolve();
+            }
           };
-          imagemagick.convert([filename, tempFilename], callback);
+          const cmd: string = `/usr/local/bin/magick ${filename} ${tempFilename}`;
+          exec(cmd, callback);
         });
-        fs.renameSync(tempFilename, filename);
       }
     }
   }
