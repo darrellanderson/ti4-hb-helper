@@ -83,6 +83,10 @@ export abstract class AbstractGen {
       filename = AbstractGen._validateFilenameOrThrow(filename);
       console.log(`Writing file: ${filename}`);
 
+      const dir: string = path.dirname(filename);
+      fs.mkdirSync(dir, { recursive: true });
+      fs.writeFileSync(filename, data);
+
       // Sharp PNGs appear to have issues with some players' TTPG.
       // Reencode with another tool.
       if (filename.endsWith(".png")) {
@@ -95,10 +99,6 @@ export abstract class AbstractGen {
         });
         fs.renameSync(tempFilename, filename);
       }
-
-      const dir: string = path.dirname(filename);
-      fs.mkdirSync(dir, { recursive: true });
-      fs.writeFileSync(filename, data);
     }
   }
 
