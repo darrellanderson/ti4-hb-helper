@@ -9,7 +9,7 @@ import {
 
 import fs from "fs";
 import path from "path";
-import { exec, ExecException, execSync } from "child_process";
+import { execSync } from "child_process";
 
 export abstract class AbstractGen {
   private readonly _homebrew: HomebrewModuleType;
@@ -88,24 +88,31 @@ export abstract class AbstractGen {
       if (!fs.existsSync(filename)) {
         console.error(`File not created: ${filename}`);
       } else if (filename.endsWith(".png")) {
-        // Sharp PNGs appear to have issues with some players' TTPG.
-        // Reencode with another tool.
-        let retriesRemaining: number = 10;
-        while (retriesRemaining > 0) {
-          const success: boolean = await AbstractGen._redoPng(filename);
-          if (success) {
-            console.log(`SUCCESS reencoded PNG: ${filename}`);
-            break;
-          }
-          // Generating too many PNGs can cause some failures, give the process a break.
-          retriesRemaining--;
-          await new Promise((resolve) => setTimeout(resolve, 20));
-        }
+        // Reencode PNG files to avoid issues with some players' TTPG.
+        // NO, THIS APPEARS TO BE SOMETHING ELSE IS WRONG.
       }
     }
   }
 
-  static async _redoPng(filename: string): Promise<boolean> {
+  static async _redoPngWithRetries(filename: string): Promise<boolean> {
+    return new Promise(async (resolve) => {
+      // Sharp PNGs appear to have issues with some players' TTPG.
+      // Reencode with another tool.
+      let retriesRemaining: number = 10;
+      while (retriesRemaining > 0) {
+        const success: boolean = await AbstractGen._redoPngOnce(filename);
+        if (success) {
+          console.log(`SUCCESS reencoded PNG: ${filename}`);
+          break;
+        }
+        // Generating too many PNGs can cause some failures, give the process a break.
+        retriesRemaining--;
+        await new Promise((resolve) => setTimeout(resolve, 20));
+      }
+    });
+  }
+
+  static async _redoPngOnce(filename: string): Promise<boolean> {
     return new Promise((resolve) => {
       const tempFilename = filename + ".tmp.png";
       const cmd: string = `/usr/local/bin/magick ${filename} ${tempFilename}`;
@@ -133,7 +140,7 @@ export abstract class AbstractGen {
       "Textures",
     ]);
 
-    const parts: Array<string> = filename.split("/");
+    const parts: Array<string> = filename.split(path.sep);
     const firstPart: string | undefined = parts[0];
     const secondPart: string | undefined = parts[1];
     if (!firstPart || firstPart !== "assets") {

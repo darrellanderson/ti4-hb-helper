@@ -42,7 +42,7 @@ export class GenCards extends AbstractGen {
    */
   _getCards(type: string): Array<CardsheetCardType> | undefined {
     const prebuild: string = this.getPrebuildDir();
-    const root: string = `${prebuild}/card/${type}`;
+    const root: string = path.join(prebuild, "card", type);
 
     if (!fs.existsSync(root) || !fs.statSync(root).isDirectory()) {
       return undefined;
@@ -59,7 +59,7 @@ export class GenCards extends AbstractGen {
       const nsidName = path.basename(filename).replace(/\.jpg$/, "");
 
       // filename path is absolute, we want relative.
-      const face: string = `${prebuild}/card/${type}/${nsidName}.jpg`;
+      const face: string = path.join(prebuild, "card", type, `${nsidName}.jpg`);
       if (!fs.existsSync(face)) {
         throw new Error(`Face image not found: ${face}`);
       }
@@ -93,8 +93,21 @@ export class GenCards extends AbstractGen {
       }
 
       const prebuild: string = this.getPrebuildDir();
-      const back: string = `${prebuild}/card/${type}.back.jpg`;
-      fs.cpSync(`${__dirname}/../../../../src/data/jpg/${type}.back.jpg`, back);
+      const back: string = path.join(prebuild, "card", `${type}.back.jpg`);
+      fs.cpSync(
+        path.join(
+          __dirname,
+          "..",
+          "..",
+          "..",
+          "..",
+          "src",
+          "data",
+          "jpg",
+          `${type}.back.jpg`
+        ),
+        back
+      );
 
       let tag: string = `card-${type}`;
       if (tag === "card-objective-public-1") {
