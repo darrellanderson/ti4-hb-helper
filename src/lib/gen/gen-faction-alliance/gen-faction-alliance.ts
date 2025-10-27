@@ -22,12 +22,14 @@ export class GenFactionAlliance extends AbstractGen {
     const back: string = `${prebuildDir}/card/alliance/alliance.back.jpg`;
     fs.cpSync(`${__dirname}/../../../../src/data/jpg/alliance.back.jpg`, back);
     this.getFactions().forEach((faction: FactionSchemaType): void => {
-      const cardNsidName: string = faction.nsidName;
-      cards.push({
-        name: nsidNameToName(cardNsidName),
-        face: `${prebuildDir}/card/alliance/${cardNsidName}.jpg`,
-        metadata: `card.alliance:${source}/${cardNsidName}`,
-      });
+      if (faction.leaders.commanders.length > 0) {
+        const cardNsidName: string = faction.nsidName;
+        cards.push({
+          name: nsidNameToName(cardNsidName),
+          face: `${prebuildDir}/card/alliance/${cardNsidName}.jpg`,
+          metadata: `card.alliance:${source}/${cardNsidName}`,
+        });
+      }
     });
 
     let missingCard: boolean = false;
