@@ -35,6 +35,7 @@ export class GenFactionIcon extends AbstractGen {
         .resize(108, 108, {
           fit: "contain",
           position: "center",
+          background: { r: 0, g: 0, b: 0, alpha: 0 },
         })
         .png()
         .toBuffer();
