@@ -4,6 +4,7 @@ import { SYSTEM_TILE_TEMPLATE } from "../../../data/template/system-tile.templat
 import { getGuid } from "../../../lib/guid/guid";
 
 import fs from "fs";
+import path from "path";
 import sharp from "sharp";
 
 export class GenSystems extends AbstractGen {
@@ -29,7 +30,12 @@ export class GenSystems extends AbstractGen {
 
     const prebuildDir: string = this.getPrebuildDir();
     const tileStr: string = system.tile.toString().padStart(3, "0");
-    let srcFilename: string = `${prebuildDir}/tile/system/tile-${tileStr}.jpg`;
+    let srcFilename: string = path.join(
+      prebuildDir,
+      "tile",
+      "system",
+      `tile-${tileStr}.jpg`
+    );
     if (!fs.existsSync(srcFilename)) {
       errors.push(`System tile image not found: ${srcFilename}`);
       return;
@@ -41,8 +47,18 @@ export class GenSystems extends AbstractGen {
       .png()
       .toBuffer();
 
-    let dst1024filename: string = `Textures/tile/system/tile-${tileStr}.jpg`;
-    let dst512filename: string = `Textures/tile/system/tile-${tileStr}.png`;
+    let dst1024filename: string = path.join(
+      "Textures",
+      "tile",
+      "system",
+      `tile-${tileStr}.jpg`
+    );
+    let dst512filename: string = path.join(
+      "Textures",
+      "tile",
+      "system",
+      `tile-${tileStr}.png`
+    );
 
     if (system.class === "off-map") {
       await this._generate1024Shuriken(srcBuffer, dst1024filename);
@@ -79,12 +95,21 @@ export class GenSystems extends AbstractGen {
       "system-tile.col.obj",
       "system-tile.obj",
     ];
-    const srcDir: string = `${__dirname}/../../../../src/data/model`;
-    const dstDir: string = "Models/tile/system";
+    const srcDir: string = path.join(
+      __dirname,
+      "..",
+      "..",
+      "..",
+      "..",
+      "src",
+      "data",
+      "model"
+    );
+    const dstDir: string = path.join("Models", "tile", "system");
 
     models.forEach((model) => {
-      const srcFile = `${srcDir}/${model}`;
-      const dstFile = `${dstDir}/${model}`;
+      const srcFile = path.join(srcDir, model);
+      const dstFile = path.join(dstDir, model);
       if (!fs.existsSync(srcFile)) {
         throw new Error(`Model file not found: ${srcFile}`);
       }
@@ -94,12 +119,21 @@ export class GenSystems extends AbstractGen {
 
   _generateDefaultBacks() {
     const backs: Array<string> = ["blue", "green", "red"];
-    const srcDir: string = `${__dirname}/../../../../src/data/jpg`;
-    const dstDir: string = "Textures/tile/system";
+    const srcDir: string = path.join(
+      __dirname,
+      "..",
+      "..",
+      "..",
+      "..",
+      "src",
+      "data",
+      "jpg"
+    );
+    const dstDir: string = path.join("Textures", "tile", "system");
 
     backs.forEach((back) => {
-      const srcFile = `${srcDir}/${back}.back.jpg`;
-      const dstFile = `${dstDir}/${back}.back.jpg`;
+      const srcFile = path.join(srcDir, `${back}.back.jpg`);
+      const dstFile = path.join(dstDir, `${back}.back.jpg`);
       if (!fs.existsSync(srcFile)) {
         throw new Error(`Back image not found: ${srcFile}`);
       }
@@ -110,31 +144,50 @@ export class GenSystems extends AbstractGen {
   _generateTemplate(system: SystemSchemaType) {
     const tileStr: string = system.tile.toString().padStart(3, "0");
     const template = JSON.parse(JSON.stringify(SYSTEM_TILE_TEMPLATE)); // copy
-    const templateFilename: string = `Templates/tile/system/system-${tileStr}.json`;
+    const templateFilename: string = path.join(
+      "Templates",
+      "tile",
+      "system",
+      `system-${tileStr}.json`
+    );
 
-    const imgFileFace: string = `tile/system/tile-${tileStr}.jpg`;
+    const imgFileFace: string = path
+      .join("tile", "system", `tile-${tileStr}.jpg`)
+      .replace(/\\/g, "/");
     let imgFileBack: string = "";
     if (system.imgFaceDown) {
-      imgFileBack = `tile/system/tile-${tileStr}.back.jpg`;
+      imgFileBack = path
+        .join("tile", "system", `tile-${tileStr}.back.jpg`)
+        .replace(/\\/g, "/");
     } else if (system.isHome) {
-      imgFileBack = "tile/system/green.back.jpg";
+      imgFileBack = path
+        .join("tile", "system", "green.back.jpg")
+        .replace(/\\/g, "/");
     } else if (
       (system.anomalies ?? []).length > 0 ||
       (system.planets ?? []).length === 0
     ) {
-      imgFileBack = "tile/system/red.back.jpg";
+      imgFileBack = path
+        .join("tile", "system", "red.back.jpg")
+        .replace(/\\/g, "/");
     } else {
-      imgFileBack = "tile/system/blue.back.jpg";
+      imgFileBack = path
+        .join("tile", "system", "blue.back.jpg")
+        .replace(/\\/g, "/");
     }
 
     const modelFileFace: string =
       system.class === "off-map"
-        ? "tile/system/system-tile-off-map.back.obj" // shuriken flipped
-        : "tile/system/system-tile.obj";
+        ? path
+            .join("tile", "system", "system-tile-off-map.back.obj")
+            .replace(/\\/g, "/") // shuriken flipped
+        : path.join("tile", "system", "system-tile.obj").replace(/\\/g, "/");
     const modelFileBack: string =
       system.class === "off-map"
-        ? "tile/system/system-tile-off-map.face.obj"
-        : "tile/system/system-tile.obj";
+        ? path
+            .join("tile", "system", "system-tile-off-map.face.obj")
+            .replace(/\\/g, "/")
+        : path.join("tile", "system", "system-tile.obj").replace(/\\/g, "/");
 
     template.GUID = getGuid(templateFilename);
     template.Metadata = `tile.system:${this.getSource()}/${system.tile}`;
@@ -195,7 +248,19 @@ export class GenSystems extends AbstractGen {
   }
 
   async _generate512(srcBuffer: Buffer, dst512filename: string): Promise<void> {
-    const mask = await sharp(`${__dirname}/../../../../src/data/png/blank.png`)
+    const mask = await sharp(
+      path.join(
+        __dirname,
+        "..",
+        "..",
+        "..",
+        "..",
+        "src",
+        "data",
+        "png",
+        "blank.png"
+      )
+    )
       .resize(512, 512, { fit: "contain", position: "center" })
       .extractChannel("alpha")
       .toBuffer();

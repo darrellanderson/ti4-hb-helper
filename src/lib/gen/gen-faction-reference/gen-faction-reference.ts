@@ -7,6 +7,7 @@ import {
 import { AbstractGen } from "../abstract-gen/abstract-gen";
 
 import fs from "fs";
+import path from "path";
 
 export class GenFactionReference extends AbstractGen {
   constructor(homebrew: HomebrewModuleType) {
@@ -18,9 +19,24 @@ export class GenFactionReference extends AbstractGen {
     const source: string = this.getSource();
 
     const prebuildDir: string = this.getPrebuildDir();
-    const back: string = `${prebuildDir}/card/faction-reference/faction-reference.back.jpg`;
+    const back: string = path.join(
+      prebuildDir,
+      "card",
+      "faction-reference",
+      "faction-reference.back.jpg"
+    );
     fs.cpSync(
-      `${__dirname}/../../../../src/data/jpg/faction-reference.back.jpg`,
+      path.join(
+        __dirname,
+        "..",
+        "..",
+        "..",
+        "..",
+        "src",
+        "data",
+        "jpg",
+        "faction-reference.back.jpg"
+      ),
       back
     );
 
@@ -28,7 +44,12 @@ export class GenFactionReference extends AbstractGen {
       if (!faction.skipFactionReferenceCard) {
         cards.push({
           name: faction.name,
-          face: `${prebuildDir}/card/faction-reference/${faction.nsidName}.jpg`,
+          face: path.join(
+            prebuildDir,
+            "card",
+            "faction-reference",
+            `${faction.nsidName}.jpg`
+          ),
           metadata: `card.faction-reference:${source}/${faction.nsidName}`,
         });
       }
@@ -46,7 +67,9 @@ export class GenFactionReference extends AbstractGen {
     }
 
     const createCardsheetParams: CreateCardsheetParams = {
-      assetFilename: `card/faction-reference/${source}`,
+      assetFilename: path
+        .join("card", "faction-reference", source)
+        .replace(/\\/g, "/"),
       templateName: "Faction Reference",
       cardSizePixel: { width: 1417, height: 826 },
       cardSizeWorld: { width: 8.8, height: 6.3 },

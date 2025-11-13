@@ -5,6 +5,7 @@ import { nsidNameToName } from "../../nsid-name-to-name";
 import { getGuid } from "../../guid";
 
 import fs from "fs";
+import path from "path";
 
 export class GenExtStrategyCard extends AbstractGen {
   private _strategyCardName: string = "";
@@ -24,27 +25,54 @@ export class GenExtStrategyCard extends AbstractGen {
       return;
     }
 
-    const model: string = `${__dirname}/../../../../src/data/model/strategy-card.obj`;
+    const model: string = path.join(
+      __dirname,
+      "..",
+      "..",
+      "..",
+      "..",
+      "src",
+      "data",
+      "model",
+      "strategy-card.obj"
+    );
     if (!fs.existsSync(model) || !fs.lstatSync(model).isFile()) {
       throw new Error("strategy card model missing");
     }
     const modelData: Buffer = fs.readFileSync(model);
-    this.addOutputFile("Models/tile/strategy-card.obj", modelData);
+    this.addOutputFile(
+      path.join("Models", "tile", "strategy-card.obj"),
+      modelData
+    );
 
     const prebuildDir: string = this.getPrebuildDir();
-    const img: string = `${prebuildDir}/strategy-card/${this._strategyCardName}.png`;
+    const img: string = path.join(
+      prebuildDir,
+      "strategy-card",
+      `${this._strategyCardName}.png`
+    );
     if (!fs.existsSync(img) || !fs.lstatSync(img).isFile()) {
       errors.push(`strategy card image missing "${img}"`);
       return;
     }
     const imgData: Buffer = fs.readFileSync(img);
     this.addOutputFile(
-      `Textures/tile/strategy-card/${this._strategyCardName}.png`,
+      path.join(
+        "Textures",
+        "tile",
+        "strategy-card",
+        `${this._strategyCardName}.png`
+      ),
       imgData
     );
 
     const template = JSON.parse(JSON.stringify(STRATEGY_CARD_TEMPLATE));
-    const templateName: string = `Templates/tile/strategy-card/${this._strategyCardName}.json`;
+    const templateName: string = path.join(
+      "Templates",
+      "tile",
+      "strategy-card",
+      `${this._strategyCardName}.json`
+    );
 
     template.Name = nsidNameToName(this._strategyCardName);
     template.GUID = getGuid(templateName);
@@ -52,7 +80,9 @@ export class GenExtStrategyCard extends AbstractGen {
       this._strategyCardName
     }`;
     if (template.Models[0]) {
-      template.Models[0].Texture = `tile/strategy-card/${this._strategyCardName}.png`;
+      template.Models[0].Texture = path
+        .join("tile", "strategy-card", `${this._strategyCardName}.png`)
+        .replace(/\\/g, "/");
     }
 
     const templateData: Buffer = Buffer.from(JSON.stringify(template, null, 2));

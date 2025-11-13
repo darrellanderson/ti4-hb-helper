@@ -41,12 +41,21 @@ export class GenSystemAttachment extends AbstractGen {
       "wormhole-creuss.obj",
       "wormhole-creuss.col.obj",
     ];
-    const srcDir: string = `${__dirname}/../../../../src/data/model`;
-    const dstDir: string = "Models/token";
+    const srcDir: string = path.join(
+      __dirname,
+      "..",
+      "..",
+      "..",
+      "..",
+      "src",
+      "data",
+      "model"
+    );
+    const dstDir: string = path.join("Models", "token");
 
     models.forEach((model) => {
-      const srcFile = `${srcDir}/${model}`;
-      const dstFile = `${dstDir}/${model}`;
+      const srcFile = path.join(srcDir, model);
+      const dstFile = path.join(dstDir, model);
       if (!fs.existsSync(srcFile)) {
         throw new Error(`Model file not found: ${srcFile}`);
       }
@@ -63,33 +72,49 @@ export class GenSystemAttachment extends AbstractGen {
     const nsidName: string = systemAttachmentSchema.nsidName;
     const nsid: string = `token.attachment.system:${source}/${nsidName}`;
 
-    let imgFileFace: string = `token/attachment/system/${nsidName}.jpg`;
+    let imgFileFace: string = path
+      .join("token", "attachment", "system", `${nsidName}.jpg`)
+      .replace(/\\/g, "/");
     let imgFileBack: string = imgFileFace;
     if (systemAttachmentSchema.imgFaceDown) {
-      imgFileBack = `token/attachment/system/${nsidName}.back.jpg`;
+      imgFileBack = path
+        .join("token", "attachment", "system", `${nsidName}.back.jpg`)
+        .replace(/\\/g, "/");
     }
-    let modelFileFace: string = "token/round.obj";
-    let modelFileBack: string = "token/round.obj";
+    let modelFileFace: string = path
+      .join("token", "round.obj")
+      .replace(/\\/g, "/");
+    let modelFileBack: string = path
+      .join("token", "round.obj")
+      .replace(/\\/g, "/");
 
-    let modelCollider: string = "token/round.col.obj";
+    let modelCollider: string = path
+      .join("token", "round.col.obj")
+      .replace(/\\/g, "/");
     const modelScale = 1;
 
     // Rewrite some outliers.
     if (nsidName.startsWith("dimensional-tear")) {
-      imgFileFace = `token/attachment/system/dimensional-tear.jpg`;
+      imgFileFace = path
+        .join("token", "attachment", "system", "dimensional-tear.jpg")
+        .replace(/\\/g, "/");
     } else if (
       nsidName.startsWith("wormhole-") &&
       nsidName.endsWith(".creuss")
     ) {
       imgFileBack = "";
-      modelFileFace = "token/wormhole-creuss.obj";
+      modelFileFace = path
+        .join("token", "wormhole-creuss.obj")
+        .replace(/\\/g, "/");
       modelFileBack = ""; // wormhole.obj has face and back in same image
-      modelCollider = "token/wormhole-creuss.col.obj";
+      modelCollider = path
+        .join("token", "wormhole-creuss.col.obj")
+        .replace(/\\/g, "/");
     } else if (systemAttachmentSchema.planets?.length === 1) {
       imgFileBack = "";
-      modelFileFace = "token/mirage.obj";
+      modelFileFace = path.join("token", "mirage.obj").replace(/\\/g, "/");
       modelFileBack = "";
-      modelCollider = "token/mirage.col.obj";
+      modelCollider = path.join("token", "mirage.col.obj").replace(/\\/g, "/");
     }
 
     const templateFilename: string = path.join(
@@ -131,12 +156,12 @@ export class GenSystemAttachment extends AbstractGen {
     const prebuildDir: string = this.getPrebuildDir();
     const copyFiles: Array<string> = [imgFileFace, imgFileBack];
     for (const file of copyFiles) {
-      const srcFilename: string = `${prebuildDir}/${file}`;
+      const srcFilename: string = path.join(prebuildDir, file);
       if (!fs.existsSync(srcFilename) || !fs.statSync(srcFilename).isFile()) {
         errors.push(`System attachment image not found: ${file}`);
         continue;
       }
-      const dstFilename: string = `Textures/${file}`;
+      const dstFilename: string = path.join("Textures", file);
       const outBuffer: Buffer = fs.readFileSync(srcFilename);
       this.addOutputFile(dstFilename, outBuffer);
     }

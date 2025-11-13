@@ -117,7 +117,7 @@ export class GenCards extends AbstractGen {
       }
 
       const createCardsheetParams: CreateCardsheetParams = {
-        assetFilename: `card/${type}/${source}`,
+        assetFilename: path.join("card", type, source).replace(/\\/g, "/"),
         templateName: nsidNameToName(type),
         cardSizePixel: { width: 500, height: 750 },
         cardSizeWorld: { width: 4.2, height: 6.3 },

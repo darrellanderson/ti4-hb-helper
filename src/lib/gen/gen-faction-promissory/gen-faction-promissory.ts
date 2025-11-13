@@ -8,6 +8,7 @@ import { AbstractGen } from "../abstract-gen/abstract-gen";
 import { nsidNameToName } from "../../../lib/nsid-name-to-name/nsid-name-to-name";
 
 import fs from "fs";
+import path from "path";
 
 export class GenFactionPromissory extends AbstractGen {
   constructor(homebrew: HomebrewModuleType) {
@@ -19,9 +20,24 @@ export class GenFactionPromissory extends AbstractGen {
     const source: string = this.getSource();
 
     const prebuildDir: string = this.getPrebuildDir();
-    const back: string = `${prebuildDir}/card/promissory/promissory.back.jpg`;
+    const back: string = path.join(
+      prebuildDir,
+      "card",
+      "promissory",
+      "promissory.back.jpg"
+    );
     fs.cpSync(
-      `${__dirname}/../../../../src/data/jpg/promissory.back.jpg`,
+      path.join(
+        __dirname,
+        "..",
+        "..",
+        "..",
+        "..",
+        "src",
+        "data",
+        "jpg",
+        "promissory.back.jpg"
+      ),
       back
     );
 
@@ -29,7 +45,12 @@ export class GenFactionPromissory extends AbstractGen {
       faction.promissories.forEach((cardNsidName: string): void => {
         cards.push({
           name: nsidNameToName(cardNsidName),
-          face: `${prebuildDir}/card/promissory/${cardNsidName}.jpg`,
+          face: path.join(
+            prebuildDir,
+            "card",
+            "promissory",
+            `${cardNsidName}.jpg`
+          ),
           metadata: `card.promissory:${source}/${cardNsidName}`,
         });
       });
@@ -51,7 +72,9 @@ export class GenFactionPromissory extends AbstractGen {
     }
 
     const createCardsheetParams: CreateCardsheetParams = {
-      assetFilename: `card/promissory/${source}`,
+      assetFilename: path
+        .join("card", "promissory", source)
+        .replace(/\\/g, "/"),
       templateName: "Promissory",
       cardSizePixel: { width: 500, height: 750 },
       cardSizeWorld: { width: 4.2, height: 6.3 },

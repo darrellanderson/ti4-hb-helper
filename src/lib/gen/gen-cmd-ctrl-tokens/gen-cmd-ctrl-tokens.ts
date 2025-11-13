@@ -5,6 +5,7 @@ import { COMMAND_TOKEN_TEMPLATE } from "../../../data/template/command-token.tem
 import { CONTROL_TOKEN_TEMPLATE } from "../../../data/template/control-token.template";
 
 import fs from "fs";
+import path from "path";
 
 export class GenCmdCtrlTokens extends AbstractGen {
   constructor(homebrew: HomebrewModuleType) {
@@ -22,8 +23,18 @@ export class GenCmdCtrlTokens extends AbstractGen {
   _generateModels(errors: Array<string>): void {
     const models: Array<string> = ["command", "control"];
     models.forEach((model: string): void => {
-      const src: string = `${__dirname}/../../../../src/data/model/${model}.obj`;
-      const dst: string = `Models/token/${model}.obj`;
+      const src: string = path.join(
+        __dirname,
+        "..",
+        "..",
+        "..",
+        "..",
+        "src",
+        "data",
+        "model",
+        `${model}.obj`
+      );
+      const dst: string = path.join("Models", "token", `${model}.obj`);
       if (!fs.existsSync(src)) {
         errors.push(`Model file not found: ${src}`);
       } else {
@@ -32,8 +43,23 @@ export class GenCmdCtrlTokens extends AbstractGen {
       }
     });
 
-    const src: string = `${__dirname}/../../../../src/data/png/token-mask.png`;
-    const dst: string = `Textures/token/command-control/mask.png`;
+    const src: string = path.join(
+      __dirname,
+      "..",
+      "..",
+      "..",
+      "..",
+      "src",
+      "data",
+      "png",
+      "token-mask.png"
+    );
+    const dst: string = path.join(
+      "Textures",
+      "token",
+      "command-control",
+      "mask.png"
+    );
     if (!fs.existsSync(src)) {
       errors.push(`Mask file not found: ${src}`);
     } else {
@@ -50,25 +76,37 @@ export class GenCmdCtrlTokens extends AbstractGen {
     const nsidName = faction.nsidName;
 
     const prebuildDir: string = this.getPrebuildDir();
-    const img: string = `${prebuildDir}/token/command-control/${nsidName}.jpg`;
+    const img: string = path.join(
+      prebuildDir,
+      "token",
+      "command-control",
+      `${nsidName}.jpg`
+    );
     if (!fs.existsSync(img)) {
       errors.push(`Image file not found: ${img}`);
     } else {
       const imgData: Buffer = fs.readFileSync(img);
       this.addOutputFile(
-        `Textures/token/command-control/${nsidName}.jpg`,
+        path.join("Textures", "token", "command-control", `${nsidName}.jpg`),
         imgData
       );
     }
 
     const template = JSON.parse(JSON.stringify(COMMAND_TOKEN_TEMPLATE));
-    const outputFile: string = `Templates/token/command/${nsidName}.json`;
+    const outputFile: string = path.join(
+      "Templates",
+      "token",
+      "command",
+      `${nsidName}.json`
+    );
 
     template.GUID = getGuid(outputFile);
     template.Name = `Command (${faction.abbr})`;
     template.Metadata = `token.command:${source}/${nsidName}`;
     if (template.Models[0]) {
-      template.Models[0].Texture = `token/command-control/${nsidName}.jpg`;
+      template.Models[0].Texture = path
+        .join("token", "command-control", `${nsidName}.jpg`)
+        .replace(/\\/g, "/");
     }
 
     const templateData: Buffer = Buffer.from(
@@ -86,13 +124,20 @@ export class GenCmdCtrlTokens extends AbstractGen {
     const nsidName = faction.nsidName;
 
     const template = JSON.parse(JSON.stringify(CONTROL_TOKEN_TEMPLATE));
-    const outputFile: string = `Templates/token/control/${nsidName}.json`;
+    const outputFile: string = path.join(
+      "Templates",
+      "token",
+      "control",
+      `${nsidName}.json`
+    );
 
     template.GUID = getGuid(outputFile);
     template.Name = `Control (${faction.abbr})`;
     template.Metadata = `token.control:${source}/${nsidName}`;
     if (template.Models[0]) {
-      template.Models[0].Texture = `token/command-control/${nsidName}.jpg`;
+      template.Models[0].Texture = path
+        .join("token", "command-control", `${nsidName}.jpg`)
+        .replace(/\\/g, "/");
     }
 
     const templateData: Buffer = Buffer.from(

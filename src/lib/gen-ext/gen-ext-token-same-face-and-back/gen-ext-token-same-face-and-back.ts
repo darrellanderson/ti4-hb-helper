@@ -36,9 +36,19 @@ export class GenExtTokenSameFaceAndBack extends AbstractGen {
 
     const source: string = this.getSource();
 
-    const model: string = `${__dirname}/../../../../src/data/model/round.obj`;
+    const model: string = path.join(
+      __dirname,
+      "..",
+      "..",
+      "..",
+      "..",
+      "src",
+      "data",
+      "model",
+      "round.obj"
+    );
     const modelData: Buffer = fs.readFileSync(model);
-    this.addOutputFile("Models/token/round.obj", modelData);
+    this.addOutputFile(path.join("Models", "token", "round.obj"), modelData);
 
     const prebuildDir: string = this.getPrebuildDir();
     const image: string = path.join(prebuildDir, "token", `${this._token}.jpg`);
@@ -49,7 +59,10 @@ export class GenExtTokenSameFaceAndBack extends AbstractGen {
       return;
     }
     const imageData: Buffer = fs.readFileSync(image);
-    this.addOutputFile(`Textures/token/${this._token}.jpg`, imageData);
+    this.addOutputFile(
+      path.join("Textures", "token", `${this._token}.jpg`),
+      imageData
+    );
 
     const templateFilename: string = path.join(
       "Templates",
@@ -62,10 +75,14 @@ export class GenExtTokenSameFaceAndBack extends AbstractGen {
     template.Name = nsidNameToName(this._token);
     template.Metadata = `token:${source}/${this._token}`;
     if (template.Models[0]) {
-      template.Models[0].Texture = `token/${this._token}.jpg`;
+      template.Models[0].Texture = path
+        .join("token", `${this._token}.jpg`)
+        .replace(/\\/g, "/");
     }
     if (template.Models[1]) {
-      template.Models[1].Texture = `token/${this._token}.jpg`;
+      template.Models[1].Texture = path
+        .join("token", `${this._token}.jpg`)
+        .replace(/\\/g, "/");
     }
     template.ScriptName = this._script;
     const templateData: Buffer = Buffer.from(

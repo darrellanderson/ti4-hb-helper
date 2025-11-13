@@ -3,6 +3,7 @@ import { GenAll } from "./lib/gen/gen-all/gen-all";
 import { nsidToTemplateId } from "./lib/nsid-to-template-id/nsid-to-template-id";
 
 import fs from "fs";
+import path from "path";
 
 export async function generate(homebrew: HomebrewModuleType): Promise<void> {
   console.log(`Generating homebrew: ${homebrew.sourceAndPackageId.source}`);
@@ -22,6 +23,11 @@ export async function generate(homebrew: HomebrewModuleType): Promise<void> {
 
   await genAll.writeOutputFiles();
 
-  const nsidToTemplateIdData: string = nsidToTemplateId("assets/Templates");
-  fs.writeFileSync("src/nsid-to-template-id.ts", nsidToTemplateIdData);
+  const nsidToTemplateIdData: string = nsidToTemplateId(
+    path.join("assets", "Templates")
+  );
+  fs.writeFileSync(
+    path.join("src", "nsid-to-template-id.ts"),
+    nsidToTemplateIdData
+  );
 }

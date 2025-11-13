@@ -3,6 +3,7 @@ import { AbstractGen } from "../abstract-gen/abstract-gen";
 import { getGuid } from "../../../lib/guid/guid";
 
 import fs from "fs";
+import path from "path";
 import { TOKEN_TEMPLATE } from "../../../data/template/token.template";
 
 /**
@@ -31,12 +32,21 @@ export class GenPlanetAttachment extends AbstractGen {
 
   _generateModels() {
     const models: Array<string> = ["round.obj", "round.col.obj"];
-    const srcDir: string = `${__dirname}/../../../../src/data/model`;
-    const dstDir: string = "Models/token";
+    const srcDir: string = path.join(
+      __dirname,
+      "..",
+      "..",
+      "..",
+      "..",
+      "src",
+      "data",
+      "model"
+    );
+    const dstDir: string = path.join("Models", "token");
 
     models.forEach((model) => {
-      const srcFile = `${srcDir}/${model}`;
-      const dstFile = `${dstDir}/${model}`;
+      const srcFile = path.join(srcDir, model);
+      const dstFile = path.join(dstDir, model);
       if (!fs.existsSync(srcFile)) {
         throw new Error(`Model file not found: ${srcFile}`);
       }
@@ -53,18 +63,34 @@ export class GenPlanetAttachment extends AbstractGen {
     const nsidName: string = planetAttachmentSchema.nsidName;
     const nsid: string = `token.attachment.planet:${source}/${nsidName}`;
 
-    let imgFileFace: string = `token/attachment/planet/${nsidName}.png`;
+    let imgFileFace: string = path
+      .join("token", "attachment", "planet", `${nsidName}.png`)
+      .replace(/\\/g, "/");
     let imgFileBack: string = imgFileFace;
     if (planetAttachmentSchema.imgFaceDown) {
-      imgFileBack = `token/attachment/planet/${nsidName}.back.png`;
+      imgFileBack = path
+        .join("token", "attachment", "planet", `${nsidName}.back.png`)
+        .replace(/\\/g, "/");
     }
-    let modelFileFace: string = "token/round.obj";
-    let modelFileBack: string = "token/round.obj";
+    let modelFileFace: string = path
+      .join("token", "round.obj")
+      .replace(/\\/g, "/");
+    let modelFileBack: string = path
+      .join("token", "round.obj")
+      .replace(/\\/g, "/");
 
-    let modelCollider: string = "token/round.col.obj";
+    let modelCollider: string = path
+      .join("token", "round.col.obj")
+      .replace(/\\/g, "/");
     const modelScale = 1;
 
-    const templateFilename: string = `Templates/token/attachment/planet/${nsidName}.json`;
+    const templateFilename: string = path.join(
+      "Templates",
+      "token",
+      "attachment",
+      "planet",
+      `${nsidName}.json`
+    );
     const GUID: string = getGuid(templateFilename);
 
     const prebuildDir: string = this.getPrebuildDir();
@@ -98,12 +124,12 @@ export class GenPlanetAttachment extends AbstractGen {
 
     const copyFiles: Array<string> = [imgFileFace, imgFileBack];
     for (const file of copyFiles) {
-      const srcFilename: string = `${prebuildDir}/${file}`;
+      const srcFilename: string = path.join(prebuildDir, file);
       if (!fs.existsSync(srcFilename)) {
         errors.push(`Planet attachment image not found: ${file}`);
         continue;
       }
-      const dstFilename: string = `Textures/${file}`;
+      const dstFilename: string = path.join("Textures", file);
       const outBuffer: Buffer = fs.readFileSync(srcFilename);
       this.addOutputFile(dstFilename, outBuffer);
     }

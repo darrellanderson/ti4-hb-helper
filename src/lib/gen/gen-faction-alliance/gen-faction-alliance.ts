@@ -8,6 +8,7 @@ import { AbstractGen } from "../abstract-gen/abstract-gen";
 import { nsidNameToName } from "../../nsid-name-to-name/nsid-name-to-name";
 
 import fs from "fs";
+import path from "path";
 
 export class GenFactionAlliance extends AbstractGen {
   constructor(homebrew: HomebrewModuleType) {
@@ -19,14 +20,37 @@ export class GenFactionAlliance extends AbstractGen {
     const source: string = this.getSource();
 
     const prebuildDir: string = this.getPrebuildDir();
-    const back: string = `${prebuildDir}/card/alliance/alliance.back.jpg`;
-    fs.cpSync(`${__dirname}/../../../../src/data/jpg/alliance.back.jpg`, back);
+    const back: string = path.join(
+      prebuildDir,
+      "card",
+      "alliance",
+      "alliance.back.jpg"
+    );
+    fs.cpSync(
+      path.join(
+        __dirname,
+        "..",
+        "..",
+        "..",
+        "..",
+        "src",
+        "data",
+        "jpg",
+        "alliance.back.jpg"
+      ),
+      back
+    );
     this.getFactions().forEach((faction: FactionSchemaType): void => {
       if (faction.leaders.commanders.length > 0) {
         const cardNsidName: string = faction.nsidName;
         cards.push({
           name: nsidNameToName(cardNsidName),
-          face: `${prebuildDir}/card/alliance/${cardNsidName}.jpg`,
+          face: path.join(
+            prebuildDir,
+            "card",
+            "alliance",
+            `${cardNsidName}.jpg`
+          ),
           metadata: `card.alliance:${source}/${cardNsidName}`,
         });
       }
@@ -48,7 +72,7 @@ export class GenFactionAlliance extends AbstractGen {
     }
 
     const createCardsheetParams: CreateCardsheetParams = {
-      assetFilename: `card/alliance/${source}`,
+      assetFilename: path.join("card", "alliance", source).replace(/\\/g, "/"),
       templateName: "Alliance",
       cardSizePixel: { width: 750, height: 500 },
       cardSizeWorld: { width: 6.3, height: 4.2 },

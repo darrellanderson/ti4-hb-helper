@@ -7,6 +7,7 @@ import {
 import { AbstractGen } from "../abstract-gen";
 
 import fs from "fs";
+import path from "path";
 
 export class GenTech extends AbstractGen {
   constructor(homebrew: HomebrewModuleType) {
@@ -18,9 +19,24 @@ export class GenTech extends AbstractGen {
     const source: string = this.getSource();
 
     const prebuildDir: string = this.getPrebuildDir();
-    const back: string = `${prebuildDir}/card/tech/technology-none.back.jpg`;
+    const back: string = path.join(
+      prebuildDir,
+      "card",
+      "tech",
+      "technology-none.back.jpg"
+    );
     fs.cpSync(
-      `${__dirname}/../../../../src/data/jpg/technology-none.back.jpg`,
+      path.join(
+        __dirname,
+        "..",
+        "..",
+        "..",
+        "..",
+        "src",
+        "data",
+        "jpg",
+        "technology-none.back.jpg"
+      ),
       back
     );
 
@@ -31,7 +47,12 @@ export class GenTech extends AbstractGen {
 
       cards.push({
         name: technology.name,
-        face: `${prebuildDir}/card/tech/${technology.nsidName}.jpg`,
+        face: path.join(
+          prebuildDir,
+          "card",
+          "tech",
+          `${technology.nsidName}.jpg`
+        ),
         metadata: `card.technology.${technology.color}:${source}/${technology.nsidName}`,
       });
     });
@@ -52,7 +73,9 @@ export class GenTech extends AbstractGen {
     }
 
     const createCardsheetParams: CreateCardsheetParams = {
-      assetFilename: `card/technology/${source}`,
+      assetFilename: path
+        .join("card", "technology", source)
+        .replace(/\\/g, "/"),
       templateName: "Technologies",
       cardSizePixel: { width: 750, height: 500 },
       cardSizeWorld: { width: 6.3, height: 4.2 },
