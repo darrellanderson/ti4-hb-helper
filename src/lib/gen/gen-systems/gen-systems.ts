@@ -24,7 +24,7 @@ export class GenSystems extends AbstractGen {
 
   async _generateOne(
     system: SystemSchemaType,
-    errors: Array<string>
+    errors: Array<string>,
   ): Promise<void> {
     this._generateTemplate(system);
 
@@ -34,7 +34,7 @@ export class GenSystems extends AbstractGen {
       prebuildDir,
       "tile",
       "system",
-      `tile-${tileStr}.jpg`
+      `tile-${tileStr}.jpg`,
     );
     if (!fs.existsSync(srcFilename)) {
       errors.push(`System tile image not found: ${srcFilename}`);
@@ -51,13 +51,13 @@ export class GenSystems extends AbstractGen {
       "Textures",
       "tile",
       "system",
-      `tile-${tileStr}.jpg`
+      `tile-${tileStr}.jpg`,
     );
     let dst512filename: string = path.join(
       "Textures",
       "tile",
       "system",
-      `tile-${tileStr}.png`
+      `tile-${tileStr}.png`,
     );
 
     if (system.class === "off-map") {
@@ -103,7 +103,7 @@ export class GenSystems extends AbstractGen {
       "..",
       "src",
       "data",
-      "model"
+      "model",
     );
     const dstDir: string = path.join("Models", "tile", "system");
 
@@ -127,7 +127,7 @@ export class GenSystems extends AbstractGen {
       "..",
       "src",
       "data",
-      "jpg"
+      "jpg",
     );
     const dstDir: string = path.join("Textures", "tile", "system");
 
@@ -148,7 +148,7 @@ export class GenSystems extends AbstractGen {
       "Templates",
       "tile",
       "system",
-      `system-${tileStr}.json`
+      `system-${tileStr}.json`,
     );
 
     const imgFileFace: string = path
@@ -190,6 +190,7 @@ export class GenSystems extends AbstractGen {
         : path.join("tile", "system", "system-tile.obj").replace(/\\/g, "/");
 
     template.GUID = getGuid(templateFilename);
+    template.Name = `Tile ${tileStr}`;
     template.Metadata = `tile.system:${this.getSource()}/${system.tile}`;
     template.Models[0].Texture = imgFileFace;
     template.Models[1].Texture = imgFileBack;
@@ -199,13 +200,13 @@ export class GenSystems extends AbstractGen {
 
     this.addOutputFile(
       templateFilename,
-      Buffer.from(JSON.stringify(template, null, 2), "utf-8")
+      Buffer.from(JSON.stringify(template, null, 2), "utf-8"),
     );
   }
 
   async _generate1024(
     srcBuffer: Buffer,
-    dst1024filename: string
+    dst1024filename: string,
   ): Promise<void> {
     const jpg884: Buffer = await sharp(srcBuffer)
       .resize(884, 884, { fit: "contain", position: "center" })
@@ -227,7 +228,7 @@ export class GenSystems extends AbstractGen {
 
   async _generate1024Shuriken(
     srcBuffer: Buffer,
-    dst1024filename: string
+    dst1024filename: string,
   ): Promise<void> {
     const jpg884: Buffer = await sharp(srcBuffer)
       .resize(1022, 1022, { fit: "contain", position: "center" })
@@ -258,8 +259,8 @@ export class GenSystems extends AbstractGen {
         "src",
         "data",
         "png",
-        "blank.png"
-      )
+        "blank.png",
+      ),
     )
       .resize(512, 512, { fit: "contain", position: "center" })
       .extractChannel("alpha")
