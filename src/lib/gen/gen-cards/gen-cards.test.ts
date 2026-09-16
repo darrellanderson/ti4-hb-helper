@@ -4,23 +4,24 @@ import { GenCards } from "./gen-cards";
 import { CardsheetCardType } from "ttpg-darrell/build/cjs/index-ext";
 
 it("_getCards", () => {
-  const gen: GenCards = new GenCards(TestHomebrew).setPrebuildDir(
-    `src/lib/gen/gen-cards/prebuild`
-  );
+  const gen: GenCards = new GenCards(TestHomebrew)
+    .setPrebuildDir(`src/lib/gen/gen-cards/prebuild`)
+    .addExtra("my-action", "my-extra-1")
+    .addExtra("my-action", "my-extra-2");
 
   const cards: Array<CardsheetCardType> | undefined = gen._getCards("action");
   expect(cards).toHaveLength(1);
   expect(cards?.[0]).toEqual({
     name: "My Action",
     face: "src/lib/gen/gen-cards/prebuild/card/action/my-action.jpg",
-    metadata: "card.action:my-source/my-action",
+    metadata: "card.action:my-source/my-action|my-extra-1|my-extra-2",
     back: undefined,
   });
 });
 
 it("output files", async () => {
   const gen: AbstractGen = new GenCards(TestHomebrew).setPrebuildDir(
-    `src/lib/gen/gen-cards/prebuild`
+    `src/lib/gen/gen-cards/prebuild`,
   );
 
   const errors: Array<string> = [];

@@ -34,6 +34,8 @@ const CARD_TYPES_PORTRAIT: Array<string> = [
  * inferred otherwise (e.g. action cards).
  */
 export class GenCards extends AbstractGen {
+  private readonly extras: Map<string, Array<string>> = new Map();
+
   /**
    * Get cards by wlking the directory, uses a shared back image.
    *
@@ -64,16 +66,38 @@ export class GenCards extends AbstractGen {
         throw new Error(`Face image not found: ${face}`);
       }
 
+      let metadataExtras: string = "";
+      const extras: Array<string> | undefined = this.extras.get(nsidName);
+      if (extras) {
+        metadataExtras = `|${extras.join("|")}`;
+      }
+
       return {
         name: nsidNameToName(nsidName),
         face,
-        metadata: `card.${type}:${source}/${nsidName}`,
+        metadata: `card.${type}:${source}/${nsidName}${metadataExtras}`,
       };
     });
   }
 
   constructor(homebrew: HomebrewModuleType) {
     super(homebrew);
+  }
+
+  /**
+   * Add "|" extra to the card metadata.
+   *
+   * @param nsidName
+   * @param extra
+   */
+  addExtra(nsidName: string, extra: string): this {
+    let extras: Array<string> | undefined = this.extras.get(nsidName);
+    if (!extras) {
+      extras = [];
+      this.extras.set(nsidName, extras);
+    }
+    extras.push(extra);
+    return this;
   }
 
   replaceCardTypes(newTypes: Array<string>): this {
@@ -104,9 +128,9 @@ export class GenCards extends AbstractGen {
           "src",
           "data",
           "jpg",
-          `${type}.back.jpg`
+          `${type}.back.jpg`,
         ),
-        back
+        back,
       );
 
       let tag: string = `card-${type}`;
