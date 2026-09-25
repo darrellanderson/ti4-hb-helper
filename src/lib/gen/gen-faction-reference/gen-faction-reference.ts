@@ -23,7 +23,7 @@ export class GenFactionReference extends AbstractGen {
       prebuildDir,
       "card",
       "faction-reference",
-      "faction-reference.back.jpg"
+      "faction-reference.back.jpg",
     );
     fs.cpSync(
       path.join(
@@ -35,9 +35,9 @@ export class GenFactionReference extends AbstractGen {
         "src",
         "data",
         "jpg",
-        "faction-reference.back.jpg"
+        "faction-reference.back.jpg",
       ),
-      back
+      back,
     );
 
     this.getFactions().forEach((faction: FactionSchemaType): void => {
@@ -48,7 +48,7 @@ export class GenFactionReference extends AbstractGen {
             prebuildDir,
             "card",
             "faction-reference",
-            `${faction.nsidName}.jpg`
+            `${faction.nsidName}.jpg`,
           ),
           metadata: `card.faction-reference:${source}/${faction.nsidName}`,
         });
@@ -72,7 +72,7 @@ export class GenFactionReference extends AbstractGen {
         .replace(/\\/g, "/"),
       templateName: "Faction Reference",
       cardSizePixel: { width: 1417, height: 826 },
-      cardSizeWorld: { width: 8.8, height: 6.3 },
+      cardSizeWorld: { width: 8.8, height: 5.1 },
       cards,
       back,
     };
