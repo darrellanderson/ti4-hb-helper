@@ -71,7 +71,7 @@ export class GenFactionReference extends AbstractGen {
         .join("card", "faction-reference", source)
         .replace(/\\/g, "/"),
       templateName: "Faction Reference",
-      cardSizePixel: { width: 1417, height: 826 },
+      cardSizePixel: { width: 1000, height: 583 },
       cardSizeWorld: { width: 8.8, height: 5.1 },
       cards,
       back,
