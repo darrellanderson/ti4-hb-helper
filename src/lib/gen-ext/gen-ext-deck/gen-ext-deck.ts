@@ -3,7 +3,7 @@ import {
   CardsheetCardType,
   CreateCardsheet,
   CreateCardsheetParams,
-} from "ttpg-darrell/build/cjs/index-ext";
+} from "ttpg-darrell/ext";
 import { AbstractGen } from "../../gen/abstract-gen/abstract-gen";
 import { nsidNameToName } from "../../nsid-name-to-name/nsid-name-to-name";
 

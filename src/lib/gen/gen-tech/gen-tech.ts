@@ -3,8 +3,8 @@ import {
   CardsheetCardType,
   CreateCardsheet,
   CreateCardsheetParams,
-} from "ttpg-darrell/build/cjs/index-ext";
-import { AbstractGen } from "../abstract-gen";
+} from "ttpg-darrell/ext";
+import { AbstractGen } from "../abstract-gen/abstract-gen";
 
 import fs from "fs";
 import path from "path";
@@ -23,7 +23,7 @@ export class GenTech extends AbstractGen {
       prebuildDir,
       "card",
       "tech",
-      "technology-none.back.jpg"
+      "technology-none.back.jpg",
     );
     fs.cpSync(
       path.join(
@@ -35,9 +35,9 @@ export class GenTech extends AbstractGen {
         "src",
         "data",
         "jpg",
-        "technology-none.back.jpg"
+        "technology-none.back.jpg",
       ),
-      back
+      back,
     );
 
     this.getTechnologies().forEach((technology: TechSchemaType) => {
@@ -51,7 +51,7 @@ export class GenTech extends AbstractGen {
           prebuildDir,
           "card",
           "tech",
-          `${technology.nsidName}.jpg`
+          `${technology.nsidName}.jpg`,
         ),
         metadata: `card.technology.${technology.color}:${source}/${technology.nsidName}`,
       });

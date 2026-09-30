@@ -3,5 +3,6 @@
   "testEnvironment": "node",
   "moduleNameMapper": {
     "^@tabletop-playground/api$": "ttpg-mock"
-  }
+  },
+  "testPathIgnorePatterns": ["/node_modules/", "<rootDir>/build/"]
 }

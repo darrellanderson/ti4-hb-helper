@@ -1,7 +1,7 @@
 import { AbstractGen } from "../abstract-gen/abstract-gen";
 import { TestHomebrew } from "../../../data/test/test-homebrew";
 import { GenCards } from "./gen-cards";
-import { CardsheetCardType } from "ttpg-darrell/build/cjs/index-ext";
+import { CardsheetCardType } from "ttpg-darrell/ext";
 
 it("_getCards", () => {
   const gen: GenCards = new GenCards(TestHomebrew)
