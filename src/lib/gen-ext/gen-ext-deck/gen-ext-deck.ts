@@ -19,8 +19,33 @@ export class GenExtDeck extends AbstractGen {
 
   private _overrideOutputDeckType: string | undefined = undefined;
 
+  private readonly _nsidNameToExtras: Map<string, Array<string>> = new Map();
+  private readonly _nsidNameToSubtype: Map<string, string> = new Map();
+
   constructor(homebrew: HomebrewModuleType) {
     super(homebrew);
+  }
+
+  /**
+   * Add "|" extra to the card metadata.
+   *
+   * @param nsidName
+   * @param extra
+   */
+  addExtra(nsidName: string, extra: string): this {
+    let extras: Array<string> | undefined =
+      this._nsidNameToExtras.get(nsidName);
+    if (!extras) {
+      extras = [];
+      this._nsidNameToExtras.set(nsidName, extras);
+    }
+    extras.push(extra);
+    return this;
+  }
+
+  addSubtype(nsidName: string, subtype: string): this {
+    this._nsidNameToSubtype.set(nsidName, subtype);
+    return this;
   }
 
   setDeckType(deckType: string): this {
@@ -83,7 +108,7 @@ export class GenExtDeck extends AbstractGen {
         prebuildDir,
         "card",
         this._deckType,
-        `${nsidName}.jpg`
+        `${nsidName}.jpg`,
       );
       let back: string | undefined = undefined;
       if (!this._isSharedBack) {
@@ -91,16 +116,28 @@ export class GenExtDeck extends AbstractGen {
         back = face.replace(/.face.jpg$/, ".back.jpg");
       }
 
+      const deckType: string = this._overrideOutputDeckType ?? this._deckType;
+
+      let subtype: string = "";
+      const overrideSubType: string | undefined =
+        this._nsidNameToSubtype.get(nsidName);
+      if (overrideSubType) {
+        subtype = "." + overrideSubType;
+      }
+
+      let extras: string = "";
+      const extrasArray: Array<string> | undefined =
+        this._nsidNameToExtras.get(nsidName);
+      if (extrasArray && extrasArray.length > 0) {
+        extras = "|" + extrasArray.join("|");
+      }
+
       const card: CardsheetCardType = {
         name: nsidNameToName(nsidName),
         face,
         back,
-        metadata: `card.${this._deckType}:${source}/${nsidName}`,
+        metadata: `card.${deckType}${subtype}:${source}/${nsidName}${extras}`,
       };
-
-      if (this._overrideOutputDeckType) {
-        card.metadata = `card.${this._overrideOutputDeckType}:${source}/${nsidName}`;
-      }
 
       cards.push(card);
     });
@@ -137,7 +174,7 @@ export class GenExtDeck extends AbstractGen {
       createCardsheetParams.back = path.join(
         prebuildDir,
         "card",
-        `${this._deckType}.back.jpg`
+        `${this._deckType}.back.jpg`,
       );
     }
 
