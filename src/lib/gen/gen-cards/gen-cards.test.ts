@@ -7,14 +7,16 @@ it("_getCards", () => {
   const gen: GenCards = new GenCards(TestHomebrew)
     .setPrebuildDir(`src/lib/gen/gen-cards/prebuild`)
     .addExtra("my-action", "my-extra-1")
-    .addExtra("my-action", "my-extra-2");
+    .addExtra("my-action", "my-extra-2")
+    .addSubtype("my-action", "my-subtype");
 
   const cards: Array<CardsheetCardType> | undefined = gen._getCards("action");
   expect(cards).toHaveLength(1);
   expect(cards?.[0]).toEqual({
     name: "My Action",
     face: "src/lib/gen/gen-cards/prebuild/card/action/my-action.jpg",
-    metadata: "card.action:my-source/my-action|my-extra-1|my-extra-2",
+    metadata:
+      "card.action.my-subtype:my-source/my-action|my-extra-1|my-extra-2",
     back: undefined,
   });
 });

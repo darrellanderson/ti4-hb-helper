@@ -34,7 +34,8 @@ const CARD_TYPES_PORTRAIT: Array<string> = [
  * inferred otherwise (e.g. action cards).
  */
 export class GenCards extends AbstractGen {
-  private readonly extras: Map<string, Array<string>> = new Map();
+  private readonly nsidNameToExtras: Map<string, Array<string>> = new Map();
+  private readonly nsidNameToSubtype: Map<string, string> = new Map();
 
   /**
    * Get cards by wlking the directory, uses a shared back image.
@@ -42,9 +43,9 @@ export class GenCards extends AbstractGen {
    * @param type
    * @returns
    */
-  _getCards(type: string): Array<CardsheetCardType> | undefined {
+  _getCards(nsidType: string): Array<CardsheetCardType> | undefined {
     const prebuild: string = this.getPrebuildDir();
-    const root: string = path.join(prebuild, "card", type);
+    const root: string = path.join(prebuild, "card", nsidType);
 
     if (!fs.existsSync(root) || !fs.statSync(root).isDirectory()) {
       return undefined;
@@ -61,13 +62,24 @@ export class GenCards extends AbstractGen {
       const nsidName = path.basename(filename).replace(/\.jpg$/, "");
 
       // filename path is absolute, we want relative.
-      const face: string = path.join(prebuild, "card", type, `${nsidName}.jpg`);
+      const face: string = path.join(
+        prebuild,
+        "card",
+        nsidType,
+        `${nsidName}.jpg`,
+      );
       if (!fs.existsSync(face)) {
         throw new Error(`Face image not found: ${face}`);
       }
 
+      let subType: string | undefined = this.nsidNameToSubtype.get(nsidName);
+      if (subType) {
+        nsidType = `${nsidType}.${subType}`;
+      }
+
       let metadataExtras: string = "";
-      const extras: Array<string> | undefined = this.extras.get(nsidName);
+      const extras: Array<string> | undefined =
+        this.nsidNameToExtras.get(nsidName);
       if (extras) {
         metadataExtras = `|${extras.join("|")}`;
       }
@@ -75,7 +87,7 @@ export class GenCards extends AbstractGen {
       return {
         name: nsidNameToName(nsidName),
         face,
-        metadata: `card.${type}:${source}/${nsidName}${metadataExtras}`,
+        metadata: `card.${nsidType}:${source}/${nsidName}${metadataExtras}`,
       };
     });
   }
@@ -91,12 +103,17 @@ export class GenCards extends AbstractGen {
    * @param extra
    */
   addExtra(nsidName: string, extra: string): this {
-    let extras: Array<string> | undefined = this.extras.get(nsidName);
+    let extras: Array<string> | undefined = this.nsidNameToExtras.get(nsidName);
     if (!extras) {
       extras = [];
-      this.extras.set(nsidName, extras);
+      this.nsidNameToExtras.set(nsidName, extras);
     }
     extras.push(extra);
+    return this;
+  }
+
+  addSubtype(nsidName: string, subtype: string): this {
+    this.nsidNameToSubtype.set(nsidName, subtype);
     return this;
   }
 
