@@ -77,6 +77,8 @@ export abstract class AbstractGen {
   }
 
   async writeOutputFiles(): Promise<void> {
+    fs.mkdirSync(path.join("assets", "States"), { recursive: true });
+
     for (let [filename, data] of this._filenameToData.entries()) {
       filename = AbstractGen._validateFilenameOrThrow(filename);
       console.log(`Writing file: ${filename}`);
@@ -98,6 +100,7 @@ export abstract class AbstractGen {
     const mustStartWith: Set<string> = new Set([
       "Models",
       "Scripts",
+      "States",
       "Templates",
       "Textures",
     ]);
